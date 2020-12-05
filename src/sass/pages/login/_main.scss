@@ -66,6 +66,7 @@
         }
 
         .login-button {
+            text-align: center;
             @include large-button($main_gradiant_color, $white);
         }
     }

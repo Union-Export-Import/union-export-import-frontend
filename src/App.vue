@@ -11,7 +11,7 @@ export default {
 
   computed: {
     checkRoute() {
-      if (this.$route.name == "Login") {
+      if (this.$route.name == "Login" || this.$route.name == "ChangePassword") {
         return true;
       } else {
         return false;

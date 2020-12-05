@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const Home = () => import("../views/Home.vue");
 const Login = () => import("../views/auth/Login.vue");
 const UAC = () => import("../views/uac/UAC.vue");
+const ChangePassword = () => import("../views/auth/ChangePassword");
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/change-password",
+    name: "ChangePassword",
+    component: ChangePassword
   },
   {
     path: "/user-access-control",
