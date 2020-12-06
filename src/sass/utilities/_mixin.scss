@@ -1,17 +1,65 @@
 @mixin large-button($bg-color, $color) {
-    padding: 20px 139px 20px;
-    border-radius: 4px;
-    background-image: $bg-color;
-    width: 100%;
-    border: none;
-    color: $color;
-    font-weight: bold;
-    cursor: pointer;
+  padding: 20px 139px 20px;
+  border-radius: 4px;
+  background-image: $bg-color;
+  width: 100%;
+  border: none;
+  color: $color;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@mixin small-primary-button($bg-color, $color) {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background-image: $bg-color;
+  border: 1px solid #dcdfe6;
+  color: $color;
+  -webkit-appearance: none;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0;
+  margin: 0;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  font-weight: 500;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+@mixin small-secondary-button() {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  color: #606266;
+  -webkit-appearance: none;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0;
+  margin: 0;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  font-weight: 500;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 4px;
 }
 
 @mixin header-icons($width, $height, $mr) {
-    width: $width;
-    height: $height;
-    margin-right: $mr;
-    cursor: pointer;
+  width: $width;
+  height: $height;
+  margin-right: $mr;
+  cursor: pointer;
 }
