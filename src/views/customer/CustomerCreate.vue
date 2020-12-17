@@ -10,13 +10,14 @@
   </el-breadcrumb>
   <el-form
     :label-position="labelPosition"
-    label-width="100px"
     :model="formLabelAlign"
     class="form-body"
   >
-    <h1 :span="3" class="user-title">Create New Customer</h1>
-    <el-row :span="16">
-      <el-col :span="10" :offset="1">
+    <br />
+    <h1 class="user-title">New Customer</h1>
+    <br />
+    <el-row :gutter="20">
+      <el-col :span="12">
         <el-form-item label="Name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
@@ -27,7 +28,7 @@
           <el-input v-model="form.destination"></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="10" :offset="1">
+      <el-col :span="12">
         <el-form-item label="Customer Name">
           <el-input v-model="form.customer_name"></el-input>
         </el-form-item>
@@ -36,8 +37,8 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="2" :offset="17">
+    <el-row type="flex" justify="end" class="ok_cancel_button_gp">
+      <el-col :span="2">
         <el-button type="text" class="cancel_button" @click="Customer"
           >Cancel</el-button
         >
