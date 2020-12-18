@@ -1,25 +1,28 @@
-*, body {
-    font-family: Arial;
-    box-sizing: border-box;
-    margin: 0;
-    text-align: left;
+*,
+body {
+  font-family: Arial;
+  box-sizing: border-box;
+  margin: 0;
+  text-align: left;
 }
 
-input:focus, button:focus {
-    border: none;
-    outline: none;
+input:focus,
+button:focus {
+  border: none;
+  outline: none;
 }
 
 .d-flex {
-    display: flex;
+  display: flex;
 }
 
-@import './utilities/variable';
-@import './utilities/mixin';
+@import "./utilities/variable";
+@import "./utilities/mixin";
 
 // layout
-@import './layout/layout';
+@import "./layout/layout";
 
 // pages
-@import './pages/login/main';
-@import './pages/uac/main';
+@import "./pages/login/main";
+@import "./pages/uac/main";
+@import "./pages/customer/main";

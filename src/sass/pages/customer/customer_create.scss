@@ -1,0 +1,35 @@
+.form-body {
+  background-color: #f4f4f4;
+  padding-bottom: 30px;
+  color: #1cbdb4;
+  .user-title {
+    padding-left: 34px;
+    padding-top: 16px;
+  }
+  .submit_button {
+    background-image: $main_gradiant_color !important;
+    color: #ffffff;
+    margin-left: 22px;
+  }
+  .cancel_button {
+    color: #606266;
+  }
+  .Edit-Customer {
+    width: 146px;
+    height: 24px;
+    margin: 0 281px 29px 0;
+    font-family: ArialRounded;
+    font-size: 21px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #1cbdb4;
+    padding: 14px 0 0 11px;
+  }
+  el-input {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+    color: #909399;
+  }
+}

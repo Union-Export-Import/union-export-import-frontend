@@ -1,0 +1,21 @@
+.form-body{
+    background-color: #f4f4f4;
+    padding-bottom: 30px;
+    color: #1cbdb4; 
+    .user-title{
+        padding-left: 34px;
+        padding-top: 16px;
+    }  
+    .submit_button{
+        background-image: $main_gradiant_color !important;
+        color: #ffffff;
+        margin-left: 22px;
+    }
+    .cancel_button{
+        color: #606266;
+    }
+    el-input{
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+        color: #909399;
+    }
+}

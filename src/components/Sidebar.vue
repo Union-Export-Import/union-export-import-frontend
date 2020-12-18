@@ -1,5 +1,11 @@
 <template>
-  <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+  <el-menu
+    default-active="2"
+    class="el-menu-vertical-demo"
+    @open="handleOpen"
+    @close="handleClose"
+    :collapse="isCollapse"
+  >
     <el-menu-item index="1">
       <img
         v-if="$route.name == 'UAC'"
@@ -11,9 +17,9 @@
       />
       <span>UAC</span>
     </el-menu-item>
-    <el-menu-item index="2">
+    <el-menu-item index="2" @click="Customer">
       <i class="el-icon-menu"></i>
-      <template #title>Navigator Two</template>
+      <template #title>Customer</template>
     </el-menu-item>
     <el-menu-item index="4">
       <i class="el-icon-setting"></i>
@@ -23,6 +29,7 @@
 </template>
 
 <script>
+import router from "../router";
 export default {
   computed: {
     isCollapse() {
@@ -35,6 +42,9 @@ export default {
     },
     handleClose() {
       console.log("close");
+    },
+    Customer() {
+      router.push({ path: "/customer" });
     },
   },
 };
