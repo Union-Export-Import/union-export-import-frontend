@@ -10,62 +10,79 @@ const UserCreate = () => import("../views/uac/UserCreate.vue");
 const UserEdit = () => import("../views/uac/UserEdit.vue");
 const CustomerCreate = () => import("../views/customer/CustomerCreate.vue");
 const CustomerEdit = () => import("../views/customer/CustomerEdit.vue");
-
+const Suplier = () => import("../views/suplier/Suplier.vue");
+const SuplierCreate = () => import("../views/suplier/SuplierCreate.vue");
+const SuplierEdit = () => import("../views/suplier/SuplierEdit.vue");
 const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: Home,
   },
   {
     path: "/login",
     name: "login",
-    component: Login
+    component: Login,
   },
   {
     path: "/user-access-control",
     name: "uac",
-    component: UAC
+    component: UAC,
   },
   {
     path: "/product",
     name: "product",
-    component: Product
+    component: Product,
   },
   {
     path: "/warehouse",
     name: "warehouse",
-    component: Warehouse
+    component: Warehouse,
   },
   {
     path: "/sale",
     name: "sale",
-    component: Sale
+    component: Sale,
   },
   {
-    path:"/customer",
-    name:"Customer",
-    component:Customer
+    path: "/customer",
+    name: "Customer",
+    component: Customer,
   },
   {
     path: "/user-access-control/create",
     name: "UserCreate",
-    component: UserCreate
+    component: UserCreate,
   },
   {
     path: "/user-access-control/edit",
     name: "UserEdit",
-    component: UserEdit
+    component: UserEdit,
   },
   {
     path: "/customer/create",
     name: "CustomerCreate",
-    component: CustomerCreate
+    component: CustomerCreate,
   },
   {
     path: "/customer/edit",
     name: "CustomerEdit",
-    component: CustomerEdit
+    component: CustomerEdit,
+  },
+  {
+    path: "/suplier",
+    name: "Suplier",
+    component: Suplier,
+  },
+  {
+    path: "/suplier/create",
+    name: "SuplierCreate",
+    component: SuplierCreate,
+  },
+  {
+    path: "/suplier/edit",
+    name: "SuplierEdit",
+    component: SuplierEdit,
   },
   {
     path: "/about",
@@ -74,13 +91,13 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 export default router;
