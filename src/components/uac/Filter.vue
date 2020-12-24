@@ -1,45 +1,38 @@
 <template>
-  <el-drawer
-    :model-value="checkOpen"
-    :direction="direction"
-    :before-close="filterBoxClose"
-  >
-    <el-form
-      :label-position="labelPosition"
-      label-width="100px"
-      class="form-filter custom-form-input"
-    >
-      <h1 class="form-header">User Filter</h1>
-      <el-form-item label="Name">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="Phone Number">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="Email">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="Creation Date">
-        <el-row>
-          <el-col :span="11">
-            <el-input v-model="form.name"></el-input>
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-input v-model="form.name"></el-input>
-          </el-col>
-        </el-row>
-      </el-form-item>
-      <div class="clear">
-        <p @click="clearForm">Clear</p>
-      </div>
-      <button class="filter-button">Filter</button>
-    </el-form>
-  </el-drawer>
+  <main-filter header="User Filter">
+    <el-form-item label="Name">
+      <el-input v-model="form.name"></el-input>
+    </el-form-item>
+    <el-form-item label="Phone Number">
+      <el-input v-model="form.name"></el-input>
+    </el-form-item>
+    <el-form-item label="Email">
+      <el-input v-model="form.name"></el-input>
+    </el-form-item>
+    <el-form-item label="Creation Date">
+      <el-row>
+        <el-col :span="11">
+          <el-input v-model="form.name"></el-input>
+        </el-col>
+        <el-col class="line" :span="2">-</el-col>
+        <el-col :span="11">
+          <el-input v-model="form.name"></el-input>
+        </el-col>
+      </el-row>
+    </el-form-item>
+    <div class="clear">
+      <p @click="clearForm">Clear</p>
+    </div>
+    <button class="filter-button">Filter</button>
+  </main-filter>
 </template>
 
 <script>
+import MainFilter from "../MainFilter";
 export default {
+  components: {
+    "main-filter": MainFilter,
+  },
   data() {
     return {
       labelPosition: "top",
@@ -52,16 +45,7 @@ export default {
     };
   },
 
-  computed: {
-    checkOpen() {
-      return this.$store.getters.filterOpen;
-    },
-  },
-
   methods: {
-    filterBoxClose() {
-      this.$store.commit("handleFilterBox");
-    },
     clearForm() {
       console.log("clear");
     },

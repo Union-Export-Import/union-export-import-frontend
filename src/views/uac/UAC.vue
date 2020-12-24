@@ -9,7 +9,7 @@
   <el-tabs type="card" @tab-click="handleClick">
     <el-tab-pane>
       <template #label>
-        <span><i class="el-icon-user-solid"></i> Users</span>
+        <span>Users</span>
       </template>
       <el-row>
         <el-col :span="17">
@@ -42,7 +42,7 @@
     </el-tab-pane>
     <el-tab-pane>
       <template #label>
-        <span><i class="el-icon-user-solid"></i> Roles & Permission</span>
+        <span>Roles & Permission</span>
       </template>
       <el-row>
         <el-col :span="17">

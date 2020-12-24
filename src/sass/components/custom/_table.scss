@@ -1,0 +1,8 @@
+.el-table {
+    .el-table__body tr.hover-row>td, .el-table__body tr.hover-row.el-table__row--striped>td {
+        background-color: #e8f9f8;
+    }
+    .el-table__body tr.hover-row>td:first-child .cell {
+        color: $main_color;
+    }
+}
