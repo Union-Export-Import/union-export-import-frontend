@@ -3,13 +3,13 @@
     <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
       >Home Page</el-breadcrumb-item
     >
-    <el-breadcrumb-item :to="Customer"> Customer</el-breadcrumb-item>
+    <el-breadcrumb-item :to="Suplier"> Suplier</el-breadcrumb-item>
   </el-breadcrumb>
 
   <el-tabs type="card" @tab-click="handleClick">
     <el-tab-pane>
       <template #label>
-        <span><i class="M271.029,0c-33.091,0-61,27.909-61,61s27.909,61,61,61s60-27.909,60-61S304.12,0,271.029,0z"></i> Customer</span>
+        <span><i class="el-icon-user-solid"></i> Suplier</span>
       </template>
       <el-row>
         <el-col :span="17">
@@ -18,7 +18,7 @@
         <el-col :span="7">
           <ul class="create-filter">
             <li>
-               <el-button class="rear_bg " @click="CustomerCreate">New Customer</el-button>
+               <el-button class="rear_bg " @click="SuplierCreate">New Suplier</el-button>
             </li>
             <li>
               <p class="sort-by">sorted by <strong class="sorted">Name</strong></p>
@@ -32,20 +32,20 @@
           </ul>
         </el-col>
       </el-row>
-     <CustomerList />
+     <SuplierList />
     </el-tab-pane>
   </el-tabs>
-  <filter-customer/>
+  <filter-suplier/>
 </template>
 
 <script>
-import CustomerList from "./CustomerList";
+import SuplierList from "./SuplierList";
 import router from "../../router";
- import FilterCustomer from "@/components/customer/Filter.vue";
+import FilterSuplier from "../../components/suplier/Filder"
 export default {
   components: {
-    CustomerList,
-      "filter-customer": FilterCustomer,
+    SuplierList,
+      "filter-suplier": FilterSuplier,
   },
   data() {
     return {
@@ -74,14 +74,14 @@ export default {
     };
   },
   methods: {
-    Customer() {
-      router.push({ path: "/customer" });
+    Suplier() {
+      router.push({ path: "/suplier" });
     },
-    CustomerCreate() {
-      router.push({ name: "CustomerCreate" });
+    SuplierCreate() {
+      router.push({ name: "SuplierCreate" });
     },
      filterBox() {
-      this.$store.commit("handleCustomerFilterBox");
+      this.$store.commit("handleSuplierFilterBox");
     },
   },
 };
