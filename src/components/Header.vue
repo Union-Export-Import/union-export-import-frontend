@@ -28,15 +28,27 @@
         <li>
           <el-dropdown trigger="click">
             <div class="demonstration">
-              AD<span class="el-dropdown-link"><i class="el-icon-arrow-down el-icon--right"></i> </span>
+              {{ [...user.name][0] }}{{ [...user.name].pop() }}<span class="el-dropdown-link"
+                ><i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item icon="el-icon-plus">Action 1</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-plus">Action 2</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-plus-outline">Action 3</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-check">Action 4</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-check">Action 5</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-plus"
+                  >Action 1</el-dropdown-item
+                >
+                <el-dropdown-item icon="el-icon-circle-plus"
+                  >Action 2</el-dropdown-item
+                >
+                <el-dropdown-item icon="el-icon-circle-plus-outline"
+                  >Action 3</el-dropdown-item
+                >
+                <el-dropdown-item icon="el-icon-check"
+                  >Action 4</el-dropdown-item
+                >
+                <el-dropdown-item icon="el-icon-circle-check"
+                  >Action 5</el-dropdown-item
+                >
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -47,7 +59,14 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
+  },
   methods: {
     handleColapse() {
       this.$store.commit("handleCollapse");

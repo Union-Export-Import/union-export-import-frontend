@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store";
 const Home = () => import("../views/Home.vue");
 const Login = () => import("../views/auth/Login.vue");
 const UAC = () => import("../views/uac/UAC.vue");
@@ -18,11 +19,35 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
+    beforeEnter: (to, from, next) => {
+      console.log("*ABC*");
+      console.log(!store.getters["auth/authenticated"]);
+      console.log(store.getters["auth/authenticated"]);
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+
+      next();
+    },
   },
   {
     path: "/login",
     name: "login",
     component: Login,
+    beforeEnter: (to, from, next) => {
+      console.log("*ABC*");
+      console.log(!store.getters["auth/authenticated"]);
+      console.log(store.getters["auth/authenticated"]);
+      if (store.getters["auth/authenticated"]) {
+        return next({
+          name: "home",
+        });
+      }
+
+      next();
+    },
   },
   {
     path: "/user-access-control",
