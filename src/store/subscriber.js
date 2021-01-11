@@ -1,7 +1,7 @@
 import store from "@/store";
 import axios from "@/axios";
 
-store.subscribe((mutation) => {
+store.subscribe(mutation => {
   console.log("subbbbbbbbb");
   console.log(mutation);
   switch (mutation.type) {
@@ -20,7 +20,7 @@ store.subscribe((mutation) => {
         }
       } else {
         axios.interceptors.request.use(function(config) {
-          config.headers.Authorization = `Bearer ${mutation.payload}`;
+          config.headers.Authorization = null;
           return config;
         });
         localStorage.removeItem("token");

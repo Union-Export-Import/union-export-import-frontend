@@ -14,6 +14,7 @@ const CustomerEdit = () => import("../views/customer/CustomerEdit.vue");
 const Suplier = () => import("../views/suplier/Suplier.vue");
 const SuplierCreate = () => import("../views/suplier/SuplierCreate.vue");
 const SuplierEdit = () => import("../views/suplier/SuplierEdit.vue");
+const ChangePassword = () => import("../views/auth/ChangePassword");
 const routes = [
   {
     path: "/",
@@ -39,6 +40,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       console.log("*ABC*");
       console.log(!store.getters["auth/authenticated"]);
+      console.log("JFIOEJIOFJIO")
       console.log(store.getters["auth/authenticated"]);
       if (store.getters["auth/authenticated"]) {
         return next({
@@ -48,6 +50,11 @@ const routes = [
 
       next();
     },
+  },
+  {
+    path: "/change-password",
+    name: "change-password",
+    component: ChangePassword
   },
   {
     path: "/user-access-control",

@@ -15,7 +15,11 @@
             Don’t have an account? Please contact your <strong>Admin</strong>
           </p>
           <div class="form-input">
-            <input v-model="email" type="email" placeholder="Please enter your email here" />
+            <input
+              v-model="email"
+              type="email"
+              placeholder="Please enter your email here"
+            />
           </div>
           <div class="form-input">
             <input
@@ -24,7 +28,37 @@
               placeholder="Please enter your password here"
             />
           </div>
-          <p class="forget-password">Forget Password?</p>
+          <p class="forget-password" @click="dialogVisible = true">
+            Forget Password?
+          </p>
+          <el-dialog
+            title="Reset Password"
+            v-model="dialogVisible"
+            width="50%"
+            :before-close="handleClose"
+          >
+            <div class="form-input">
+              <input
+                v-model="reset_email"
+                placeholder="Please enter your email here"
+              />
+            </div>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button
+                  class="reset-cancel-button"
+                  @click="dialogVisible = false"
+                  >Cancel</el-button
+                >
+                <el-button
+                  class="reset-password-button"
+                  type="primary"
+                  v-on:click="resetPassword"
+                  >Submit</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
           <button v-on:click="doLogin" class="login-button">LOGIN</button>
         </div>
       </el-col>
@@ -34,15 +68,35 @@
 
 <script>
 import { mapActions } from "vuex";
+import axios from "@/axios";
 
 export default {
   data() {
-    return { email: null, password: null };
+    return {
+      email: null,
+      password: null,
+      dialogVisible: false,
+      reset_email: null,
+    };
   },
   methods: {
     ...mapActions({
       login: "auth/login",
     }),
+
+    successMessage(title, message) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: "success",
+      });
+    },
+    errorMessage() {
+      this.$notify.error({
+        title: "Error",
+        message: "Something went wrong"
+      });
+    },
 
     doLogin() {
       let credentials = {
@@ -52,15 +106,33 @@ export default {
 
       this.login(credentials)
         .then(() => {
-          console.log("_____-----_______")
+          console.log("_____-----_______");
           this.$router.replace({
-            name: "home",
+            name: "home"
           });
         })
         .catch(() => {
-          console.log("Failed");
+          console.log("filded");
         });
     },
-  },
+    resetPassword() {
+      let request = {
+        email: this.reset_email,
+      };
+      this.dialogVisible = false;
+      axios.post("/api/forget-password", request).then(response => {
+        console.log(response.data);
+        // return dispatch("attempt", response.data.data.token);
+        if (response.message == "success") {
+          this.successMessage("Successful", "Your password has been reset.");
+        } else {
+          this.errorMessage();
+        }
+      });
+    },
+    handleClose() {
+      this.dialogVisible = false;
+    }
+  }
 };
 </script>

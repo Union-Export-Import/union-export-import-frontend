@@ -26,32 +26,34 @@ export default {
 
   actions: {
     async login({ dispatch }, credentials) {
-      let resp = await axios.post("/api/login", credentials);
-
-      console.log(resp.data.data.token);
-      return dispatch("attempt", resp.data.data.token);
+      axios.post("/api/login", credentials).then(response => {
+        console.log(response.data);
+        var mData = JSON.parse("{" + response.data.split("}{")[1]);
+        console.log(mData)
+        return dispatch("attempt", mData.data.token);
+      });
     },
 
     async attempt({ commit, state }, token) {
       console.log("**222**");
       if (token) {
-        console.log("--------$$$$$$---------")
+        console.log("--------$$$$$$---------");
         commit("SET_TOKEN", token);
       }
 
       if (!state.token) {
-        console.log("---------####--------")
+        console.log("---------####--------");
         return;
       }
 
       try {
-        console.log("-----------------")
+        console.log("-----------------");
         let response = await axios.get("api/me");
-        console.log(response.data)
+        console.log(response.data);
 
         commit("SET_USER", response.data);
       } catch (e) {
-        console.log("-------vvvvvv----------")
+        console.log("-------vvvvvv----------");
         commit("SET_TOKEN", null);
         commit("SET_USER", null);
       }
