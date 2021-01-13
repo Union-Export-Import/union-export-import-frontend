@@ -26,11 +26,9 @@ export default {
 
   actions: {
     async login({ dispatch }, credentials) {
-      axios.post("/api/login", credentials).then(response => {
-        console.log(response.data);
-        var mData = JSON.parse("{" + response.data.split("}{")[1]);
-        console.log(mData)
-        return dispatch("attempt", mData.data.token);
+      axios.post("/api/login", credentials).then((response) => {
+        console.log(response.data.data);
+        return dispatch("attempt", response.data.data.token);
       });
     },
 
@@ -47,13 +45,16 @@ export default {
       }
 
       try {
-        console.log("-----------------");
+        console.log("me api...calling...");
         let response = await axios.get("api/me");
         console.log(response.data);
+
+
 
         commit("SET_USER", response.data);
       } catch (e) {
         console.log("-------vvvvvv----------");
+        console.log(e);
         commit("SET_TOKEN", null);
         commit("SET_USER", null);
       }

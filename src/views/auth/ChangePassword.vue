@@ -23,12 +23,18 @@
           </el-alert>
           <br />
           <div class="form-input">
-            <input v-model="new_password" type="password" placeholder="New password" />
+            <input
+              v-model="new_password"
+              type="password"
+              placeholder="New password"
+            />
           </div>
           <div class="form-input">
             <input type="password" placeholder="Confirm new password" />
           </div>
-          <button class="login-button">SUBMIT</button>
+          <button v-on:click="changePassword" class="login-button">
+            SUBMIT
+          </button>
         </div>
       </el-col>
     </el-row>
@@ -36,18 +42,34 @@
 </template>
 
 <script>
-
 import { mapGetters } from "vuex";
-// import axios from "@/axios";
+import axios from "@/axios";
 export default {
   computed: {
     ...mapGetters({
-      authenticated: 'auth/authenticated',
-      user: 'auth/user'
-    })
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
   },
   data() {
-    return {};
+    return { new_password: null };
+  },
+  methods: {
+    changePassword() {
+      let request = {
+        email: this.user.email,
+        new_password: this.new_password,
+      };
+      this.dialogVisible = false;
+      axios.post("/api/change-password", request).then((response) => {
+        console.log(response.data);
+        if (response.data.message == "success") {
+          this.$router.replace({
+            name: "home",
+          });
+        }
+      });
+    },
   },
 };
 </script>

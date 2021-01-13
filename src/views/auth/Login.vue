@@ -68,9 +68,16 @@
 
 <script>
 import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import axios from "@/axios";
 
 export default {
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
+  },
   data() {
     return {
       email: null,
@@ -94,7 +101,7 @@ export default {
     errorMessage() {
       this.$notify.error({
         title: "Error",
-        message: "Something went wrong"
+        message: "Something went wrong",
       });
     },
 
@@ -106,10 +113,15 @@ export default {
 
       this.login(credentials)
         .then(() => {
-          console.log("_____-----_______");
-          this.$router.replace({
-            name: "home"
-          });
+          if (this.user.account_status == "Init") {
+            this.$router.replace({
+              name: "change-password",
+            });
+          } else {
+            this.$router.replace({
+              name: "home",
+            });
+          }
         })
         .catch(() => {
           console.log("filded");
@@ -120,10 +132,10 @@ export default {
         email: this.reset_email,
       };
       this.dialogVisible = false;
-      axios.post("/api/forget-password", request).then(response => {
+      axios.post("/api/forget-password", request).then((response) => {
         console.log(response.data);
         // return dispatch("attempt", response.data.data.token);
-        if (response.message == "success") {
+        if (response.data.message == "success") {
           this.successMessage("Successful", "Your password has been reset.");
         } else {
           this.errorMessage();
@@ -132,7 +144,7 @@ export default {
     },
     handleClose() {
       this.dialogVisible = false;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -21,12 +21,15 @@ const routes = [
     name: "home",
     component: Home,
     beforeEnter: (to, from, next) => {
-      console.log("*ABC*");
-      console.log(!store.getters["auth/authenticated"]);
-      console.log(store.getters["auth/authenticated"]);
+      
       if (!store.getters["auth/authenticated"]) {
         return next({
           name: "login",
+        });
+      }else if(store.getters["auth/authenticated"].account_status == "Init"){
+        console.log("*ABC*");
+        return next({
+          name: "change-password",
         });
       }
 

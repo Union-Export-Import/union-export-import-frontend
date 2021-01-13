@@ -2,13 +2,11 @@ import store from "@/store";
 import axios from "@/axios";
 
 store.subscribe(mutation => {
-  console.log("subbbbbbbbb");
-  console.log(mutation);
+  console.log("subscriber....");
   switch (mutation.type) {
     case "auth/SET_TOKEN":
-      console.log(mutation);
       if (mutation.payload) {
-        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        console.log("saved token");
         try {
           axios.interceptors.request.use(function(config) {
             config.headers.Authorization = `Bearer ${mutation.payload}`;
