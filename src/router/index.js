@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store";
 const Home = () => import("../views/Home.vue");
 const Login = () => import("../views/auth/Login.vue");
 const UAC = () => import("../views/uac/UAC.vue");
@@ -13,16 +14,50 @@ const CustomerEdit = () => import("../views/customer/CustomerEdit.vue");
 const Suplier = () => import("../views/suplier/Suplier.vue");
 const SuplierCreate = () => import("../views/suplier/SuplierCreate.vue");
 const SuplierEdit = () => import("../views/suplier/SuplierEdit.vue");
+const ChangePassword = () => import("../views/auth/ChangePassword");
 const routes = [
   {
     path: "/",
     name: "home",
     component: Home,
+    beforeEnter: (to, from, next) => {
+      
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }else if(store.getters["auth/authenticated"].account_status == "Init"){
+        console.log("*ABC*");
+        return next({
+          name: "change-password",
+        });
+      }
+
+      next();
+    },
   },
   {
     path: "/login",
     name: "login",
     component: Login,
+    beforeEnter: (to, from, next) => {
+      console.log("*ABC*");
+      console.log(!store.getters["auth/authenticated"]);
+      console.log("JFIOEJIOFJIO")
+      console.log(store.getters["auth/authenticated"]);
+      if (store.getters["auth/authenticated"]) {
+        return next({
+          name: "home",
+        });
+      }
+
+      next();
+    },
+  },
+  {
+    path: "/change-password",
+    name: "change-password",
+    component: ChangePassword
   },
   {
     path: "/user-access-control",
