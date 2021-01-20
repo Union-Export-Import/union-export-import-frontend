@@ -23,3 +23,6 @@ input:focus, button:focus {
 // pages
 @import './pages/login/main';
 @import './pages/uac/main';
+
+//helpers
+@import './utilities/helpers'

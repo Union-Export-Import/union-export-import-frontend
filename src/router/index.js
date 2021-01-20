@@ -4,6 +4,7 @@ const Login = () => import("../views/auth/Login.vue");
 const UAC = () => import("../views/uac/UAC.vue");
 const UserCreate = () => import("../views/uac/UserCreate.vue");
 const UserEdit = () => import("../views/uac/UserEdit.vue");
+const UserDetail = () => import("../views/uac/UserDetail.vue");
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/user-access-control/edit",
     name: "UserEdit",
     component: UserEdit
+  },
+  {
+    path: "/user-access-control/detail",
+    name: "UserDetail",
+    component: UserDetail
   },
   {
     path: "/about",
