@@ -9,6 +9,8 @@ const Product = () => import("../views/product/Index.vue");
 const Customer = () => import("../views/customer/Customer.vue");
 const UserCreate = () => import("../views/uac/UserCreate.vue");
 const UserEdit = () => import("../views/uac/UserEdit.vue");
+const UserDetail = () => import("../views/uac/UserDetail.vue");
+
 const CustomerCreate = () => import("../views/customer/CustomerCreate.vue");
 const CustomerEdit = () => import("../views/customer/CustomerEdit.vue");
 const Suplier = () => import("../views/suplier/Suplier.vue");
@@ -118,6 +120,11 @@ const routes = [
     path: "/suplier/edit",
     name: "SuplierEdit",
     component: SuplierEdit,
+  },
+  {
+    path: "/user-access-control/detail",
+    name: "UserDetail",
+    component: UserDetail
   },
   {
     path: "/about",

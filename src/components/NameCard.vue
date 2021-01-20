@@ -1,8 +1,7 @@
 <template>
   <div>
-    <el-col :span="2">
-      <el-button class="submit_button">SUMMIT</el-button>
-      </el-col>
+    <slot name="title"></slot>
+    <slot></slot>
   </div>
 </template>
 

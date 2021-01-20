@@ -23,6 +23,11 @@ button:focus {
 @import "./layout/layout";
 
 // pages
+@import './pages/login/main';
+@import './pages/uac/main';
+
+//helpers
+@import './utilities/helpers';
 @import "./pages/login/main";
 @import "./pages/uac/main";
 @import "./pages/customer/main";
