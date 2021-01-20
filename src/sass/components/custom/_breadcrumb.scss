@@ -1,0 +1,8 @@
+.el-breadcrumb {
+    margin-bottom: 20px;
+    .el-breadcrumb__item {
+        .is-link {
+            color: $main_color !important;
+        }
+    }
+}

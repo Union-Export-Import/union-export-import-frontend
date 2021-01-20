@@ -1,17 +1,13 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column fixed prop="date" label="Date" width="150">
-    </el-table-column>
-    <el-table-column prop="name" label="Name" width="120"> </el-table-column>
-    <el-table-column prop="state" label="State" width="120"> </el-table-column>
-    <el-table-column prop="city" label="City" width="120"> </el-table-column>
-    <el-table-column prop="address" label="Address" width="300">
-    </el-table-column>
-    <el-table-column prop="zip" label="Zip" width="120"> </el-table-column>
-    <el-table-column fixed="right" label="Operations" width="120">
-      <el-button @click="handleClick" type="text" size="small"
-        >Detail</el-button
-      >
+  <el-table stripe :data="tableData" style="width: 100%">
+    <el-table-column fixed prop="date" label="Date" width="250"></el-table-column>
+    <el-table-column prop="name" label="Name" width="230"> </el-table-column>
+    <el-table-column prop="state" label="State" width="220"> </el-table-column>
+    <el-table-column prop="city" label="City" width="220"> </el-table-column>
+    <el-table-column prop="address" label="Address" width="300"> </el-table-column>
+    <el-table-column prop="zip" label="Zip" width="220"> </el-table-column>
+    <el-table-column fixed="right" label="Operations" width="220">
+      <el-button @click="handleClick" type="text" size="small">Detail</el-button>
       <el-button type="text" size="small">Edit</el-button>
     </el-table-column>
   </el-table>
@@ -22,7 +18,7 @@ export default {
   methods: {
     handleClick() {
       console.log("click");
-    }
+    },
   },
   data() {
     return {
@@ -34,7 +30,7 @@ export default {
           city: "Los Angeles",
           address: "No. 189, Grove St, Los Angeles",
           zip: "CA 90036",
-          tag: "Home"
+          tag: "Home",
         },
         {
           date: "2016-05-02",
@@ -43,7 +39,7 @@ export default {
           city: "Los Angeles",
           address: "No. 189, Grove St, Los Angeles",
           zip: "CA 90036",
-          tag: "Office"
+          tag: "Office",
         },
         {
           date: "2016-05-04",
@@ -52,7 +48,7 @@ export default {
           city: "Los Angeles",
           address: "No. 189, Grove St, Los Angeles",
           zip: "CA 90036",
-          tag: "Home"
+          tag: "Home",
         },
         {
           date: "2016-05-01",
@@ -61,10 +57,10 @@ export default {
           city: "Los Angeles",
           address: "No. 189, Grove St, Los Angeles",
           zip: "CA 90036",
-          tag: "Office"
-        }
-      ]
+          tag: "Office",
+        },
+      ],
     };
-  }
+  },
 };
 </script>

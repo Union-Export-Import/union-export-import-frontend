@@ -1,0 +1,14 @@
+.custom-form-input {
+    .form-header {
+        @include font-style(27px, $main_color, 'bold');
+        margin: 20px 0;
+    }
+    label {
+        @include font-style(16px, $secondary_color);
+    }
+    input {
+        border-radius: 4px;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+        border: 0;
+    }
+}

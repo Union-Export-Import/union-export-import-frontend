@@ -1,25 +1,65 @@
 <template>
   <div class="login">
     <el-row>
-      <el-col :span="12">
+      <el-col :span="10">
         <div class="login-bg">
           <div class="overlay">
             <h3>UNION EXPORT IMPORT</h3>
           </div>
         </div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="14">
         <div class="login-form">
           <h3>Login</h3>
-          <p class="login-contact">Don’t have an account? Please contact your <strong>Admin</strong></p>
+          <p class="login-contact">
+            Don’t have an account? Please contact your <strong>Admin</strong>
+          </p>
           <div class="form-input">
-            <input placeholder="Please enter your email here" />
+            <input
+              v-model="email"
+              type="email"
+              placeholder="Please enter your email here"
+            />
           </div>
           <div class="form-input">
-            <input type="password" placeholder="Please enter your password here" />
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Please enter your password here"
+            />
           </div>
-          <p class="forget-password">Forget Password?</p>
-          <button class="login-button">LOGIN</button>
+          <p class="forget-password" @click="dialogVisible = true">
+            Forget Password?
+          </p>
+          <el-dialog
+            title="Reset Password"
+            v-model="dialogVisible"
+            width="50%"
+            :before-close="handleClose"
+          >
+            <div class="form-input">
+              <input
+                v-model="reset_email"
+                placeholder="Please enter your email here"
+              />
+            </div>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button
+                  class="reset-cancel-button"
+                  @click="dialogVisible = false"
+                  >Cancel</el-button
+                >
+                <el-button
+                  class="reset-password-button"
+                  type="primary"
+                  v-on:click="resetPassword"
+                  >Submit</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
+          <button v-on:click="doLogin" class="login-button">LOGIN</button>
         </div>
       </el-col>
     </el-row>
@@ -27,9 +67,84 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
+import axios from "@/axios";
+
 export default {
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
+  },
   data() {
-    return {};
+    return {
+      email: null,
+      password: null,
+      dialogVisible: false,
+      reset_email: null,
+    };
+  },
+  methods: {
+    ...mapActions({
+      login: "auth/login",
+    }),
+
+    successMessage(title, message) {
+      this.$notify({
+        title: title,
+        message: message,
+        type: "success",
+      });
+    },
+    errorMessage() {
+      this.$notify.error({
+        title: "Error",
+        message: "Something went wrong",
+      });
+    },
+
+    doLogin() {
+      let credentials = {
+        email: this.email,
+        password: this.password,
+      };
+
+      this.login(credentials)
+        .then(() => {
+          if (this.user.account_status == "Init") {
+            this.$router.replace({
+              name: "change-password",
+            });
+          } else {
+            this.$router.replace({
+              name: "home",
+            });
+          }
+        })
+        .catch(() => {
+          console.log("filded");
+        });
+    },
+    resetPassword() {
+      let request = {
+        email: this.reset_email,
+      };
+      this.dialogVisible = false;
+      axios.post("/api/forget-password", request).then((response) => {
+        console.log(response.data);
+        // return dispatch("attempt", response.data.data.token);
+        if (response.data.message == "success") {
+          this.successMessage("Successful", "Your password has been reset.");
+        } else {
+          this.errorMessage();
+        }
+      });
+    },
+    handleClose() {
+      this.dialogVisible = false;
+    },
   },
 };
 </script>

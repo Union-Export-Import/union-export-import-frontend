@@ -1,6 +1,7 @@
 .el-header {
     padding: 28px 48px 28px 33px !important;
     box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.08);
+    height: 84px;
 
     .logo-menu {
         display: flex;
@@ -17,20 +18,41 @@
 
     .mail-noti-profile {
         display: inline-flex;
+        width: 100%;
         list-style: none;
 
-        img {
-            @include header-icons(30px, 26px, 6em);
+        li {
+            flex: 1;
         }
 
+        img {
+            @include header-icons(30px, 26px, 0em);
+            float: right;
+        }
+
+        .el-dropdown {
+            bottom: 23px;
+            float: right;
+            cursor: pointer;
+        }
+        
         .demonstration {
             margin: 0 3px 0 0;
             padding: 19px 15px 19px;
-            background-color: rgba(28, 189, 180, 0.2);
+            background-color: $main_transp_color;
             border-radius: 50%;
             color: $main_color;
             font-weight: bold;
             font-size: 26px;
+            position: relative;
+
+            .el-dropdown-link {
+                position: absolute;
+                color: $secondary_color;
+                top: 1.8em;
+                right: -15px;
+                font-size: 15px;
+            }
         }
     }
 }
