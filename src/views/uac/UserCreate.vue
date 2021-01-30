@@ -55,15 +55,17 @@
       <el-col :span="2" :offset="17">
         <el-button type="text" class="cancel_button">Cancel</el-button>
       </el-col>
-      <el-col :span="2">
-        <el-button class="submit_button">SUMMIT</el-button>
-      </el-col>
+      <submit-button></submit-button>
     </el-row>
   </el-form>
 </template>
 
 <script>
+import SubmitButton from "@/components/SubmitButton.vue";
 export default {
+  components: {
+    "submit-button": SubmitButton
+  },
   data() {
     return {
       labelPosition: "top",

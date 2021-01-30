@@ -9,12 +9,14 @@ const Product = () => import("../views/product/Index.vue");
 const Customer = () => import("../views/customer/Customer.vue");
 const UserCreate = () => import("../views/uac/UserCreate.vue");
 const UserEdit = () => import("../views/uac/UserEdit.vue");
+const UserDetail = () => import("../views/uac/UserDetail.vue");
+
 const CustomerCreate = () => import("../views/customer/CustomerCreate.vue");
 const CustomerEdit = () => import("../views/customer/CustomerEdit.vue");
 const Suplier = () => import("../views/suplier/Suplier.vue");
 const SuplierCreate = () => import("../views/suplier/SuplierCreate.vue");
 const SuplierEdit = () => import("../views/suplier/SuplierEdit.vue");
-const SuplierDetail = () => import("../views/suplier/SuplierList.vue");
+const SuplierDetail = () => import("../views/suplier/SuplierDetail.vue");
 const ChangePassword = () => import("../views/auth/ChangePassword");
 const routes = [
     {
@@ -107,24 +109,29 @@ const routes = [
         component: CustomerEdit,
     },
     {
-        path: "/suplier",
+        path: "/supplier",
         name: "Suplier",
         component: Suplier,
     },
     {
-        path: "/suplier/create",
+        path: "/supplier/create",
         name: "SuplierCreate",
         component: SuplierCreate,
     },
     {
-        path: "/suplier/detail",
+        path: "/supplier/edit",
+        name: "SuplierEdit",
+        component: SuplierEdit,
+    },
+    {
+        path: "/supplier/show/:id",
         name: "SuplierDetail",
         component: SuplierDetail,
     },
     {
-        path: "/suplier/edit",
-        name: "SuplierEdit",
-        component: SuplierEdit,
+        path: "/user-access-control/detail",
+        name: "UserDetail",
+        component: UserDetail,
     },
     {
         path: "/about",
