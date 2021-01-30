@@ -1,0 +1,16 @@
+.profile-header {
+    .name-icon {
+        width: 61px;
+        height: 61px;
+        justify-content: center;
+        align-items: center;
+        display: inline-flex;
+        background-color: $main_transp_color;
+        color: $main_color;
+        font-size: 26px;
+    }
+
+    .name-detail {
+        color: #6d7278;
+    }
+}

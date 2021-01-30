@@ -2,7 +2,7 @@
   <div>
     <el-col :span="2">
       <el-button class="submit_button">SUMMIT</el-button>
-      </el-col>
+    </el-col>
   </div>
 </template>
 

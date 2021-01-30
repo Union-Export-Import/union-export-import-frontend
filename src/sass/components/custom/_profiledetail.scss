@@ -1,0 +1,25 @@
+.profile-detail {
+    background-color: #f4f4f4;
+
+    .profile-detail-info {
+        label {
+            @include font-style(16px, $main_color);
+        }
+
+        p {
+            @include font-style(18px, #6d7278);
+        }
+    }
+}
+
+.manage-btns {
+    text-align: right;
+
+    .edit-button {
+        @include small-primary-button($main_gradiant_color, #ffffff)
+
+        &:hover {
+            color: #ffffff;
+        }
+    }
+}
