@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import UserList from "@/views/uac/UserList.vue";
+import UserList from "@/components/uac/List.vue";
 import FilterUser from "@/components/uac/Filter.vue";
 export default {
   components: {
