@@ -2,7 +2,6 @@ import store from "@/store";
 import axios from "@/axios";
 
 store.subscribe(mutation => {
-  console.log("subscriber....");
   switch (mutation.type) {
     case "auth/SET_TOKEN":
       if (mutation.payload) {
@@ -14,7 +13,7 @@ store.subscribe(mutation => {
           });
           localStorage.setItem("token", mutation.payload);
         } catch (e) {
-          console.log(e);
+          console.log("Failed");
         }
       } else {
         axios.interceptors.request.use(function(config) {

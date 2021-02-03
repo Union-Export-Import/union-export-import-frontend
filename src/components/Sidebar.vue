@@ -79,12 +79,8 @@ export default {
     },
   },
   methods: {
-    handleOpen() {
-      console.log("open");
-    },
-    handleClose() {
-      console.log("close");
-    },
+    handleOpen() {},
+    handleClose() {},
     changeRoute(name) {
       this.$router.push({ name: name });
     },

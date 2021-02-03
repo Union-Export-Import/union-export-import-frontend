@@ -1,14 +1,11 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
-      >Home Page</el-breadcrumb-item
-    >
-    <el-breadcrumb-item separator-class="el-icon-arrow-right"
-      >User Access Control</el-breadcrumb-item
-    >
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
+    <el-breadcrumb-item separator-class="el-icon-arrow-right">User Access Control</el-breadcrumb-item>
     <el-breadcrumb-item>User Create</el-breadcrumb-item>
   </el-breadcrumb>
   <el-form
+    ref="newUser"
     :label-position="labelPosition"
     label-width="100px"
     :model="formLabelAlign"
@@ -18,18 +15,13 @@
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="newUser.name"></el-input>
         </el-form-item>
         <el-form-item label="Email">
-          <el-input v-model="form.email"></el-input>
+          <el-input v-model="newUser.email"></el-input>
         </el-form-item>
         <el-form-item label="Role">
-          <el-select
-            v-model="form.role"
-            filterable
-            placeholder="Select"
-            style="width:397px;"
-          >
+          <el-select v-model="newUser.roles" filterable multiple placeholder="Select" style="width:397px;">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -41,13 +33,13 @@
       </el-col>
       <el-col :span="10" :offset="1">
         <el-form-item label="Phone Number">
-          <el-input v-model="form.phone_number"></el-input>
+          <el-input v-model="newUser.phone_number"></el-input>
         </el-form-item>
         <el-form-item label="NRC">
-          <el-input v-model="form.nrc"></el-input>
+          <el-input v-model="newUser.nrc"></el-input>
         </el-form-item>
         <el-form-item label="Address">
-          <el-input type="textarea" v-model="form.address"></el-input>
+          <el-input type="textarea" v-model="newUser.address"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -55,65 +47,70 @@
       <el-col :span="2" :offset="17">
         <el-button type="text" class="cancel_button">Cancel</el-button>
       </el-col>
-      <submit-button></submit-button>
+      <el-col :span="2">
+        <submit-button @click="onSubmit" text="Submit"></submit-button>
+        <!-- <el-button @click="onSubmit" class="submit_button">SUMMIT</el-button> -->
+      </el-col>
     </el-row>
   </el-form>
 </template>
 
 <script>
 import SubmitButton from "@/components/SubmitButton.vue";
+import { mapGetters } from "vuex";
+import axios from "@/axios";
 export default {
   components: {
-    "submit-button": SubmitButton
+    "submit-button": SubmitButton,
+  },
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
   },
   data() {
     return {
       labelPosition: "top",
-      form: {
+      newUser: {
         name: "",
         email: "",
         role: "",
         address: "",
         phone_number: "",
-        nrc: ""
+        nrc: "",
       },
       options: [
         {
-          value: "Kyaw Soe Aung",
-          label: "Kyaw Soe Aung"
+          value: "1",
+          label: "User Access Control",
         },
         {
-          value: "Aung Myo Oo",
-          label: "Aung Myo Oo"
+          value: "2",
+          label: "User Access Control",
         },
         {
-          value: "Min Htet Aung",
-          label: "Min Htet Aung"
+          value: "3",
+          label: "User Access Control",
         },
-        {
-          value: "Kyaw Soe Ye",
-          label: "Kyaw Soe Ye"
-        },
-        {
-          value: "Option5",
-          label: "Option5"
-        }
-      ]
+      ],
     };
-  }
+  },
+  methods: {
+    onSubmit() {
+      let header = {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      };
+      axios.post("/api/users", this.newUser, header).then((response) => {
+        console.log(response.data);
+        this.$router.replace({
+          name: "uac",
+        });
+      });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-// .form-body {
-//   background-color: #f4f4f4;
-//   color: #1cbdb4;
-// }
-// .user-title{
-//   padding: 8px;
-//   color: #1cbdb4;
-// }
-// label{
-//   color:#1cbdb4;
-// }
 </style>
