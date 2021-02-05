@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, h } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -8,7 +8,11 @@ import "element-plus/lib/theme-chalk/index.css";
 require("@/store/subscriber");
 
 store.dispatch("auth/attempt", localStorage.getItem("token")).then(() => {
-  createApp(App)
+  createApp({
+    render() {
+      return h(App);
+    },
+  })
     .use(store)
     .use(router)
     .use(ElementPlus)

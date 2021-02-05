@@ -1,8 +1,6 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
-      >Home Page</el-breadcrumb-item
-    >
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
     <el-breadcrumb-item>User Access Control</el-breadcrumb-item>
   </el-breadcrumb>
 
@@ -18,16 +16,17 @@
         <el-col :span="7">
           <ul class="create-filter">
             <li>
-              <el-button
-                class="create-user-btn"
-                type="primary"
-                :to="{ name: 'UserEdit' }"
+              <el-button class="create-user-btn" type="primary"
+                ><router-link to="/user-access-control/create"
+                  >New User</router-link
+                ></el-button
               >
-                New User
-              </el-button>
             </li>
             <li>
-              <p class="sort-by">sorted by <strong class="sorted">Name</strong></p>
+              <p class="sort-by">
+                sorted by
+                <strong class="sorted">Name</strong>
+              </p>
             </li>
             <li>
               <img
@@ -51,16 +50,13 @@
         <el-col :span="7">
           <ul class="create-filter">
             <li>
-              <el-button
-                class="create-user-btn"
-                type="primary"
-                :to="{ name: 'UserEdit' }"
-              >
-                New Role
-              </el-button>
+              <el-button class="create-user-btn" type="primary" to="/create">New Role</el-button>
             </li>
             <li>
-              <p class="sort-by">sorted by <strong class="sorted">Name</strong></p>
+              <p class="sort-by">
+                sorted by
+                <strong class="sorted">Name</strong>
+              </p>
             </li>
             <li>
               <img
@@ -71,10 +67,10 @@
           </ul>
         </el-col>
       </el-row>
-      <el-table stripe :data="tableData" style="width: 100%">
-        <el-table-column prop="date" label="Date" width="180"></el-table-column>
-        <el-table-column prop="name" label="Name" width="180"></el-table-column>
-        <el-table-column prop="address" label="Address"></el-table-column>
+      <el-table stripe :data="permissions" style="width: 100%">
+        <el-table-column prop="title" label="Date" width="180"></el-table-column>
+        <el-table-column prop="title" label="Name" width="180"></el-table-column>
+        <el-table-column prop="title" label="Address"></el-table-column>
       </el-table>
     </el-tab-pane>
   </el-tabs>
@@ -85,40 +81,22 @@
 <script>
 import UserList from "@/components/uac/List.vue";
 import FilterUser from "@/components/uac/Filter.vue";
+
 export default {
   components: {
     "user-list": UserList,
     "filter-user": FilterUser,
   },
+
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-02",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-04",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-        {
-          date: "2016-05-01",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-      ],
+      permissions: [],
       drawer: false,
     };
   },
   methods: {
     filterBox() {
+      console.log(JSON.stringify(this.permissions));
       this.$store.commit("handleFilterBox");
     },
   },

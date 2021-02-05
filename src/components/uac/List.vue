@@ -1,66 +1,55 @@
 <template>
-  <el-table stripe :data="tableData" style="width: 100%">
-    <el-table-column fixed prop="date" label="Date" width="250"></el-table-column>
-    <el-table-column prop="name" label="Name" width="230"></el-table-column>
-    <el-table-column prop="state" label="State" width="220"></el-table-column>
-    <el-table-column prop="city" label="City" width="220"></el-table-column>
-    <el-table-column prop="address" label="Address" width="300"></el-table-column>
-    <el-table-column prop="zip" label="Zip" width="220"></el-table-column>
-    <el-table-column fixed="right" label="Operations" width="220">
-      <el-button @click="handleClick" type="text" size="small">Detail</el-button>
+  <el-table @row-click="userDetail" stripe :data="tableData" style="width: 100%">
+    <el-table-column fixed prop="name" label="Name" width="200"></el-table-column>
+    <el-table-column prop="email" label="Email" width="230"></el-table-column>
+    <el-table-column prop="phone_number" label="Phone" width="200"></el-table-column>
+    <el-table-column prop="account_status" label="Account Status" width="200"></el-table-column>
+    <el-table-column prop="nrc" label="NRC" width="200"></el-table-column>
+    <el-table-column prop="created_at" label="Created At" width="200"></el-table-column>
+    <el-table-column label="Operations" width="120">
+      <el-button @click="userDetail()" type="text" size="small">Detail</el-button>
       <el-button type="text" size="small">Edit</el-button>
     </el-table-column>
   </el-table>
 </template>
 
 <script>
+import {
+  paginationParams,
+  sortingParams,
+  filterParams,
+  filter,
+} from "../../Helper";
+import UserRepository from "../../repository/UserRepository";
 export default {
   methods: {
-    handleClick() {
-      console.log("click");
+    userDetail(row) {
+      this.$router.push({ name: "UserDetail", params: { id: row.id } });
+    },
+    getUsers: async function (payload) {
+      await UserRepository.filterUsers(payload)
+        .then((res) => {
+          this.tableData = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "Tom",
-          state: "California",
-          city: "Los Angeles",
-          address: "No. 189, Grove St, Los Angeles",
-          zip: "CA 90036",
-          tag: "Home",
-        },
-        {
-          date: "2016-05-02",
-          name: "Tom",
-          state: "California",
-          city: "Los Angeles",
-          address: "No. 189, Grove St, Los Angeles",
-          zip: "CA 90036",
-          tag: "Office",
-        },
-        {
-          date: "2016-05-04",
-          name: "Tom",
-          state: "California",
-          city: "Los Angeles",
-          address: "No. 189, Grove St, Los Angeles",
-          zip: "CA 90036",
-          tag: "Home",
-        },
-        {
-          date: "2016-05-01",
-          name: "Tom",
-          state: "California",
-          city: "Los Angeles",
-          address: "No. 189, Grove St, Los Angeles",
-          zip: "CA 90036",
-          tag: "Office",
-        },
-      ],
+      tableData: [],
+      filter: {
+        ...filter([filterParams("<>", "account_status", "Revoke")], "AND"),
+      },
     };
+  },
+  beforeMount() {
+    this.getUsers({
+      ...sortingParams("id", "asc"),
+      ...paginationParams(1, 10000),
+      ...this.filter,
+    });
   },
 };
 </script>

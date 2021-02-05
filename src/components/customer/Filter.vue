@@ -67,7 +67,6 @@ export default {
       this.$store.commit("handleCustomerFilterBox");
     },
     clearForm() {
-      console.log("clear");
     },
   },
 };

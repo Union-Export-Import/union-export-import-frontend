@@ -1,14 +1,11 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
-      >Home Page</el-breadcrumb-item
-    >
-    <el-breadcrumb-item separator-class="el-icon-arrow-right"
-      >User Access Control</el-breadcrumb-item
-    >
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
+    <el-breadcrumb-item separator-class="el-icon-arrow-right">User Access Control</el-breadcrumb-item>
     <el-breadcrumb-item>User Create</el-breadcrumb-item>
   </el-breadcrumb>
   <el-form
+    ref="newUser"
     :label-position="labelPosition"
     label-width="100px"
     :model="formLabelAlign"
@@ -18,36 +15,32 @@
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="newUser.name"></el-input>
         </el-form-item>
         <el-form-item label="Email">
-          <el-input v-model="form.email"></el-input>
+          <el-input v-model="newUser.email"></el-input>
         </el-form-item>
         <el-form-item label="Role">
           <el-select
-            v-model="form.role"
+            v-model="newUser.roles"
             filterable
+            multiple
             placeholder="Select"
             style="width:397px;"
           >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
+            <el-option v-for="item in roles" :key="item.id" :label="item.title" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="10" :offset="1">
         <el-form-item label="Phone Number">
-          <el-input v-model="form.phone_number"></el-input>
+          <el-input v-model="newUser.phone_number"></el-input>
         </el-form-item>
         <el-form-item label="NRC">
-          <el-input v-model="form.nrc"></el-input>
+          <el-input v-model="newUser.nrc"></el-input>
         </el-form-item>
         <el-form-item label="Address">
-          <el-input type="textarea" v-model="form.address"></el-input>
+          <el-input type="textarea" v-model="newUser.address"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -55,65 +48,74 @@
       <el-col :span="2" :offset="17">
         <el-button type="text" class="cancel_button">Cancel</el-button>
       </el-col>
-      <submit-button></submit-button>
+      <el-col :span="2">
+        <submit-button @click="onSubmit" text="Submit"></submit-button>
+        <!-- <el-button @click="onSubmit" class="submit_button">SUMMIT</el-button> -->
+      </el-col>
     </el-row>
   </el-form>
 </template>
 
 <script>
 import SubmitButton from "@/components/SubmitButton.vue";
+import { mapGetters } from "vuex";
+import RoleRepository from "../../repository/RoleRepository";
+import UserRepository from "../../repository/UserRepository";
+import { paginationParams, sortingParams, filter } from "../../Helper";
 export default {
   components: {
-    "submit-button": SubmitButton
+    "submit-button": SubmitButton,
+  },
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
   },
   data() {
     return {
       labelPosition: "top",
-      form: {
+      newUser: {
         name: "",
         email: "",
-        role: "",
+        roles: [],
         address: "",
         phone_number: "",
-        nrc: ""
+        nrc: "",
       },
-      options: [
-        {
-          value: "Kyaw Soe Aung",
-          label: "Kyaw Soe Aung"
-        },
-        {
-          value: "Aung Myo Oo",
-          label: "Aung Myo Oo"
-        },
-        {
-          value: "Min Htet Aung",
-          label: "Min Htet Aung"
-        },
-        {
-          value: "Kyaw Soe Ye",
-          label: "Kyaw Soe Ye"
-        },
-        {
-          value: "Option5",
-          label: "Option5"
-        }
-      ]
+      roles: [],
     };
-  }
+  },
+  methods: {
+    async onSubmit() {
+      await UserRepository.createUsers(this.newUser)
+        .then(() =>
+          this.$router.replace({
+            name: "uac",
+          })
+        )
+        .catch((err) => console.log(err));
+    },
+    getRoles: async function (payload) {
+      await RoleRepository.filterRoles(payload)
+        .then((res) => {
+          this.roles = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  beforeMount() {
+    console.log("hello");
+    this.getRoles({
+      ...sortingParams("id", "asc"),
+      ...paginationParams(1, 10000),
+      ...{ ...filter([], "AND") },
+    });
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-// .form-body {
-//   background-color: #f4f4f4;
-//   color: #1cbdb4;
-// }
-// .user-title{
-//   padding: 8px;
-//   color: #1cbdb4;
-// }
-// label{
-//   color:#1cbdb4;
-// }
 </style>

@@ -62,9 +62,7 @@ export default {
     filterBoxClose() {
       this.$store.commit("handleSuplierFilterBox");
     },
-    clearForm() {
-      console.log("clear");
-    },
+    clearForm() {},
   },
 };
 </script>

@@ -12,25 +12,16 @@
         <div class="login-form">
           <h3>Login</h3>
           <p class="login-contact">
-            Don’t have an account? Please contact your <strong>Admin</strong>
+            Don’t have an account? Please contact your
+            <strong>Admin</strong>
           </p>
           <div class="form-input">
-            <input
-              v-model="email"
-              type="email"
-              placeholder="Please enter your email here"
-            />
+            <input v-model="email" type="email" placeholder="Please enter your email here" />
           </div>
           <div class="form-input">
-            <input
-              v-model="password"
-              type="password"
-              placeholder="Please enter your password here"
-            />
+            <input v-model="password" type="password" placeholder="Please enter your password here" />
           </div>
-          <p class="forget-password" @click="dialogVisible = true">
-            Forget Password?
-          </p>
+          <p class="forget-password" @click="dialogVisible = true">Forget Password?</p>
           <el-dialog
             title="Reset Password"
             v-model="dialogVisible"
@@ -38,24 +29,16 @@
             :before-close="handleClose"
           >
             <div class="form-input">
-              <input
-                v-model="reset_email"
-                placeholder="Please enter your email here"
-              />
+              <input v-model="reset_email" placeholder="Please enter your email here" />
             </div>
             <template #footer>
               <span class="dialog-footer">
-                <el-button
-                  class="reset-cancel-button"
-                  @click="dialogVisible = false"
-                  >Cancel</el-button
-                >
+                <el-button class="reset-cancel-button" @click="dialogVisible = false">Cancel</el-button>
                 <el-button
                   class="reset-password-button"
                   type="primary"
                   v-on:click="resetPassword"
-                  >Submit</el-button
-                >
+                >Submit</el-button>
               </span>
             </template>
           </el-dialog>
@@ -113,18 +96,12 @@ export default {
 
       this.login(credentials)
         .then(() => {
-          if (this.user.account_status == "Init") {
-            this.$router.replace({
-              name: "change-password",
-            });
-          } else {
-            this.$router.replace({
-              name: "home",
-            });
-          }
+          this.$router.replace({
+            name: "home",
+          });
         })
         .catch(() => {
-          console.log("filded");
+          console.log("Error");
         });
     },
     resetPassword() {
