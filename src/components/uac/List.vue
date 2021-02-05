@@ -14,32 +14,25 @@
 </template>
 
 <script>
-import axios from "@/axios";
 import {
   paginationParams,
   sortingParams,
   filterParams,
   filter,
 } from "../../Helper";
+import UserRepository from "../../repository/UserRepository";
 export default {
   methods: {
     userDetail(row) {
       this.$router.push({ name: "UserDetail", params: { id: row.id } });
     },
     getUsers: async function (payload) {
-      const headers = {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      };
-
-      console.log("usersss");
-      await axios
-        .post("/api/users/query", payload, { headers })
-        .then((response) => {
-          console.log(response.data.data);
-          this.tableData = response.data.data;
+      await UserRepository.filterUsers(payload)
+        .then((res) => {
+          this.tableData = res.data.data;
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((err) => {
+          console.log(err);
         });
     },
   },
@@ -54,7 +47,7 @@ export default {
   beforeMount() {
     this.getUsers({
       ...sortingParams("id", "asc"),
-      ...paginationParams(1, 20),
+      ...paginationParams(1, 10000),
       ...this.filter,
     });
   },

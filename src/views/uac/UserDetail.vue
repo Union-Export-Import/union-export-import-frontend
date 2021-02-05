@@ -79,6 +79,7 @@ import { tokenHeader, lastItemFromUrl } from "../../Helper";
 import moment from "moment";
 import DeleteButton from "@/components/DeleteButton.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
+import UserRepository from "../../repository/UserRepository";
 export default {
   components: {
     "name-card": NameCard,
@@ -107,13 +108,8 @@ export default {
       return moment();
     },
     userDelete: async function () {
-      await axios
-        .delete(
-          `/api/users/${lastItemFromUrl(this.$route.path)}`,
-          tokenHeader(localStorage.getItem("token"))
-        )
-        .then((response) => {
-          console.log(response.data);
+      await UserRepository.deleteUser(lastItemFromUrl(this.$route.path))
+        .then(() => {
           this.$router.replace({
             name: "uac",
           });

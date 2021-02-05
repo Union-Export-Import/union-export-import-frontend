@@ -21,13 +21,14 @@
           <el-input v-model="newUser.email"></el-input>
         </el-form-item>
         <el-form-item label="Role">
-          <el-select v-model="newUser.roles" filterable multiple placeholder="Select" style="width:397px;">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
+          <el-select
+            v-model="newUser.roles"
+            filterable
+            multiple
+            placeholder="Select"
+            style="width:397px;"
+          >
+            <el-option v-for="item in roles" :key="item.id" :label="item.title" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -58,7 +59,9 @@
 <script>
 import SubmitButton from "@/components/SubmitButton.vue";
 import { mapGetters } from "vuex";
-import axios from "@/axios";
+import RoleRepository from "../../repository/RoleRepository";
+import UserRepository from "../../repository/UserRepository";
+import { paginationParams, sortingParams, filter } from "../../Helper";
 export default {
   components: {
     "submit-button": SubmitButton,
@@ -75,39 +78,41 @@ export default {
       newUser: {
         name: "",
         email: "",
-        role: "",
+        roles: [],
         address: "",
         phone_number: "",
         nrc: "",
       },
-      options: [
-        {
-          value: "1",
-          label: "User Access Control",
-        },
-        {
-          value: "2",
-          label: "User Access Control",
-        },
-        {
-          value: "3",
-          label: "User Access Control",
-        },
-      ],
+      roles: [],
     };
   },
   methods: {
-    onSubmit() {
-      let header = {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      };
-      axios.post("/api/users", this.newUser, header).then((response) => {
-        console.log(response.data);
-        this.$router.replace({
-          name: "uac",
-        });
-      });
+    async onSubmit() {
+      await UserRepository.createUsers(this.newUser)
+        .then(() =>
+          this.$router.replace({
+            name: "uac",
+          })
+        )
+        .catch((err) => console.log(err));
     },
+    getRoles: async function (payload) {
+      await RoleRepository.filterRoles(payload)
+        .then((res) => {
+          this.roles = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  beforeMount() {
+    console.log("hello");
+    this.getRoles({
+      ...sortingParams("id", "asc"),
+      ...paginationParams(1, 10000),
+      ...{ ...filter([], "AND") },
+    });
   },
 };
 </script>

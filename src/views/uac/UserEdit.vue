@@ -20,13 +20,14 @@
           <el-input v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item label="Role">
-          <el-select v-model="form.role" filterable placeholder="Select" style="width:397px;">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
+          <el-select
+            v-model="form.roles"
+            filterable
+            multiple
+            placeholder="Select"
+            style="width:397px;"
+          >
+            <el-option v-for="item in roles" :key="item.id" :label="item.title" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -54,19 +55,40 @@
 </template>
 
 <script>
-import axios from "@/axios";
-import { tokenHeader, lastItemFromUrl } from "../../Helper";
+import {
+  lastItemFromUrl,
+  sortingParams,
+  paginationParams,
+  filter,
+} from "../../Helper";
+import UserRepository from "../../repository/UserRepository";
+import RoleRepository from "../../repository/RoleRepository";
 export default {
   beforeMount() {
     this.getUserDetail(this.$route.path);
+    this.getRoles({
+      ...sortingParams("id", "asc"),
+      ...paginationParams(1, 10000),
+      ...{ ...filter([], "AND") },
+    });
   },
   methods: {
+    getRoles: async function (payload) {
+      await RoleRepository.filterRoles(payload)
+        .then((res) => {
+          this.roles = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     getUserDetail: async function (path) {
-      let resp = await axios.get(
-        `/api/users/${lastItemFromUrl(path)}`,
-        tokenHeader(localStorage.getItem("token"))
-      );
-      this.form = resp.data.data;
+      await UserRepository.getUserById(lastItemFromUrl(path)).then((resp) => {
+        this.form = resp.data.data;
+        this.form.roles = resp.data.data.roles.map(function (role) {
+          return role.id;
+        });
+      });
     },
     userUpdate: async function () {
       this.payload.name = this.form.name;
@@ -75,15 +97,13 @@ export default {
       this.payload.nrc = this.form.nrc;
       this.payload.phone_number = this.form.phone_number;
       this.payload.account_status = this.form.account_status;
-      // this.payload.roles = this.form.roles;
-      await axios
-        .put(
-          `/api/users/${lastItemFromUrl(this.$route.path)}`,
-          this.payload,
-          tokenHeader(localStorage.getItem("token"))
-        )
-        .then((response) => {
-          console.log(response.data);
+      this.payload.roles = this.form.roles;
+
+      await UserRepository.updateUser(
+        this.payload,
+        lastItemFromUrl(this.$route.path)
+      )
+        .then(() => {
           this.$router.replace({
             name: "uac",
           });
@@ -113,28 +133,7 @@ export default {
         account_status: null,
         roles: null,
       },
-      options: [
-        {
-          value: "Kyaw Soe Aung",
-          label: "Kyaw Soe Aung",
-        },
-        {
-          value: "Aung Myo Oo",
-          label: "Aung Myo Oo",
-        },
-        {
-          value: "Min Htet Aung",
-          label: "Min Htet Aung",
-        },
-        {
-          value: "Kyaw Soe Ye",
-          label: "Kyaw Soe Ye",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
-        },
-      ],
+      roles: [],
     };
   },
 };
