@@ -1,9 +1,13 @@
 <template>
-  <el-table @row-click="userDetail" stripe :data="tableData" style="width: 100%">
+  <el-table @row-click="userDetail" stripe :data="users" style="width: 100%">
     <el-table-column fixed prop="name" label="Name" width="200"></el-table-column>
     <el-table-column prop="email" label="Email" width="230"></el-table-column>
     <el-table-column prop="phone_number" label="Phone" width="200"></el-table-column>
-    <el-table-column prop="account_status" label="Account Status" width="200"></el-table-column>
+    <el-table-column
+      prop="account_status"
+      label="Account Status"
+      width="200"
+    ></el-table-column>
     <el-table-column prop="nrc" label="NRC" width="200"></el-table-column>
     <el-table-column prop="created_at" label="Created At" width="200"></el-table-column>
     <el-table-column label="Operations" width="120">
@@ -14,36 +18,42 @@
 </template>
 
 <script>
-import {
-  paginationParams,
-  sortingParams,
-  filterParams,
-  filter,
-} from "../../Helper";
+import { paginationParams, sortingParams, filterParams, filter } from "../../Helper";
 import UserRepository from "../../repository/UserRepository";
+import { mapGetters } from "vuex";
+
 export default {
+  data() {
+    return {
+      // users: [],
+      filter: {
+        ...filter([filterParams("<>", "account_status", "Revoke")], "AND"),
+      },
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      users: "uac/getUsers",
+    }),
+  },
+
   methods: {
     userDetail(row) {
       this.$router.push({ name: "UserDetail", params: { id: row.id } });
     },
+
     getUsers: async function (payload) {
       await UserRepository.filterUsers(payload)
         .then((res) => {
-          this.tableData = res.data.data;
+          this.$store.commit("uac/ADD_UAC_DATA", res.data.data);
         })
         .catch((err) => {
           console.log(err);
         });
     },
   },
-  data() {
-    return {
-      tableData: [],
-      filter: {
-        ...filter([filterParams("<>", "account_status", "Revoke")], "AND"),
-      },
-    };
-  },
+
   beforeMount() {
     this.getUsers({
       ...sortingParams("id", "asc"),

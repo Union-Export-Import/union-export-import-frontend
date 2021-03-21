@@ -1,6 +1,8 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+      >Home Page</el-breadcrumb-item
+    >
     <el-breadcrumb-item>User Access Control</el-breadcrumb-item>
   </el-breadcrumb>
 
@@ -16,11 +18,7 @@
         <el-col :span="7">
           <ul class="create-filter">
             <li>
-              <el-button class="create-user-btn" type="primary"
-                ><router-link to="/user-access-control/create"
-                  >New User</router-link
-                ></el-button
-              >
+              <create-btn name="New User" routeName="UserCreate" />
             </li>
             <li>
               <p class="sort-by">
@@ -50,7 +48,7 @@
         <el-col :span="7">
           <ul class="create-filter">
             <li>
-              <el-button class="create-user-btn" type="primary" to="/create">New Role</el-button>
+              <create-btn name="New Role" routeName="UserCreate" />
             </li>
             <li>
               <p class="sort-by">
@@ -67,11 +65,7 @@
           </ul>
         </el-col>
       </el-row>
-      <el-table stripe :data="permissions" style="width: 100%">
-        <el-table-column prop="title" label="Date" width="180"></el-table-column>
-        <el-table-column prop="title" label="Name" width="180"></el-table-column>
-        <el-table-column prop="title" label="Address"></el-table-column>
-      </el-table>
+      <permission-list :data="permissions" />
     </el-tab-pane>
   </el-tabs>
 
@@ -80,12 +74,16 @@
 
 <script>
 import UserList from "@/components/uac/List.vue";
+import PermissionList from "@/components/uac/PermissionList";
 import FilterUser from "@/components/uac/Filter.vue";
+import Createbtn from "@/components/resuable/CreateBtn";
 
 export default {
   components: {
     "user-list": UserList,
+    "permission-list": PermissionList,
     "filter-user": FilterUser,
+    "create-btn": Createbtn,
   },
 
   data() {
@@ -94,6 +92,7 @@ export default {
       drawer: false,
     };
   },
+
   methods: {
     filterBox() {
       console.log(JSON.stringify(this.permissions));

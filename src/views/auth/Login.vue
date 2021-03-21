@@ -16,10 +16,18 @@
             <strong>Admin</strong>
           </p>
           <div class="form-input">
-            <input v-model="email" type="email" placeholder="Please enter your email here" />
+            <input
+              v-model="email"
+              type="email"
+              placeholder="Please enter your email here"
+            />
           </div>
           <div class="form-input">
-            <input v-model="password" type="password" placeholder="Please enter your password here" />
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Please enter your password here"
+            />
           </div>
           <p class="forget-password" @click="dialogVisible = true">Forget Password?</p>
           <el-dialog
@@ -33,12 +41,15 @@
             </div>
             <template #footer>
               <span class="dialog-footer">
-                <el-button class="reset-cancel-button" @click="dialogVisible = false">Cancel</el-button>
+                <el-button class="reset-cancel-button" @click="dialogVisible = false"
+                  >Cancel</el-button
+                >
                 <el-button
                   class="reset-password-button"
                   type="primary"
                   v-on:click="resetPassword"
-                >Submit</el-button>
+                  >Submit</el-button
+                >
               </span>
             </template>
           </el-dialog>
