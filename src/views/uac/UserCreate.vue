@@ -1,7 +1,11 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
-    <el-breadcrumb-item separator-class="el-icon-arrow-right">User Access Control</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+      >Home Page</el-breadcrumb-item
+    >
+    <el-breadcrumb-item separator-class="el-icon-arrow-right"
+      >User Access Control</el-breadcrumb-item
+    >
     <el-breadcrumb-item>User Create</el-breadcrumb-item>
   </el-breadcrumb>
   <el-form
@@ -26,9 +30,14 @@
             filterable
             multiple
             placeholder="Select"
-            style="width:397px;"
+            style="width: 397px"
           >
-            <el-option v-for="item in roles" :key="item.id" :label="item.title" :value="item.id"></el-option>
+            <el-option
+              v-for="item in roles"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -89,11 +98,12 @@ export default {
   methods: {
     async onSubmit() {
       await UserRepository.createUsers(this.newUser)
-        .then(() =>
+        .then((response) => {
+          console.log(response.data);
           this.$router.replace({
             name: "uac",
-          })
-        )
+          });
+        })
         .catch((err) => console.log(err));
     },
     getRoles: async function (payload) {
@@ -117,5 +127,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

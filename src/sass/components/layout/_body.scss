@@ -30,6 +30,11 @@
             background-color: $main_transp_color;
             color: $main_color;
             font-size: 14px;
+            
+            a {
+                text-decoration: none;
+                color: $main_color;
+            }
         }
 
         .sort-by {

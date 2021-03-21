@@ -1,11 +1,61 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
-      <el-breadcrumb-item separator-class="el-icon-arrow-right">User Access Control</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+        >Home Page</el-breadcrumb-item
+      >
+      <el-breadcrumb-item separator-class="el-icon-arrow-right"
+        >User Access Control</el-breadcrumb-item
+      >
       <el-breadcrumb-item>User Detail</el-breadcrumb-item>
     </el-breadcrumb>
+
+    <profile-header v-if="user" :name="user.name" :join_status="join_status" />
+
     <el-row>
+      <el-col :span="16">
+        <profile-detail v-if="user">
+          <div class="profile-detail-info pb-5">
+            <label for="Name">Name</label>
+            <p class="mt-1 font-weight-900">{{ user.name }}</p>
+          </div>
+          <div class="profile-detail-info pb-5">
+            <label for="Company Name">Phone Number</label>
+            <p class="mt-1 font-weight-900">
+              {{ user.phone_number }}
+            </p>
+          </div>
+          <div class="profile-detail-info pb-5">
+            <label for="Email">Email</label>
+            <p class="mt-1 font-weight-900">{{ user.email }}</p>
+          </div>
+          <div class="profile-detail-info pb-5">
+            <label for="NRC">NRC</label>
+            <p class="mt-1 font-weight-900">{{ user.nrc }}</p>
+          </div>
+          <div class="profile-detail-info pb-5">
+            <label for="NRC">NRC</label>
+            <p class="mt-1 font-weight-900">{{ user.nrc }}</p>
+          </div>
+          <div class="profile-detail-info pb-5">
+            <label for="Role">Role</label>
+            <p class="mt-1 font-weight-900">
+              <template v-for="role in user.roles">
+                {{ role.title }}
+              </template>
+            </p>
+          </div>
+        </profile-detail>
+        <div class="manage-btns mt-2">
+          <el-button plain @click="this.$router.push({ name: 'uac' })">BACK</el-button>
+          <el-button class="edit-button">EDIT</el-button>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <log />
+      </el-col>
+    </el-row>
+    <!-- <el-row>
       <el-col :span="2">
         <div class="demo-basic--circle">
           <div class="block">
@@ -68,45 +118,64 @@
       <el-col :span="2">
         <submit-button @click="userEdit" text="Edit"></submit-button>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
 <script>
 import axios from "@/axios";
-import NameCard from "@/components/NameCard.vue";
+// import NameCard from "@/components/NameCard.vue";
 import { tokenHeader, lastItemFromUrl } from "../../Helper";
 import moment from "moment";
-import DeleteButton from "@/components/DeleteButton.vue";
-import SubmitButton from "@/components/SubmitButton.vue";
+// import DeleteButton from "@/components/DeleteButton.vue";
+// import SubmitButton from "@/components/SubmitButton.vue";
 import UserRepository from "../../repository/UserRepository";
+import ProfileHeader from "@/components/resuable/ProfileHeader";
+import ProfileDetail from "@/components/resuable/ProfileDetail.vue";
+import { mapGetters } from "vuex";
+
 export default {
   components: {
-    "name-card": NameCard,
-    "delete-button": DeleteButton,
-    "submit-button": SubmitButton,
+    // "name-card": NameCard,
+    // "delete-button": DeleteButton,
+    // "submit-button": SubmitButton,
+    "profile-header": ProfileHeader,
+    "profile-detail": ProfileDetail,
   },
   data() {
     return {
-      circleUrl:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      user: {},
+      circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
     };
   },
   beforeMount() {
     this.getUserDetail(this.$route.path);
   },
+  computed: {
+    ...mapGetters({
+      user: "uac/getUser",
+    }),
+    join_status() {
+      return moment(this.user.created_at).format("LLL");
+    },
+  },
   methods: {
     getUserDetail: async function (path) {
-      let resp = await axios.get(
-        `/api/users/${lastItemFromUrl(path)}`,
-        tokenHeader(localStorage.getItem("token"))
-      );
-      this.user = resp.data.data;
+      await axios
+        .get(
+          `/api/users/${lastItemFromUrl(path)}`,
+          tokenHeader(localStorage.getItem("token"))
+        )
+        .then((res) => {
+          // console.log(res.data.data);
+          this.$store.commit("uac/ADD_USER", res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    moment: function () {
-      return moment();
-    },
+    // moment: function () {
+    //   return moment();
+    // },
     userDelete: async function () {
       await UserRepository.deleteUser(lastItemFromUrl(this.$route.path))
         .then(() => {
@@ -119,7 +188,10 @@ export default {
         });
     },
     userEdit: function () {
-      this.$router.push({ name: "UserEdit", params: { id: this.user.id } });
+      this.$router.push({
+        name: "UserEdit",
+        params: { id: this.user.id },
+      });
     },
   },
 };
