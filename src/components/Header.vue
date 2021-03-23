@@ -64,13 +64,13 @@ export default {
   computed: {
     ...mapGetters({
       authenticated: "auth/authenticated",
-      user: "auth/user",
-    }),
+      user: "auth/user"
+    })
   },
   methods: {
     handleColapse() {
       this.$store.commit("handleCollapse");
-    },
-  },
+    }
+  }
 };
 </script>

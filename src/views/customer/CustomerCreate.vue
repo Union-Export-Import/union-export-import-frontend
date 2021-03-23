@@ -60,15 +60,15 @@ export default {
         email: "",
         destination: "",
         customer_name: "",
-        fax_number: "",
-      },
+        fax_number: ""
+      }
     };
   },
   methods: {
     Customer() {
       router.push({ path: "/customer" });
-    },
-  },
+    }
+  }
 };
 </script>
 

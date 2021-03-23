@@ -18,10 +18,14 @@
         <el-col :span="7">
           <ul class="create-filter">
             <li>
-               <el-button class="rear_bg " @click="SuplierCreate">New Suplier</el-button>
+              <el-button class="rear_bg " @click="SuplierCreate"
+                >New Suplier</el-button
+              >
             </li>
             <li>
-              <p class="sort-by">sorted by <strong class="sorted">Name</strong></p>
+              <p class="sort-by">
+                sorted by <strong class="sorted">Name</strong>
+              </p>
             </li>
             <li>
               <img
@@ -32,20 +36,20 @@
           </ul>
         </el-col>
       </el-row>
-     <SuplierList />
+      <SuplierList />
     </el-tab-pane>
   </el-tabs>
-  <filter-suplier/>
+  <filter-suplier />
 </template>
 
 <script>
 import SuplierList from "./SuplierList";
 import router from "../../router";
-import FilterSuplier from "../../components/suplier/Filder"
+import FilterSuplier from "../../components/suplier/Filder";
 export default {
   components: {
     SuplierList,
-      "filter-suplier": FilterSuplier,
+    "filter-suplier": FilterSuplier
   },
   data() {
     return {
@@ -53,24 +57,24 @@ export default {
         {
           date: "2016-05-03",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
+          address: "No. 189, Grove St, Los Angeles"
         },
         {
           date: "2016-05-02",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
+          address: "No. 189, Grove St, Los Angeles"
         },
         {
           date: "2016-05-04",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
+          address: "No. 189, Grove St, Los Angeles"
         },
         {
           date: "2016-05-01",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-      ],
+          address: "No. 189, Grove St, Los Angeles"
+        }
+      ]
     };
   },
   methods: {
@@ -80,9 +84,9 @@ export default {
     SuplierCreate() {
       router.push({ name: "SuplierCreate" });
     },
-     filterBox() {
+    filterBox() {
       this.$store.commit("handleSuplierFilterBox");
-    },
-  },
+    }
+  }
 };
 </script>

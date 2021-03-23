@@ -73,13 +73,13 @@ import UserRepository from "../../repository/UserRepository";
 import { paginationParams, sortingParams, filter } from "../../Helper";
 export default {
   components: {
-    "submit-button": SubmitButton,
+    "submit-button": SubmitButton
   },
   computed: {
     ...mapGetters({
       authenticated: "auth/authenticated",
-      user: "auth/user",
-    }),
+      user: "auth/user"
+    })
   },
   data() {
     return {
@@ -90,40 +90,40 @@ export default {
         roles: [],
         address: "",
         phone_number: "",
-        nrc: "",
+        nrc: ""
       },
-      roles: [],
+      roles: []
     };
   },
   methods: {
     async onSubmit() {
       await UserRepository.createUsers(this.newUser)
-        .then((response) => {
+        .then(response => {
           console.log(response.data);
           this.$router.replace({
-            name: "uac",
+            name: "uac"
           });
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     },
-    getRoles: async function (payload) {
+    getRoles: async function(payload) {
       await RoleRepository.filterRoles(payload)
-        .then((res) => {
+        .then(res => {
           this.roles = res.data.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   beforeMount() {
     console.log("hello");
     this.getRoles({
       ...sortingParams("id", "asc"),
       ...paginationParams(1, 10000),
-      ...{ ...filter([], "AND") },
+      ...{ ...filter([], "AND") }
     });
-  },
+  }
 };
 </script>
 

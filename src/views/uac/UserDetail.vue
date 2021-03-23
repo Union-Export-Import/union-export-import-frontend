@@ -47,7 +47,9 @@
           </div>
         </profile-detail>
         <div class="manage-btns mt-2">
-          <el-button plain @click="this.$router.push({ name: 'uac' })">BACK</el-button>
+          <el-button plain @click="this.$router.push({ name: 'uac' })"
+            >BACK</el-button
+          >
           <el-button class="edit-button">EDIT</el-button>
         </div>
       </el-col>
@@ -140,11 +142,12 @@ export default {
     // "delete-button": DeleteButton,
     // "submit-button": SubmitButton,
     "profile-header": ProfileHeader,
-    "profile-detail": ProfileDetail,
+    "profile-detail": ProfileDetail
   },
   data() {
     return {
-      circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      circleUrl:
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
   beforeMount() {
@@ -152,48 +155,48 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: "uac/getUser",
+      user: "uac/getUser"
     }),
     join_status() {
       return moment(this.user.created_at).format("LLL");
-    },
+    }
   },
   methods: {
-    getUserDetail: async function (path) {
+    getUserDetail: async function(path) {
       await axios
         .get(
           `/api/users/${lastItemFromUrl(path)}`,
           tokenHeader(localStorage.getItem("token"))
         )
-        .then((res) => {
+        .then(res => {
           // console.log(res.data.data);
           this.$store.commit("uac/ADD_USER", res.data.data);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     // moment: function () {
     //   return moment();
     // },
-    userDelete: async function () {
+    userDelete: async function() {
       await UserRepository.deleteUser(lastItemFromUrl(this.$route.path))
         .then(() => {
           this.$router.replace({
-            name: "uac",
+            name: "uac"
           });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
-    userEdit: function () {
+    userEdit: function() {
       this.$router.push({
         name: "UserEdit",
-        params: { id: this.user.id },
+        params: { id: this.user.id }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

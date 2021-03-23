@@ -45,9 +45,9 @@ const routes = [
         name: "login",
         component: Login,
         beforeEnter: (to, from, next) => {
-            console.log("*ABC*");
+            // console.log("*ABC*");
             console.log(!store.getters["auth/authenticated"]);
-            console.log("JFIOEJIOFJIO");
+            // console.log("JFIOEJIOFJIO");
             console.log(store.getters["auth/authenticated"]);
             if (store.getters["auth/authenticated"]) {
                 return next({

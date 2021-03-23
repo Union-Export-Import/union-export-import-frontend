@@ -32,7 +32,9 @@
         </div>
         <div class="profile-detail-info pb-5">
           <label for="Supplier Location">Supplier Location</label>
-          <p class="mt-1 font-weight-900">No(42), 31 street, pabedan. Yangon.</p>
+          <p class="mt-1 font-weight-900">
+            No(42), 31 street, pabedan. Yangon.
+          </p>
         </div>
       </profile-detail>
       <div class="manage-btns mt-2">
@@ -55,14 +57,14 @@ export default {
   components: {
     "profile-header": ProfileHeader,
     "profile-detail": ProfileDetail,
-    log: Log,
+    log: Log
   },
 
   data() {
     return {
       name: "lwin Oo",
-      join_status: "Joined 2 years ago",
+      join_status: "Joined 2 years ago"
     };
-  },
+  }
 };
 </script>

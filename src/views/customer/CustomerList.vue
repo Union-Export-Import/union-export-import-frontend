@@ -14,8 +14,10 @@
     <el-table-column prop="fax_number" label="Tel/Fax Number">
     </el-table-column>
     <el-table-column prop="destination" label="Destination"> </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="120">
-      <el-button @click="handleClick" type="text" size="small">Detail</el-button>
+    <el-table-column fixed="right" label="Operations" width="120">
+      <el-button @click="handleClick" type="text" size="small"
+        >Detail</el-button
+      >
       <el-button type="text" size="small">Edit</el-button>
     </el-table-column>
   </el-table>
@@ -32,36 +34,36 @@ export default {
           company_name: "Ethiopia",
           email: "kyawsoeye@gmail.com",
           fax_number: "11-21-2019",
-          destination: "124341",
+          destination: "124341"
         },
         {
           name: "Tomadf",
           company_name: "Ethioapia",
           email: "kyawsoeye12@gmail.com",
           fax_number: "11-21-2019",
-          destination: "124341",
+          destination: "124341"
         },
         {
           name: "Tomsds",
           company_name: "Ethiopia",
           email: "kyawsoeye123@gmail.com",
           fax_number: "11-21-2019",
-          destination: "124341",
+          destination: "124341"
         },
         {
           name: "Ads",
           company_name: "Ethiopia",
           email: "kyawsoeye1@gmail.com",
           fax_number: "11-21-2019",
-          destination: "124341",
-        },
-      ],
+          destination: "124341"
+        }
+      ]
     };
   },
   methods: {
     CustomerEdit() {
       router.push({ path: "/customer/edit" });
-    },
-  },
+    }
+  }
 };
 </script>

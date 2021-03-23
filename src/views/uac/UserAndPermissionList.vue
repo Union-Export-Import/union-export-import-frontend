@@ -83,13 +83,13 @@ export default {
     "user-list": UserList,
     "permission-list": PermissionList,
     "filter-user": FilterUser,
-    "create-btn": Createbtn,
+    "create-btn": Createbtn
   },
 
   data() {
     return {
       permissions: [],
-      drawer: false,
+      drawer: false
     };
   },
 
@@ -97,7 +97,7 @@ export default {
     filterBox() {
       console.log(JSON.stringify(this.permissions));
       this.$store.commit("handleFilterBox");
-    },
-  },
+    }
+  }
 };
 </script>
