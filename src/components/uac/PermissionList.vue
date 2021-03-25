@@ -1,15 +1,10 @@
 <template>
   <el-table stripe :data="roles" style="width: 100%">
-    <el-table-column
-      prop="created_at"
-      label="Date"
-      width="180"
-    ></el-table-column>
+    <el-table-column prop="created_at" label="Date" width="180"></el-table-column>
     <el-table-column prop="title" label="Name" width="180"></el-table-column>
-    <el-table-column
-      prop="arrayToCommaySeperate(permissions)"
-      label="Permissions"
-    ></el-table-column>
+    <el-table-column label="Permissions">
+      <template v-slot="scope">{{getPermissionComma(scope.row.permissions)}}</template>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -17,42 +12,44 @@
 import { paginationParams, sortingParams } from "@/Helper";
 import RoleRepository from "@/repository/RoleRepository";
 import { mapGetters } from "vuex";
+import { filter } from "../../Helper";
 export default {
   props: {
     data: {
       type: Array,
-      required: true
-    }
+      required: true,
+      filter: [],
+    },
   },
   computed: {
     ...mapGetters({
-      roles: "uac/getRoles"
-    })
+      roles: "uac/getRoles",
+    }),
   },
   methods: {
-    getRole: async function(payload) {
+    getRole: async function (payload) {
       await RoleRepository.filterRoles(payload)
-        .then(res => {
+        .then((res) => {
           this.$store.commit("uac/GET_ROLE_DATA", res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
-    arrayToCommaySeperate(permissions) {
-      let comma = "";
-      for (let array = 0; array < permissions.length; array++) {
-        comma.append(permissions[array].permission_name);
-      }
-      return comma;
-    }
+    getPermissionComma(permissions) {
+      return Array.prototype.map
+        .call(permissions, function (item) {
+          return item.permission_name;
+        })
+        .join(", ");
+    },
   },
   beforeMount() {
     this.getRole({
       ...sortingParams("id", "asc"),
-      ...paginationParams(1, 3),
-      ...this.filter
+      ...paginationParams(1, 1),
+      ...filter([], "AND"),
     });
-  }
+  },
 };
 </script>
