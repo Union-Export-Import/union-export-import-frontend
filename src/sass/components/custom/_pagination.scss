@@ -1,0 +1,18 @@
+.el-pagination {
+    button {
+        margin: 0 10px !important;
+        
+        i {
+            text-align: center;
+        }
+    }
+
+    ul {
+        li {
+            margin: 0 10px !important;
+        }
+        .active {
+            background: $main_gradiant_color;
+        }
+    }
+}
