@@ -20,10 +20,16 @@
         </el-col>
       </el-row>
     </el-form-item>
+      <el-form-item>
+    <submit-button @click="filterUser" text="Filter"></submit-button>
     <div class="clear">
       <p @click="clearForm">Clear</p>
     </div>
-    <submit-button @click="filterUser" text="Filter"></submit-button>
+  </el-form-item>
+    <!-- <div class="clear">
+      <p @click="clearForm">Clear</p>
+    </div>
+    <submit-button @click="filterUser" text="Filter"></submit-button> -->
   </main-filter>
 </template>
 
@@ -36,7 +42,8 @@ import {
   filterParams,
   filter,
 } from "../../Helper";
-import axios from "@/axios";
+// import axios from "@/axios";
+import UserRepository from "../../repository/UserRepository";
 export default {
   components: {
     "main-filter": MainFilter,
@@ -61,13 +68,12 @@ export default {
       console.log("clear");
     },
     getUsers: async function (payload) {
-      const headers = {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      };
-
+      // const headers = {
+      //   Authorization: `Bearer ${localStorage.getItem("token")}`,
+      // };
+  console.log('pay',payload)
       console.log("usersss");
-      await axios
-        .post("/api/users/query", payload, { headers })
+     await UserRepository.filterUsers(payload)
         .then((response) => {
           console.log(response.data.data);
           this.tableData = response.data.data;
@@ -94,13 +100,13 @@ export default {
 
       console.log(JSON.stringify(nameParams.data));
       const mappedData = [
-        ...nameParams,
-        ...phoneNumberParams,
-        ...emailParams,
-        ...createAtParams,
-        ...updatedAtParams,
+        {...nameParams},
+        {...phoneNumberParams},
+        {...emailParams},
+        {...createAtParams},
+        {...updatedAtParams},
       ];
-      console.log(mappedData);
+      // console.log(mappedData);
 
       this.getUsers({
         ...sortingParams("id", "asc"),
