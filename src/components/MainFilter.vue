@@ -3,6 +3,7 @@
     :model-value="checkOpen"
     :direction="direction"
     :before-close="filterBoxClose"
+    label-width="33%"
   >
     <el-form
       :label-position="labelPosition"

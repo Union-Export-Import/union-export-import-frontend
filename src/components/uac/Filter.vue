@@ -12,29 +12,42 @@
     <el-form-item label="Creation Date">
       <el-row>
         <el-col :span="11">
-          <el-input v-model="form.created_at"></el-input>
+          <el-date-picker
+            style="width:100%"       
+      v-model="form.created_at"
+      type="date"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD">
+    </el-date-picker>
         </el-col>
         <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-input v-model="form.updated_at"></el-input>
+        <el-col :span="11" >
+               <el-date-picker
+       style="width:100%"       
+      v-model="form.updated_a"
+      type="date"
+      label-width="33%"
+      placeholder="Pick a Date"
+      format="YYYY/MM/DD">
+      </el-date-picker>
         </el-col>
       </el-row>
     </el-form-item>
-      <el-form-item>
+      <!-- <el-form-item>
     <submit-button @click="filterUser" text="Filter"></submit-button>
     <div class="clear">
       <p @click="clearForm">Clear</p>
     </div>
-  </el-form-item>
-    <!-- <div class="clear">
+  </el-form-item> -->
+    <div class="clear">
       <p @click="clearForm">Clear</p>
     </div>
-    <submit-button @click="filterUser" text="Filter"></submit-button> -->
+    <el-button class="submit_button">Filter</el-button>
   </main-filter>
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
+// import SubmitButton from "@/components/SubmitButton.vue";
 import MainFilter from "../MainFilter";
 import {
   paginationParams,
@@ -47,7 +60,7 @@ import UserRepository from "../../repository/UserRepository";
 export default {
   components: {
     "main-filter": MainFilter,
-    "submit-button": SubmitButton,
+    // "submit-button": SubmitButton,
   },
   data() {
     return {
@@ -100,11 +113,11 @@ export default {
 
       console.log(JSON.stringify(nameParams.data));
       const mappedData = [
-        {...nameParams},
-        {...phoneNumberParams},
-        {...emailParams},
-        {...createAtParams},
-        {...updatedAtParams},
+        ...nameParams,
+        ...phoneNumberParams,
+        ...emailParams,
+        ...createAtParams,
+        ...updatedAtParams,
       ];
       // console.log(mappedData);
 
