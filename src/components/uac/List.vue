@@ -1,5 +1,12 @@
 <template>
-  <el-table @row-click="userDetail" stripe :data="users" style="width: 100%">
+  <el-table
+    @row-click="userDetail"
+    v-loading="loading"
+    stripe
+    :data="data"
+    style="width: 100%"
+    @header-click="headerClick"
+  >
     <el-table-column fixed prop="name" label="Name" width="200"></el-table-column>
     <el-table-column prop="email" label="Email" width="230"></el-table-column>
     <el-table-column prop="phone_number" label="Phone" width="200"></el-table-column>
@@ -18,48 +25,26 @@
 </template>
 
 <script>
-import { paginationParams, sortingParams, filterParams, filter } from "../../Helper";
-import UserRepository from "../../repository/UserRepository";
-import { mapGetters } from "vuex";
-
 export default {
-  data() {
-    return {
-      // users: [],
-      filter: {
-        ...filter([filterParams("<>", "account_status", "Revoke")], "AND"),
-      },
-    };
-  },
-
-  computed: {
-    ...mapGetters({
-      users: "uac/getUsers",
-    }),
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   methods: {
     userDetail(row) {
       this.$router.push({ name: "UserDetail", params: { id: row.id } });
     },
-
-    getUsers: async function (payload) {
-      await UserRepository.filterUsers(payload)
-        .then((res) => {
-          this.$store.commit("uac/ADD_UAC_DATA", res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    headerClick(column, e) {
+      console.log(column, e);
+      this.$emit("headerClick", column.property);
     },
-  },
-
-  beforeMount() {
-    this.getUsers({
-      ...sortingParams("id", "asc"),
-      ...paginationParams(1, 10000),
-      ...this.filter,
-    });
   },
 };
 </script>

@@ -6,6 +6,7 @@ const state = {
 const mutations = {
     ADD_UAC_DATA: (state, data) => {
         state.users = data;
+        console.log(state.users);
     },
     ADD_USER: (state, data) => {
         state.user = data;

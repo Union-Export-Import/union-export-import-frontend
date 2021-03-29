@@ -67,14 +67,14 @@ const routes = [
         path: "/user-access-control",
         name: "uac",
         component: UAC,
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters["auth/authenticated"]) {
-        //         return next({
-        //             name: "login",
-        //         });
-        //     }
-        //     next();
-        // },
+        beforeEnter: (to, from, next) => {
+            if (!store.getters["auth/authenticated"]) {
+                return next({
+                    name: "login",
+                });
+            }
+            next();
+        },
     },
     {
         path: "/user-access-control/create",
