@@ -4,6 +4,7 @@
     :direction="direction"
     :before-close="filterBoxClose"
     label-width="33%"
+    @closeFilterSlider="filterBoxClose"
   >
     <el-form
       :label-position="labelPosition"
@@ -37,8 +38,9 @@ export default {
   },
   methods: {
     filterBoxClose() {
+      console.log("z")
       this.$store.commit("handleFilterBox");
-    },
+    }
   },
 };
 </script>

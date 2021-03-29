@@ -95,7 +95,7 @@ export default {
         .then((response) => {
           console.log(response.data.data);
           this.tableData = response.data.data;
-          this.$store.commit("uac/ADD_UAC_DATA", response.data.data);
+          this.$store.commit("uac/ADD_UAC_DATA", response.data);
           this.$emit("closeFilterSlider", false);
         })
         .catch((e) => {
@@ -147,7 +147,7 @@ export default {
 
       this.getUsers({
         ...sortingParams("id", "asc"),
-        ...paginationParams(1, 20),
+        ...paginationParams(1, 10),
         ...filter(filterMap, "AND"),
       });
     },

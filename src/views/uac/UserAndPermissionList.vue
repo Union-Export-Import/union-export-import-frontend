@@ -11,7 +11,7 @@
       <template #label>
         <span>Users</span>
       </template>
-      <template v-if="users && users.data.length > 0">
+      <template v-if="users">
         <el-row>
           <el-col :span="17">
             <p class="pagi-info">
