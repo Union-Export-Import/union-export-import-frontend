@@ -1,7 +1,7 @@
 var axios = require("axios");
 
 var axiosInstance = axios.create({
-  baseURL: "http://localhost:70",
+  baseURL: process.env.VUE_APP_BASE_URL,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
