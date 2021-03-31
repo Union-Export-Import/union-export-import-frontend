@@ -29,7 +29,9 @@
               placeholder="Please enter your password here"
             />
           </div>
-          <p class="forget-password" @click="dialogVisible = true">Forget Password?</p>
+          <p class="forget-password" @click="dialogVisible = true">
+            Forget Password?
+          </p>
           <el-dialog
             title="Reset Password"
             v-model="dialogVisible"
@@ -37,11 +39,16 @@
             :before-close="handleClose"
           >
             <div class="form-input">
-              <input v-model="reset_email" placeholder="Please enter your email here" />
+              <input
+                v-model="reset_email"
+                placeholder="Please enter your email here"
+              />
             </div>
             <template #footer>
               <span class="dialog-footer">
-                <el-button class="reset-cancel-button" @click="dialogVisible = false"
+                <el-button
+                  class="reset-cancel-button"
+                  @click="dialogVisible = false"
                   >Cancel</el-button
                 >
                 <el-button
@@ -53,7 +60,9 @@
               </span>
             </template>
           </el-dialog>
-          <button v-on:click="doLogin" class="login-button">LOGIN</button>
+          <button v-on:click="doLogin" class="login-button" v-loading="loading">
+            LOGIN
+          </button>
         </div>
       </el-col>
     </el-row>
@@ -69,46 +78,46 @@ export default {
   computed: {
     ...mapGetters({
       authenticated: "auth/authenticated",
-      user: "auth/user",
-    }),
+      user: "auth/user"
+    })
   },
   data() {
     return {
       email: null,
       password: null,
       dialogVisible: false,
-      reset_email: null,
+      reset_email: null
     };
   },
   methods: {
     ...mapActions({
-      login: "auth/login",
+      login: "auth/login"
     }),
 
     successMessage(title, message) {
       this.$notify({
         title: title,
         message: message,
-        type: "success",
+        type: "success"
       });
     },
     errorMessage() {
       this.$notify.error({
         title: "Error",
-        message: "Something went wrong",
+        message: "Something went wrong"
       });
     },
 
     doLogin() {
       let credentials = {
         email: this.email,
-        password: this.password,
+        password: this.password
       };
 
       this.login(credentials)
         .then(() => {
-          this.$router.replace({
-            name: "home",
+          this.$router.push({
+            name: "home"
           });
         })
         .catch(() => {
@@ -117,10 +126,10 @@ export default {
     },
     resetPassword() {
       let request = {
-        email: this.reset_email,
+        email: this.reset_email
       };
       this.dialogVisible = false;
-      axios.post("/api/forget-password", request).then((response) => {
+      axios.post("/api/forget-password", request).then(response => {
         console.log(response.data);
         // return dispatch("attempt", response.data.data.token);
         if (response.data.message == "success") {
@@ -132,7 +141,7 @@ export default {
     },
     handleClose() {
       this.dialogVisible = false;
-    },
-  },
+    }
+  }
 };
 </script>

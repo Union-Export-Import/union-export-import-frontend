@@ -7,7 +7,7 @@ store.subscribe(mutation => {
       if (mutation.payload) {
         console.log("saved token");
         try {
-          axios.interceptors.request.use(function(config) {
+          axios.interceptors.request.use(function (config) {
             config.headers.Authorization = `Bearer ${mutation.payload}`;
             return config;
           });
@@ -16,7 +16,7 @@ store.subscribe(mutation => {
           console.log("Failed");
         }
       } else {
-        axios.interceptors.request.use(function(config) {
+        axios.interceptors.request.use(function (config) {
           config.headers.Authorization = null;
           return config;
         });

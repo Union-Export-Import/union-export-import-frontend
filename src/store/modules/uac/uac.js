@@ -1,22 +1,25 @@
 const state = {
     users: null,
     user: null,
+    roles: null
 };
 
 const mutations = {
     ADD_UAC_DATA: (state, data) => {
         state.users = data;
-        console.log(state.users);
     },
     ADD_USER: (state, data) => {
         state.user = data;
-        console.log(state.user);
     },
+    ADD_ROLE_DATA: (state, data) => {
+        state.roles = data
+    }
 };
 
 const getters = {
     getUsers: (state) => state.users,
     getUser: (state) => state.user,
+    getRoles: (state) => state.roles
 };
 
 export default {

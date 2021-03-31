@@ -2,7 +2,6 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <p>
-      {{ user }}
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
         >vue-cli documentation</a
       >.
@@ -16,14 +15,14 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters({
-      authenticated: 'auth/authenticated',
-      user: 'auth/user'
+      authenticated: "auth/authenticated",
+      user: "auth/user"
     })
   },
   name: "HelloWorld",
   props: {
-    msg: String,
-  },
+    msg: String
+  }
 };
 </script>
 

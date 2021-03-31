@@ -34,13 +34,13 @@ import {
   paginationParams,
   sortingParams,
   filterParams,
-  filter,
+  filter
 } from "../../Helper";
 import axios from "@/axios";
 export default {
   components: {
     "main-filter": MainFilter,
-    "submit-button": SubmitButton,
+    "submit-button": SubmitButton
   },
   data() {
     return {
@@ -51,8 +51,8 @@ export default {
         phone_number: "",
         email: "",
         created_at: "",
-        updated_at: "",
-      },
+        updated_at: ""
+      }
     };
   },
 
@@ -60,19 +60,19 @@ export default {
     clearForm() {
       console.log("clear");
     },
-    getUsers: async function (payload) {
+    getUsers: async function(payload) {
       const headers = {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`
       };
 
       console.log("usersss");
       await axios
         .post("/api/users/query", payload, { headers })
-        .then((response) => {
+        .then(response => {
           console.log(response.data.data);
           this.tableData = response.data.data;
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
         });
     },
@@ -98,16 +98,16 @@ export default {
         ...phoneNumberParams,
         ...emailParams,
         ...createAtParams,
-        ...updatedAtParams,
+        ...updatedAtParams
       ];
       console.log(mappedData);
 
       this.getUsers({
         ...sortingParams("id", "asc"),
         ...paginationParams(1, 20),
-        ...filter(mappedData, "AND"),
+        ...filter(mappedData, "AND")
       });
-    },
-  },
+    }
+  }
 };
 </script>
