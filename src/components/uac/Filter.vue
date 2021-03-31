@@ -62,7 +62,7 @@ import UserRepository from "../../repository/UserRepository";
 export default {
   components: {
     "main-filter": MainFilter
-    // "submit-button": SubmitButton,
+    // "submit-button": SubmitButton
   },
   data() {
     return {
@@ -73,7 +73,9 @@ export default {
         phone_number: "",
         email: "",
         start_created_at: "",
-        end_created_at: ""
+        end_created_at: "",
+        created_at: "",
+        updated_at: ""
       },
       loading: false
     };
