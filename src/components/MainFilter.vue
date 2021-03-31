@@ -22,25 +22,24 @@ export default {
   props: {
     header: {
       default: "Header",
-      type: String,
-    },
+      type: String
+    }
   },
   data() {
     return {
       labelPosition: "top",
-      direction: "rtl",
+      direction: "rtl"
     };
   },
   computed: {
     checkOpen() {
       return this.$store.getters.filterOpen;
-    },
+    }
   },
   methods: {
     filterBoxClose() {
-      console.log("z")
       this.$store.commit("handleFilterBox");
     }
-  },
+  }
 };
 </script>
