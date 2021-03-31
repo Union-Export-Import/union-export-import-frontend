@@ -1,28 +1,41 @@
 .form-filter {
-    padding: 1em 2.5em;
+  padding: 1em 2.5em;
+  height: 86%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: auto;
 
-    .filter-button {
-        @include large-button($main_gradiant_color, $white)
-    }
-
-    .clear p {
-        text-align: right;
-        @include font-style(14px, #ff0000);
-        margin: 20px 0;
-        cursor: pointer;
-    }
-
-    .line {
-        text-align: center;
-    }
+  .filter-button {
+    @include large-button($main_gradiant_color, $white);
+  }
+  .date {
+    width: 60%;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+  }
+  .clear p {
+    text-align: right;
+    @include font-style(14px, #ff0000);
+    // margin: 20px 0;
+    cursor: pointer;
+  }
+  .submit_button {
+    width: 114%;
+    background-image: linear-gradient(to right, #8ff379, #1cbdb4);
+  }
+  .line {
+    text-align: center;
+  }
 }
 
 .el-drawer__header {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .el-drawer__open .el-drawer.rtl {
-    &:focus {
-        outline: none;
-    }
+  &:focus {
+    outline: none;
+  }
 }

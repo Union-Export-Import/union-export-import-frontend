@@ -3,6 +3,8 @@
     :model-value="checkOpen"
     :direction="direction"
     :before-close="filterBoxClose"
+    label-width="33%"
+    @closeFilterSlider="filterBoxClose"
   >
     <el-form
       :label-position="labelPosition"
@@ -20,24 +22,24 @@ export default {
   props: {
     header: {
       default: "Header",
-      type: String,
-    },
+      type: String
+    }
   },
   data() {
     return {
       labelPosition: "top",
-      direction: "rtl",
+      direction: "rtl"
     };
   },
   computed: {
     checkOpen() {
       return this.$store.getters.filterOpen;
-    },
+    }
   },
   methods: {
     filterBoxClose() {
       this.$store.commit("handleFilterBox");
-    },
-  },
+    }
+  }
 };
 </script>
