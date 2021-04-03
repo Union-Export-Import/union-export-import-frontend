@@ -42,7 +42,7 @@
     <div class="clear">
       <p @click="clearForm">Clear</p>
     </div>
-    <el-button @click="filterUser" class="submit_button" v-loading="loading"
+    <el-button @click="filterUser" class="filter-button" v-loading="loading"
       >Filter</el-button
     >
   </main-filter>
@@ -56,9 +56,9 @@ import {
   sortingParams,
   filterParams,
   filter
-} from "../../Helper";
+} from "@/Helper";
 // import axios from "@/axios";
-import UserRepository from "../../repository/UserRepository";
+import UserRepository from "@/repository/UserRepository";
 export default {
   components: {
     "main-filter": MainFilter
@@ -93,7 +93,6 @@ export default {
     getUsers: async function(payload) {
       await UserRepository.filterUsers(payload)
         .then(response => {
-          // this.tableData = response.data.data;
           this.$store.commit("uac/ADD_UAC_DATA", response.data);
           this.$store.commit("handleFilterBox");
           this.loading = false;
@@ -144,8 +143,6 @@ export default {
           filterMap.push(element);
         }
       });
-      // console.log(mappedData);
-
       this.getUsers({
         ...sortingParams("id", "asc"),
         ...paginationParams(1, 10),

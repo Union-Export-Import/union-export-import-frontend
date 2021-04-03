@@ -1,7 +1,11 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
-    <el-breadcrumb-item separator-class="el-icon-arrow-right">User Access Control</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+      >Home Page</el-breadcrumb-item
+    >
+    <el-breadcrumb-item separator-class="el-icon-arrow-right"
+      >User Access Control</el-breadcrumb-item
+    >
     <el-breadcrumb-item>User Edit</el-breadcrumb-item>
   </el-breadcrumb>
   <el-form
@@ -27,7 +31,12 @@
             placeholder="Select"
             style="width:397px;"
           >
-            <el-option v-for="item in roles" :key="item.id" :label="item.title" :value="item.id"></el-option>
+            <el-option
+              v-for="item in roles"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -59,38 +68,38 @@ import {
   lastItemFromUrl,
   sortingParams,
   paginationParams,
-  filter,
-} from "../../Helper";
-import UserRepository from "../../repository/UserRepository";
-import RoleRepository from "../../repository/RoleRepository";
+  filter
+} from "@/Helper";
+import UserRepository from "@/repository/UserRepository";
+import RoleRepository from "@/repository/RoleRepository";
 export default {
   beforeMount() {
     this.getUserDetail(this.$route.path);
     this.getRoles({
       ...sortingParams("id", "asc"),
       ...paginationParams(1, 10000),
-      ...{ ...filter([], "AND") },
+      ...{ ...filter([], "AND") }
     });
   },
   methods: {
-    getRoles: async function (payload) {
+    getRoles: async function(payload) {
       await RoleRepository.filterRoles(payload)
-        .then((res) => {
+        .then(res => {
           this.roles = res.data.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
-    getUserDetail: async function (path) {
-      await UserRepository.getUserById(lastItemFromUrl(path)).then((resp) => {
+    getUserDetail: async function(path) {
+      await UserRepository.getUserById(lastItemFromUrl(path)).then(resp => {
         this.form = resp.data.data;
-        this.form.roles = resp.data.data.roles.map(function (role) {
+        this.form.roles = resp.data.data.roles.map(function(role) {
           return role.id;
         });
       });
     },
-    userUpdate: async function () {
+    userUpdate: async function() {
       this.payload.name = this.form.name;
       this.payload.email = this.form.email;
       this.payload.email_verified_at = this.form.email_verified_at;
@@ -105,13 +114,13 @@ export default {
       )
         .then(() => {
           this.$router.replace({
-            name: "uac",
+            name: "uac"
           });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   data() {
     return {
@@ -122,7 +131,7 @@ export default {
         roles: "",
         address: "",
         phone_number: "",
-        nrc: "",
+        nrc: ""
       },
       payload: {
         name: null,
@@ -131,11 +140,11 @@ export default {
         nrc: null,
         phone_number: null,
         account_status: null,
-        roles: null,
+        roles: null
       },
-      roles: [],
+      roles: []
     };
-  },
+  }
 };
 </script>
 

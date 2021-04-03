@@ -9,7 +9,12 @@
   <el-tabs type="card" @tab-click="handleClick">
     <el-tab-pane>
       <template #label>
-        <span><i class="M271.029,0c-33.091,0-61,27.909-61,61s27.909,61,61,61s60-27.909,60-61S304.12,0,271.029,0z"></i> Customer</span>
+        <span
+          ><i
+            class="M271.029,0c-33.091,0-61,27.909-61,61s27.909,61,61,61s60-27.909,60-61S304.12,0,271.029,0z"
+          ></i>
+          Customer</span
+        >
       </template>
       <el-row>
         <el-col :span="17">
@@ -18,10 +23,14 @@
         <el-col :span="7">
           <ul class="create-filter">
             <li>
-               <el-button class="rear_bg " @click="CustomerCreate">New Customer</el-button>
+              <el-button class="rear_bg " @click="CustomerCreate"
+                >New Customer</el-button
+              >
             </li>
             <li>
-              <p class="sort-by">sorted by <strong class="sorted">Name</strong></p>
+              <p class="sort-by">
+                sorted by <strong class="sorted">Name</strong>
+              </p>
             </li>
             <li>
               <img
@@ -32,20 +41,20 @@
           </ul>
         </el-col>
       </el-row>
-     <CustomerList />
+      <CustomerList />
     </el-tab-pane>
   </el-tabs>
-  <filter-customer/>
+  <filter-customer />
 </template>
 
 <script>
 import CustomerList from "./CustomerList";
 import router from "../../router";
- import FilterCustomer from "@/components/customer/Filter.vue";
+import FilterCustomer from "@/components/customer/Filter.vue";
 export default {
   components: {
     CustomerList,
-      "filter-customer": FilterCustomer,
+    "filter-customer": FilterCustomer
   },
   data() {
     return {
@@ -53,24 +62,24 @@ export default {
         {
           date: "2016-05-03",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
+          address: "No. 189, Grove St, Los Angeles"
         },
         {
           date: "2016-05-02",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
+          address: "No. 189, Grove St, Los Angeles"
         },
         {
           date: "2016-05-04",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
+          address: "No. 189, Grove St, Los Angeles"
         },
         {
           date: "2016-05-01",
           name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-        },
-      ],
+          address: "No. 189, Grove St, Los Angeles"
+        }
+      ]
     };
   },
   methods: {
@@ -80,9 +89,9 @@ export default {
     CustomerCreate() {
       router.push({ name: "CustomerCreate" });
     },
-     filterBox() {
+    filterBox() {
       this.$store.commit("handleCustomerFilterBox");
-    },
-  },
+    }
+  }
 };
 </script>
