@@ -19,10 +19,10 @@
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
-          <el-input v-model="newUser.name"></el-input>
+          <el-input v-model="newUser.name" type="text"></el-input>
         </el-form-item>
         <el-form-item label="Email">
-          <el-input v-model="newUser.email"></el-input>
+          <el-input v-model="newUser.email" type="email"></el-input>
         </el-form-item>
         <el-form-item label="Role">
           <el-select
@@ -115,6 +115,7 @@ export default {
         })
         .catch(err => {
           this.open2(err.message, "error");
+          this.loading = false;
           console.log(err);
         });
     },
