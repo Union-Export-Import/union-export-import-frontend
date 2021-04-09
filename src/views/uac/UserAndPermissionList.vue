@@ -1,8 +1,6 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
-      >Home Page</el-breadcrumb-item
-    >
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
     <el-breadcrumb-item>User Access Control</el-breadcrumb-item>
   </el-breadcrumb>
 
@@ -133,7 +131,7 @@ export default {
     "permission-list": PermissionList,
     "filter-user": FilterUser,
     "role-filter": RoleFilter,
-    "create-btn": Createbtn
+    "create-btn": Createbtn,
   },
 
   data() {
@@ -141,9 +139,9 @@ export default {
       permissions: [],
       sortBy: {
         key: "id",
-        type: "desc"
+        type: "desc",
       },
-      loading: false
+      loading: false,
     };
   },
 
@@ -151,20 +149,20 @@ export default {
     this.getUsers({
       ...sortingParams(this.sortBy.key, this.sortBy.type),
       ...paginationParams(1, 10),
-      ...filter([], "AND")
+      ...filter([], "AND"),
     });
     this.getRoles({
       ...sortingParams(this.sortBy.key, this.sortBy.type),
       ...paginationParams(1, 10),
-      ...filter([], "AND")
+      ...filter([], "AND"),
     });
   },
 
   computed: {
     ...mapGetters({
       users: "uac/getUsers",
-      roles: "uac/getRoles"
-    })
+      roles: "uac/getRoles",
+    }),
   },
 
   methods: {
@@ -174,29 +172,29 @@ export default {
     filterRole() {
       this.$store.commit("HANDLE_ROLE_FILTER_BOX");
     },
-    getUsers: async function(payload) {
+    getUsers: async function (payload) {
       this.loading = true;
       await UserRepository.filterUsers(payload)
-        .then(res => {
+        .then((res) => {
           this.$store.commit("uac/ADD_UAC_DATA", res.data);
           NProgress.done();
           this.loading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.open2(err.message, "error");
           NProgress.done();
           this.loading = false;
         });
     },
-    getRoles: async function(payload) {
+    getRoles: async function (payload) {
       this.loading = true;
       await RoleRepository.filterRoles(payload)
-        .then(res => {
+        .then((res) => {
           this.$store.commit("uac/ADD_ROLE_DATA", res.data);
           NProgress.done();
           this.loading = false;
         })
-        .catch(err => {
+        .catch((err) => {
           this.open2(err.message, "error");
           NProgress.done();
           this.loading = false;
@@ -207,14 +205,14 @@ export default {
       this.getUsers({
         ...sortingParams(this.sortBy.key, this.sortBy.type),
         ...paginationParams(pageNo, 10),
-        ...filter([], "AND")
+        ...filter([], "AND"),
       });
     },
     RolePagiClick(pageNo) {
       this.getRoles({
         ...sortingParams(this.sortBy.key, this.sortBy.type),
         ...paginationParams(pageNo, 10),
-        ...filter([], "AND")
+        ...filter([], "AND"),
       });
     },
 
@@ -225,13 +223,13 @@ export default {
           this.getUsers({
             ...sortingParams(this.sortBy.key, this.sortBy.type),
             ...paginationParams(1, 10),
-            ...filter([], "AND")
+            ...filter([], "AND"),
           });
         } else {
           this.getUsers({
             ...sortingParams(this.sortBy.key, this.sortBy.type),
             ...paginationParams(1, 10),
-            ...filter([], "AND")
+            ...filter([], "AND"),
           });
         }
       } else {
@@ -239,7 +237,7 @@ export default {
         this.getUsers({
           ...sortingParams(this.sortBy.key, this.sortBy.type),
           ...paginationParams(1, 10),
-          ...filter([], "AND")
+          ...filter([], "AND"),
         });
       }
     },
@@ -250,13 +248,13 @@ export default {
           this.getRoles({
             ...sortingParams(this.sortBy.key, this.sortBy.type),
             ...paginationParams(1, 10),
-            ...filter([], "AND")
+            ...filter([], "AND"),
           });
         } else {
           this.getRoles({
             ...sortingParams(this.sortBy.key, this.sortBy.type),
             ...paginationParams(1, 10),
-            ...filter([], "AND")
+            ...filter([], "AND"),
           });
         }
       } else {
@@ -265,7 +263,7 @@ export default {
         this.getRoles({
           ...sortingParams(this.sortBy.key, this.sortBy.type),
           ...paginationParams(1, 10),
-          ...filter([], "AND")
+          ...filter([], "AND"),
         });
       }
     },
@@ -273,9 +271,9 @@ export default {
       this.$message({
         showClose: true,
         message: message,
-        type: type
+        type: type,
       });
-    }
-  }
+    },
+  },
 };
 </script>

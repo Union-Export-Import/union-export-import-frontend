@@ -21,195 +21,202 @@ const SuplierDetail = () => import("@/views/suplier/SuplierDetail.vue");
 const ChangePassword = () => import("@/views/auth/ChangePassword");
 const RoleCreate = () => import("@/views/role/Create.vue");
 const routes = [
-    {
-        path: "/",
-        name: "home",
-        component: Home,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters["auth/authenticated"]) {
-                return next({
-                    name: "login",
-                });
-            } else if (
-                store.getters["auth/authenticated"].account_status == "Init"
-            ) {
-                return next({
-                    name: "change-password",
-                });
-            }
+  {
+    path: "/",
+    name: "home",
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      } else if (store.getters["auth/authenticated"].account_status == "Init") {
+        return next({
+          name: "change-password",
+        });
+      }
 
-            next();
-        },
+      next();
     },
-    {
-        path: "/login",
-        name: "login",
-        component: Login,
-        beforeEnter: (to, from, next) => {
-            if (store.getters["auth/authenticated"]) {
-                return next({
-                    name: "home",
-                });
-            }
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if (store.getters["auth/authenticated"]) {
+        return next({
+          name: "home",
+        });
+      }
 
-            next();
-        },
+      next();
     },
-    {
-        path: "/change-password",
-        name: "change-password",
-        component: ChangePassword,
+  },
+  {
+    path: "/change-password",
+    name: "change-password",
+    component: ChangePassword,
+  },
+  {
+    path: "/user-access-control",
+    name: "uac",
+    component: UAC,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
     },
-    {
-        path: "/user-access-control",
-        name: "uac",
-        component: UAC,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters["auth/authenticated"]) {
-                return next({
-                    name: "login",
-                });
-            }
-            next();
-        },
+  },
+  {
+    path: "/user-access-control/create",
+    name: "UserCreate",
+    component: UserCreate,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
     },
-    {
-        path: "/user-access-control/create",
-        name: "UserCreate",
-        component: UserCreate,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters["auth/authenticated"]) {
-                return next({
-                    name: "login",
-                });
-            }
-            next();
-        },
+  },
+  {
+    path: "/user-access-control/edit/:id",
+    name: "UserEdit",
+    component: UserEdit,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
     },
-    {
-        path: "/user-access-control/edit/:id",
-        name: "UserEdit",
-        component: UserEdit,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters["auth/authenticated"]) {
-                return next({
-                    name: "login",
-                });
-            }
-            next();
-        },
+  },
+  {
+    path: "/user-access-control/detail/:id",
+    name: "UserDetail",
+    component: UserDetail,
+    // beforeEnter: (to, from, next) => {
+    //     if (!store.getters["auth/authenticated"]) {
+    //         return next({
+    //             name: "login",
+    //         });
+    //     }
+    //     next();
+    // },
+  },
+  {
+    path: "/product",
+    name: "product",
+    component: Product,
+  },
+  {
+    path: "/warehouse",
+    name: "warehouse",
+    component: Warehouse,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
     },
-    {
-        path: "/user-access-control/detail/:id",
-        name: "UserDetail",
-        component: UserDetail,
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters["auth/authenticated"]) {
-        //         return next({
-        //             name: "login",
-        //         });
-        //     }
-        //     next();
-        // },
+  },
+  {
+    path: "/warehouse/create",
+    name: "AssetCreate",
+    component: AssetCreate,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
     },
-    {
-        path: "/product",
-        name: "product",
-        component: Product,
+  },
+  {
+    path: "/sale",
+    name: "sale",
+    component: Sale,
+  },
+  {
+    path: "/customer",
+    name: "Customer",
+    component: Customer,
+  },
+  {
+    path: "/customer/create",
+    name: "CustomerCreate",
+    component: CustomerCreate,
+  },
+  {
+    path: "/customer/edit",
+    name: "CustomerEdit",
+    component: CustomerEdit,
+  },
+  {
+    path: "/supplier",
+    name: "Suplier",
+    component: Suplier,
+  },
+  {
+    path: "/supplier/create",
+    name: "SuplierCreate",
+    component: SuplierCreate,
+  },
+  {
+    path: "/supplier/edit",
+    name: "SuplierEdit",
+    component: SuplierEdit,
+  },
+  {
+    path: "/supplier/show/:id",
+    name: "SuplierDetail",
+    component: SuplierDetail,
+  },
+  {
+    path: "/roles/create",
+    name: "RoleCreate",
+    component: RoleCreate,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
     },
-    {
-        path: "/warehouse",
-        name: "warehouse",
-        component: Warehouse,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters["auth/authenticated"]) {
-                return next({
-                    name: "login",
-                });
-            }
-            next();
-        },
-    },
-    {
-        path: "/warehouse/create",
-        name: "AssetCreate",
-        component: AssetCreate,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters["auth/authenticated"]) {
-                return next({
-                    name: "login",
-                });
-            }
-            next();
-        },
-    },
-    {
-        path: "/sale",
-        name: "sale",
-        component: Sale,
-    },
-    {
-        path: "/customer",
-        name: "Customer",
-        component: Customer,
-    },
-    {
-        path: "/customer/create",
-        name: "CustomerCreate",
-        component: CustomerCreate,
-    },
-    {
-        path: "/customer/edit",
-        name: "CustomerEdit",
-        component: CustomerEdit,
-    },
-    {
-        path: "/supplier",
-        name: "Suplier",
-        component: Suplier,
-    },
-    {
-        path: "/supplier/create",
-        name: "SuplierCreate",
-        component: SuplierCreate,
-    },
-    {
-        path: "/supplier/edit",
-        name: "SuplierEdit",
-        component: SuplierEdit,
-    },
-    {
-        path: "/supplier/show/:id",
-        name: "SuplierDetail",
-        component: SuplierDetail,
-    },
-    {
-        path: "/roles/create",
-        name: "RoleCreate",
-        component: RoleCreate,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters["auth/authenticated"]) {
-                return next({
-                    name: "login",
-                });
-            }
-            next();
-        },
-    },
-    {
-        path: "/about",
-        name: "About",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import(/* webpackChunkName: "about" */ "../views/About.vue"),
-    },
+  },
+  {
+    path: "/about",
+    name: "About",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/messenger",
+    name: "Messenger",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/messenger/index.vue"),
+  },
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes,
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
 });
 
 export default router;
