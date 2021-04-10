@@ -1,6 +1,6 @@
 <template>
   <div class="conversation-item">
-    <el-row>
+    <el-row :data="data">
       <el-col :span="4">
         <el-image
           style="width: 58px; height: 58px"
@@ -9,10 +9,21 @@
         ></el-image>
       </el-col>
       <el-col :span="16">
-        <div>Aung Myo Oo</div>
+        <div>
+          <slot name="child-component" :item="message.username"></slot>
+        </div>
         <div>You: Hey nice to see you</div>
       </el-col>
       <el-col :span="4">11:11AM</el-col>
     </el-row>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    message: {
+      type: Object,
+    },
+  },
+};
+</script>

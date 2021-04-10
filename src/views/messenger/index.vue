@@ -11,7 +11,7 @@
                 <template #label>
                   <span>Messages</span>
                 </template>
-                <conversation-item />
+                <conversation-list />
               </el-tab-pane>
               <el-tab-pane>
                 <template #label>
@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import ConversationItem from "../../components/messenger/ConversationItem";
+import ConversationList from "../../components/messenger/ConversationList";
 export default {
   components: {
-    "conversation-item": ConversationItem,
+    "conversation-list": ConversationList,
   },
 };
 </script>
