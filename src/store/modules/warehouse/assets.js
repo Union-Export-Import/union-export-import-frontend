@@ -3,6 +3,7 @@ import { paginationParams, sortingParams, filter } from "@/Helper";
 export const namespaced = true;
 export const state = {
     assets: null,
+    asset: null,
     asset_types: null,
     sortBy: {
         key: "id",
@@ -15,6 +16,9 @@ export const state = {
 export const mutations = {
     SET_ASSETS(state, assets) {
         state.assets = assets
+    },
+    SET_ASSET(state, asset) {
+        state.asset = asset
     },
     SET_ASSET_TYPES(state, asset_types) {
         state.asset_types = asset_types
@@ -82,16 +86,32 @@ export const actions = {
                 commit('SORT_TYPE', 'asc')
                 dispatch('getAssets')
                 commit('STOP_LOADING')
-
             }
         } else {
             state.sortBy.key = column;
             dispatch('getAssets')
             commit('STOP_LOADING')
-
         }
     },
+    getAsset({ commit, getters }, id) {
+        const asset = getters.getAssetById(id)
+        if (asset) {
+            console.log("Asset", asset);
+            commit('SET_ASSET', asset)
+        } else {
+            AssetService.getAsset(id).then(res => {
+                console.log("COme here", res.data.data);
+                commit('SET_ASSET', res.data.data)
+            }).catch(e => {
+                console.log(e);
+            })
+        }
+    }
 }
 export const getters = {
     filterAssetOpen: (state) => state.open,
+    getAsset: (state) => state.asset,
+    getAssetById: state => id => {
+        return state.assets.data.find(asset => asset.id == id)
+    }
 }

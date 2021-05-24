@@ -16,4 +16,7 @@ export default {
     createAsset(payload) {
         return axios.post(`${resource}`, payload, headers);
     },
+    getAsset(id) {
+        return axios.get(`${resource}/${id}`, headers)
+    }
 };

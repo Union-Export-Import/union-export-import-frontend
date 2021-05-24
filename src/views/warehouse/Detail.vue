@@ -10,44 +10,18 @@
       <el-breadcrumb-item>User Detail</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <profile-header v-if="user" :name="user.name" :join_status="join_status" />
+    <!-- <profile-header v-if="user" :name="user.name" :join_status="join_status" /> -->
 
     <el-row v-loading="loading">
       <el-col :span="16">
-        <profile-detail v-if="user">
+        <profile-detail v-if="asset">
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ user.name }}</p>
-          </div>
-          <div class="profile-detail-info pb-5">
-            <label for="Company Name">Phone Number</label>
-            <p class="mt-1 font-weight-900">
-              {{ user.phone_number }}
-            </p>
-          </div>
-          <div class="profile-detail-info pb-5">
-            <label for="Email">Email</label>
-            <p class="mt-1 font-weight-900">{{ user.email }}</p>
-          </div>
-          <div class="profile-detail-info pb-5">
-            <label for="Email">Account Status</label>
-            <p class="mt-1 font-weight-900">{{ user.account_status }}</p>
-          </div>
-          <div class="profile-detail-info pb-5">
-            <label for="NRC">NRC</label>
-            <p class="mt-1 font-weight-900">{{ user.nrc }}</p>
-          </div>
-          <div class="profile-detail-info pb-5">
-            <label for="Role">Role</label>
-            <p class="mt-1 font-weight-900">
-              <template v-for="role in user.roles">
-                {{ role.title }}
-              </template>
-            </p>
+            <p class="mt-1 font-weight-900">{{ asset.asset_name }}</p>
           </div>
         </profile-detail>
         <div class="manage-btns mt-2">
-          <el-button plain @click="this.$router.push({ name: 'uac' })"
+          <el-button plain @click="this.$router.push({ name: 'warehouse' })"
             >BACK</el-button
           >
           <el-button class="edit-button">EDIT</el-button>
@@ -125,23 +99,24 @@
 </template>
 
 <script>
-import axios from "@/axios";
+// import axios from "@/axios";
 // import NameCard from "@/components/NameCard.vue";
-import { tokenHeader, lastItemFromUrl } from "../../Helper";
-import moment from "moment";
+// import { tokenHeader, lastItemFromUrl } from "../../Helper";
+// import moment from "moment";
 // import DeleteButton from "@/components/DeleteButton.vue";
 // import SubmitButton from "@/components/SubmitButton.vue";
-import UserRepository from "../../repository/UserRepository";
-import ProfileHeader from "@/components/resuable/ProfileHeader";
+// import UserRepository from "../../repository/UserRepository";
+// import ProfileHeader from "@/components/resuable/ProfileHeader";
 import ProfileDetail from "@/components/resuable/ProfileDetail.vue";
 import { mapGetters } from "vuex";
 
 export default {
+  props: ["id"],
   components: {
     // "name-card": NameCard,
     // "delete-button": DeleteButton,
     // "submit-button": SubmitButton,
-    "profile-header": ProfileHeader,
+    // "profile-header": ProfileHeader,
     "profile-detail": ProfileDetail
   },
   data() {
@@ -152,55 +127,17 @@ export default {
     };
   },
   beforeMount() {
-    this.getUserDetail(this.$route.path);
+    this.$store.dispatch("warehouse/getAsset", this.$route.params.id);
   },
   computed: {
     ...mapGetters({
-      user: "uac/getUser"
-    }),
-    join_status() {
-      return moment(this.user.created_at).format("LLL");
-    }
+      asset: "warehouse/getAsset"
+    })
+    // join_status() {
+    //   return moment(this.user.created_at).format("LLL");
+    // }
   },
-  methods: {
-    getUserDetail: async function(path) {
-      this.loading = true;
-      await axios
-        .get(
-          `/api/users/${lastItemFromUrl(path)}`,
-          tokenHeader(localStorage.getItem("token"))
-        )
-        .then(res => {
-          // console.log(res.data.data);
-          this.$store.commit("uac/ADD_USER", res.data.data);
-          this.loading = false;
-        })
-        .catch(err => {
-          console.log(err);
-          this.loading = false;
-        });
-    },
-    // moment: function () {
-    //   return moment();
-    // },
-    userDelete: async function() {
-      await UserRepository.deleteUser(lastItemFromUrl(this.$route.path))
-        .then(() => {
-          this.$router.replace({
-            name: "uac"
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    userEdit: function() {
-      this.$router.push({
-        name: "UserEdit",
-        params: { id: this.user.id }
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 

@@ -5,8 +5,17 @@
     v-loading="loading"
     @header-click="assetHeaderClick"
   >
+    <el-table-column type="index" :index="indexMethod"> </el-table-column>
     <el-table-column prop="created_at" label="Date" sortable> </el-table-column>
     <el-table-column prop="asset_name" label="Name" sortable> </el-table-column>
+    <el-table-column fixed="right" label="Operations" width="120">
+      <template #default="scope">
+        <el-button @click="handleClick(scope.row.id)" type="text" size="small"
+          >Detail</el-button
+        >
+        <el-button type="text" size="small">Edit</el-button>
+      </template>
+    </el-table-column>
     <!-- <el-table-column prop="address" label="Address"> </el-table-column> -->
   </el-table>
 </template>
@@ -24,6 +33,9 @@ export default {
   methods: {
     assetHeaderClick(column) {
       this.$emit("asset-header-click", column.property);
+    },
+    handleClick(id) {
+      this.$router.push({ name: "AssetDetail", params: { id: id } });
     }
   }
 };

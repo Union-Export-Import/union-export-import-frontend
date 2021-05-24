@@ -131,7 +131,7 @@ export default {
           });
         })
         .catch(() => {
-          console.log("Error");
+          this.open2("error", "Error");
         });
     },
     resetPassword() {

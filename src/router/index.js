@@ -5,6 +5,7 @@ const Login = () => import("@/views/auth/Login.vue");
 const UAC = () => import("@/views/uac/UserAndPermissionList.vue");
 const Warehouse = () => import("@/views/warehouse/Index.vue");
 const AssetCreate = () => import("@/views/warehouse/Create.vue");
+const AssetDetail = () => import("@/views/warehouse/Detail.vue");
 const Sale = () => import("@/views/sale/Index.vue");
 const Product = () => import("@/views/product/Index.vue");
 const Customer = () => import("@/views/customer/Customer.vue");
@@ -134,6 +135,20 @@ const routes = [
         path: "/warehouse/create",
         name: "AssetCreate",
         component: AssetCreate,
+        beforeEnter: (to, from, next) => {
+            if (!store.getters["auth/authenticated"]) {
+                return next({
+                    name: "login",
+                });
+            }
+            next();
+        },
+    },
+    {
+        path: "/warehouse/:id",
+        name: "AssetDetail",
+        props: true,
+        component: AssetDetail,
         beforeEnter: (to, from, next) => {
             if (!store.getters["auth/authenticated"]) {
                 return next({
