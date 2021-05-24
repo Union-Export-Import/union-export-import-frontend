@@ -4,6 +4,7 @@ const Home = () => import("@/views/Home.vue");
 const Login = () => import("@/views/auth/Login.vue");
 const UAC = () => import("@/views/uac/UserAndPermissionList.vue");
 const Warehouse = () => import("@/views/warehouse/Index.vue");
+const AssetCreate = () => import("@/views/warehouse/Create.vue");
 const Sale = () => import("@/views/sale/Index.vue");
 const Product = () => import("@/views/product/Index.vue");
 const UserCreate = () => import("@/views/uac/UserCreate.vue");
@@ -50,7 +51,6 @@ const routes = [
           name: "home",
         });
       }
-
       next();
     },
   },
@@ -76,6 +76,19 @@ const routes = [
     path: "/user-access-control/create",
     name: "UserCreate",
     component: UserCreate,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
+    },
+  },
+  {
+    path: "/warehouse/create",
+    name: "AssetCreate",
+    component: AssetCreate,
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({

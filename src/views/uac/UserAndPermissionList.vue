@@ -13,13 +13,13 @@
       </template>
       <template v-if="users">
         <el-row>
-          <el-col :span="17">
+          <el-col :span="14">
             <p class="pagi-info">
               Total {{ users.meta.total }} items, current page
               {{ users.meta.current_page }}
             </p>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="10">
             <ul class="create-filter">
               <li>
                 <create-btn name="New User" routeName="UserCreate" />
@@ -62,13 +62,13 @@
       </template>
       <template v-if="roles">
         <el-row>
-          <el-col :span="17">
+          <el-col :span="14">
             <p class="pagi-info">
               Total {{ roles.meta.total }} items, current page
               {{ roles.meta.current_page }}
             </p>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="10">
             <ul class="create-filter">
               <li>
                 <create-btn name="New Role" routeName="RoleCreate" />
@@ -81,7 +81,7 @@
               </li>
               <li>
                 <img
-                  @click="filterBox"
+                  @click="filterRole"
                   src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDQ1OSA0NTkiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoJPGcgaWQ9ImZpbHRlciI+CgkJPHBhdGggZD0iTTE3OC41LDM4Mi41aDEwMnYtNTFoLTEwMlYzODIuNXogTTAsNzYuNXY1MWg0NTl2LTUxSDB6IE03Ni41LDI1NWgzMDZ2LTUxaC0zMDZWMjU1eiIgZmlsbD0iIzAwMDAwMDgwIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIiBjbGFzcz0iIj48L3BhdGg+Cgk8L2c+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPC9nPjwvc3ZnPg=="
                 />
               </li>
@@ -108,7 +108,7 @@
       ></el-pagination>
     </el-tab-pane>
   </el-tabs>
-
+  <role-filter />
   <filter-user />
 </template>
 
@@ -116,6 +116,7 @@
 import UserList from "@/components/uac/List.vue";
 import PermissionList from "@/components/uac/PermissionList";
 import FilterUser from "@/components/uac/Filter.vue";
+import RoleFilter from "@/components/uac/RoleFilter.vue";
 import Createbtn from "@/components/resuable/CreateBtn";
 import { paginationParams, sortingParams, filter } from "@/Helper";
 import UserRepository from "@/repository/UserRepository";
@@ -131,13 +132,13 @@ export default {
     "user-list": UserList,
     "permission-list": PermissionList,
     "filter-user": FilterUser,
+    "role-filter": RoleFilter,
     "create-btn": Createbtn
   },
 
   data() {
     return {
       permissions: [],
-      drawer: false,
       sortBy: {
         key: "id",
         type: "desc"
@@ -170,7 +171,9 @@ export default {
     filterBox() {
       this.$store.commit("handleFilterBox");
     },
-
+    filterRole() {
+      this.$store.commit("HANDLE_ROLE_FILTER_BOX");
+    },
     getUsers: async function(payload) {
       this.loading = true;
       await UserRepository.filterUsers(payload)
@@ -180,7 +183,7 @@ export default {
           this.loading = false;
         })
         .catch(err => {
-          this.open2(err);
+          this.open2(err.message, "error");
           NProgress.done();
           this.loading = false;
         });
@@ -194,7 +197,7 @@ export default {
           this.loading = false;
         })
         .catch(err => {
-          this.open2(err);
+          this.open2(err.message, "error");
           NProgress.done();
           this.loading = false;
         });
@@ -241,7 +244,6 @@ export default {
       }
     },
     sortRoles(column) {
-      console.log(column);
       if (this.sortBy.key == column) {
         if (this.sortBy.type == "asc") {
           this.sortBy.type = "desc";
@@ -267,11 +269,11 @@ export default {
         });
       }
     },
-    open2(error) {
+    open2(message, type) {
       this.$message({
         showClose: true,
-        message: error.message,
-        type: "error"
+        message: message,
+        type: type
       });
     }
   }

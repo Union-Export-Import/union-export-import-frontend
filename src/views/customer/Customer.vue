@@ -56,6 +56,7 @@
     </el-tab-pane>
   </el-tabs>
 
+
   <filter-customer />
 </template>
 
@@ -129,7 +130,6 @@ export default {
         ...filter([], "AND"),
       });
     },
-
     sortCustomers(column) {
       if (this.sortBy.key === column) {
         if (this.sortBy.type == "asc") {

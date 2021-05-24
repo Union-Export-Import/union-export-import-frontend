@@ -6,6 +6,9 @@ import handleSuplierFilterBox from "./modules/suplier/handler_filter";
 import uac from "./modules/uac/uac";
 import customer from "./modules/customer/customer";
 import handleCustomerFilterBox from "./modules/customer/handle_filter";
+import handleRoleFilterBox from "./modules/uac/role_filter";
+import handleAssetFilterBox from "./modules/warehouse/asset_filter";
+import * as warehouse from "@/store/modules/warehouse/assets";
 
 export default createStore({
   state: {},
@@ -13,12 +16,14 @@ export default createStore({
   actions: {},
   modules: {
     handleSidebar,
+    handleFilterBox,
+    handleCustomerFilterBox,
+    handleRoleFilterBox,
     handleSuplierFilterBox,
     auth,
     uac,
-    handleFilterBox,
     customer,
-    handleCustomerFilterBox,
-
+    warehouse,
+    handleAssetFilterBox
   },
 });

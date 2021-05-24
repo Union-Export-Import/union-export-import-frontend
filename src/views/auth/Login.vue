@@ -86,14 +86,21 @@ export default {
       email: null,
       password: null,
       dialogVisible: false,
-      reset_email: null
+      reset_email: null,
+      loading: false
     };
   },
   methods: {
     ...mapActions({
       login: "auth/login"
     }),
-
+    open2(message, type) {
+      this.$message({
+        showClose: true,
+        message: message,
+        type: type
+      });
+    },
     successMessage(title, message) {
       this.$notify({
         title: title,
@@ -109,6 +116,7 @@ export default {
     },
 
     doLogin() {
+      this.loading = true;
       let credentials = {
         email: this.email,
         password: this.password
@@ -116,6 +124,8 @@ export default {
 
       this.login(credentials)
         .then(() => {
+          this.loading = false;
+          this.open2("success", "success");
           this.$router.push({
             name: "home"
           });
