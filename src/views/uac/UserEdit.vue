@@ -47,9 +47,6 @@
         <el-form-item label="NRC">
           <el-input v-model="form.nrc"></el-input>
         </el-form-item>
-        <el-form-item label="Address">
-          <el-input type="textarea" v-model="form.address"></el-input>
-        </el-form-item>
       </el-col>
     </el-row>
     <el-row>
@@ -129,7 +126,6 @@ export default {
         name: "",
         email: "",
         roles: "",
-        address: "",
         phone_number: "",
         nrc: ""
       },
@@ -149,15 +145,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .form-body {
-//   background-color: #f4f4f4;
-//   color: #1cbdb4;
-// }
-// .user-title{
-//   padding: 8px;
-//   color: #1cbdb4;
-// }
-// label{
-//   color:#1cbdb4;
-// }
 </style>
