@@ -51,7 +51,7 @@
     </el-row>
     <el-row>
       <el-col :span="2" :offset="17">
-        <el-button type="text" class="cancel_button">Cancel</el-button>
+        <el-button @click="onCancelClick" type="text" class="cancel_button">Cancel</el-button>
       </el-col>
       <el-col :span="2">
         <el-button @click="userUpdate" class="submit_button">SUMMIT</el-button>
@@ -79,6 +79,11 @@ export default {
     });
   },
   methods: {
+    onCancelClick() {
+      this.$router.push({
+        name: "uac"
+      });
+    },
     getRoles: async function(payload) {
       await RoleRepository.filterRoles(payload)
         .then(res => {
