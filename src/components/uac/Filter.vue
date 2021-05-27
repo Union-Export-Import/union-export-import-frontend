@@ -33,18 +33,7 @@
         </el-col>
       </el-row>
     </el-form-item>
-    <!-- <el-form-item>
-    <submit-button @click="filterUser" text="Filter"></submit-button>
-    <div class="clear">
-      <p @click="clearForm">Clear</p>
-    </div>
-    </el-form-item>-->
-    <div class="clear">
-      <p @click="clearForm">Clear</p>
-    </div>
-    <el-button @click="filterUser" class="filter-button" v-loading="loading"
-      >Filter</el-button
-    >
+    <el-button @click="filterUser" class="filter-button" v-loading="loading">Filter</el-button>
   </main-filter>
 </template>
 
@@ -55,13 +44,13 @@ import {
   paginationParams,
   sortingParams,
   filterParams,
-  filter
+  filter,
 } from "@/Helper";
 // import axios from "@/axios";
 import UserRepository from "@/repository/UserRepository";
 export default {
   components: {
-    "main-filter": MainFilter
+    "main-filter": MainFilter,
     // "submit-button": SubmitButton
   },
   data() {
@@ -75,29 +64,26 @@ export default {
         start_created_at: "",
         end_created_at: "",
         created_at: "",
-        updated_at: ""
+        updated_at: "",
       },
-      loading: false
+      loading: false,
     };
   },
   methods: {
-    clearForm() {
-      console.log("clear");
-    },
     formatDate(newDate) {
       let date = new Date(newDate);
       return (
         date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
       );
     },
-    getUsers: async function(payload) {
+    getUsers: async function (payload) {
       await UserRepository.filterUsers(payload)
-        .then(response => {
+        .then((response) => {
           this.$store.commit("uac/ADD_UAC_DATA", response.data);
           this.$store.commit("handleFilterBox");
           this.loading = false;
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
         });
     },
@@ -108,7 +94,7 @@ export default {
         phone_number,
         email,
         start_created_at,
-        end_created_at
+        end_created_at,
       } = this.form;
       const nameParams = name
         ? filterParams("LIKE", "name", `%${name}%`)
@@ -135,10 +121,10 @@ export default {
         { ...phoneNumberParams },
         { ...emailParams },
         { ...createAtParams },
-        { ...updatedAtParams }
+        { ...updatedAtParams },
       ];
       let filterMap = [];
-      mappedData.forEach(function(element) {
+      mappedData.forEach(function (element) {
         if (Object.keys(element).length != 0) {
           filterMap.push(element);
         }
@@ -146,9 +132,9 @@ export default {
       this.getUsers({
         ...sortingParams("id", "asc"),
         ...paginationParams(1, 10),
-        ...filter(filterMap, "AND")
+        ...filter(filterMap, "AND"),
       });
-    }
-  }
+    },
+  },
 };
 </script>

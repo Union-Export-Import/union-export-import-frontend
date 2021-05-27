@@ -48,9 +48,6 @@
         <el-form-item label="NRC">
           <el-input v-model="newUser.nrc"></el-input>
         </el-form-item>
-        <el-form-item label="Address">
-          <el-input type="textarea" v-model="newUser.address"></el-input>
-        </el-form-item>
       </el-col>
     </el-row>
     <el-row>
@@ -94,7 +91,6 @@ export default {
         name: "",
         email: "",
         roles: [],
-        address: "",
         phone_number: "",
         nrc: ""
       },
