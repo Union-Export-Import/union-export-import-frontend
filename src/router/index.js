@@ -16,10 +16,10 @@ const UserCreate = () => import("@/views/uac/UserCreate.vue");
 const UserEdit = () => import("@/views/uac/UserEdit.vue");
 const UserDetail = () => import("@/views/uac/UserDetail.vue");
 
-const Customer = () => import("@/views/customer/Customer.vue");
-const CustomerCreate = () => import("@/views/customer/CustomerCreate.vue");
-const CustomerEdit = () => import("@/views/customer/CustomerEdit.vue");
-const CustomerDetail = () => import("@/views/customer/CustomerDetail.vue");
+const Customer = () => import("@/views/customer/Index.vue");
+const CustomerCreate = () => import("@/views/customer/Create.vue");
+const CustomerEdit = () => import("@/views/customer/Edit.vue");
+const CustomerDetail = () => import("@/views/customer/Detail.vue");
 
 const Suplier = () => import("@/views/suplier/Suplier.vue");
 const SuplierCreate = () => import("@/views/suplier/SuplierCreate.vue");
@@ -234,7 +234,7 @@ const routes = [
     component: CustomerCreate
   },
   {
-    path: "/customer/edit",
+    path: "/customer/edit/:id",
     name: "CustomerEdit",
     component: CustomerEdit
   },

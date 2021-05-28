@@ -1,8 +1,9 @@
 <template>
   <el-drawer
-    :model-value="checkOpen"
+    :model-value="customerFilterOpen"
     :direction="direction"
     :before-close="filterBoxClose"
+    @closeFilterSlider="filterBoxClose"
   >
     <el-form
       :label-position="labelPosition"
@@ -13,61 +14,151 @@
       <el-form-item label="Name">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="Phone Number">
-        <el-input v-model="form.fax_number"></el-input>
+      <el-form-item label="Company Name">
+        <el-input v-model="form.company_name"></el-input>
+      </el-form-item>
+      <el-form-item label="Address">
+        <el-input v-model="form.address"></el-input>
       </el-form-item>
       <el-form-item label="Email">
         <el-input v-model="form.email"></el-input>
       </el-form-item>
-      <el-form-item label="Creation Date">
-        <el-row>
-          <el-col :span="11">
-            <el-input v-model="form.startData"></el-input>
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-input v-model="form.endDate"></el-input>
-          </el-col>
-        </el-row>
+      <el-form-item label="Phone Number">
+        <el-input v-model="form.phone_number"></el-input>
+      </el-form-item>
+      <el-form-item label="Bank Account">
+        <el-input v-model="form.bank_acc"></el-input>
+      </el-form-item>
+      <el-form-item label="Remark">
+        <el-input v-model="form.remark"></el-input>
       </el-form-item>
       <div class="clear">
         <p @click="clearForm">Clear</p>
       </div>
-      <button class="filter-button">Filter</button>
+      <el-button
+        @click="filterCustomers"
+        class="filter-button"
+        v-loading="loading"
+        >Filter</el-button
+      >
     </el-form>
   </el-drawer>
 </template>
 
 <script>
+import {
+  paginationParams,
+  sortingParams,
+  filterParams,
+  filter
+} from "@/Helper";
+// import axios from "@/axios";
+import filterService from "@/services/customer/CustomerService";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
       labelPosition: "top",
       direction: "rtl",
       form: {
-        name: "",
-        email:"",
-        fax_number:"",
-        startDate:"",
-        endDate:"",
-        date1: "",
-        date2: "",
+        customer_name: "",
+        email: ""
       },
+      loading: false
     };
   },
 
   computed: {
-    checkOpen() {
-      return this.$store.getters.filterCustomerOpen;
-    },
+    ...mapState(["customer"]),
+    customerFilterOpen() {
+      return this.customer.open;
+    }
   },
 
   methods: {
+    ...mapMutations("customer", [
+      "SET_CUSTOMERS",
+      "HANDLE_CUSTOMER_FILTER_BOX"
+    ]),
     filterBoxClose() {
-      this.$store.commit("handleCustomerFilterBox");
+      this.HANDLE_CUSTOMER_FILTER_BOX();
     },
     clearForm() {
+      console.log("Clear Form");
     },
-  },
+    getCustomers: async function(payload) {
+      await filterService
+        .filterCustomers(payload)
+        .then(response => {
+          this.SET_CUSTOMERS(response.data);
+          this.HANDLE_CUSTOMER_FILTER_BOX();
+          this.loading = false;
+        })
+        .catch(e => {
+          this.open2(e.message, "error");
+          this.loading = false;
+        });
+    },
+    filterCustomers() {
+      this.loading = true;
+      const {
+        name,
+        company_name,
+        address,
+        email,
+        phone_number,
+        bank_acc,
+        remark
+      } = this.form;
+      const customerNameParams = name
+        ? filterParams("LIKE", "name", `%${name}%`)
+        : null;
+      const companyNameParams = company_name
+        ? filterParams("LIKE", "company_name", `%${company_name}%`)
+        : null;
+      const addressParams = address
+        ? filterParams("LIKE", "address", `%${address}%`)
+        : null;
+      const emailParams = email
+        ? filterParams("LIKE", "email", `%${email}%`)
+        : null;
+      const phoneNumberParams = phone_number
+        ? filterParams("LIKE", "phone_number", `%${phone_number}%`)
+        : null;
+      const bankAccParams = bank_acc
+        ? filterParams("LIKE", "bank_acc", `%${bank_acc}%`)
+        : null;
+      const remarkParams = remark
+        ? filterParams("LIKE", "remark", `%${remark}%`)
+        : null;
+      const mappedData = [
+        { ...customerNameParams },
+        { ...companyNameParams },
+        { ...addressParams },
+        { ...emailParams },
+        { ...phoneNumberParams },
+        { ...bankAccParams },
+        { ...remarkParams }
+      ];
+      let filterMap = [];
+      mappedData.forEach(function(element) {
+        if (Object.keys(element).length != 0) {
+          filterMap.push(element);
+        }
+      });
+      this.getCustomers({
+        ...sortingParams("id", "asc"),
+        ...paginationParams(1, 10),
+        ...filter(filterMap, "AND")
+      });
+    },
+    open2(message, type) {
+      this.$message({
+        showClose: true,
+        message: message,
+        type: type
+      });
+    }
+  }
 };
 </script>

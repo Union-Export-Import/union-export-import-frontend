@@ -1,19 +1,19 @@
 const state = {
-  open: false,
+  open: false
 };
 
 const mutations = {
-  handleFilterBox: (state) => {
+  HANDLE_CUSTOMER_FILTER_BOX(state) {
     state.open = !state.open;
-  },
+  }
 };
 
 const getters = {
-  customerFilterOpen: (state) => state.open,
+  customerFilterOpen: state => state.open
 };
 
 export default {
   state,
   mutations,
-  getters,
+  getters
 };

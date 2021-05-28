@@ -1,8 +1,8 @@
 import axios from "@/axios";
 
-const resource = "/api/customers";
+const resource = "/api/cust";
 const headers = {
-  Authorization: `Bearer ${localStorage.getItem("token")}`,
+  Authorization: `Bearer ${localStorage.getItem("token")}`
 };
 
 export default {
@@ -14,7 +14,7 @@ export default {
     return axios.post(`${resource}`, payload, headers);
   },
 
-  getCustomerById(id) {
+  getCustomer(id) {
     return axios.get(`${resource}/${id}`, headers);
   },
 
@@ -24,5 +24,5 @@ export default {
 
   deleteCustomer(id) {
     return axios.delete(`${resource}/${id}`, headers);
-  },
+  }
 };
