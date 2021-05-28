@@ -1,26 +1,25 @@
 <template>
   <el-drawer
-    :model-value="assetFilterOpen"
+    :model-value="assetTypeFilterOpen"
     :direction="direction"
     :before-close="filterBoxClose"
-    @closeFilterSlider="filterBoxClose"
   >
     <el-form
       :label-position="labelPosition"
       label-width="100px"
       class="form-filter custom-form-input"
     >
-      <h1 class="form-header">Asset Filter</h1>
+      <h1 class="form-header">Asset Type Filter</h1>
       <el-form-item label="Name">
-        <el-input v-model="form.asset_name"></el-input>
-      </el-form-item>
-      <el-form-item label="Email">
-        <el-input v-model="form.email"></el-input>
+        <el-input v-model="form.asset_type"></el-input>
       </el-form-item>
       <div class="clear">
         <p @click="clearForm">Clear</p>
       </div>
-      <el-button @click="filterAssets" class="filter-button" v-loading="loading"
+      <el-button
+        @click="filterAssetType"
+        class="filter-button"
+        v-loading="loading"
         >Filter</el-button
       >
     </el-form>
@@ -35,7 +34,7 @@ import {
   filter
 } from "@/Helper";
 // import axios from "@/axios";
-import filterService from "@/services/assets/AssetService";
+import AssetTypeService from "@/services/asset_type/AssetTypeService";
 import { mapState, mapMutations } from "vuex";
 export default {
   data() {
@@ -43,34 +42,32 @@ export default {
       labelPosition: "top",
       direction: "rtl",
       form: {
-        asset_name: "",
-        email: ""
+        asset_type: ""
       },
       loading: false
     };
   },
 
   computed: {
-    ...mapState(["warehouse"]),
-    assetFilterOpen() {
-      return this.warehouse.open;
+    ...mapState(["assetType"]),
+    assetTypeFilterOpen() {
+      return this.assetType.open;
     }
   },
 
   methods: {
-    ...mapMutations("warehouse", ["SET_ASSETS", "HANDLE_ASSET_FILTER_BOX"]),
+    ...mapMutations("assetType", ["SET_ASSET_TYPES", "ASSET_TYPE_FILTER_BOX"]),
     filterBoxClose() {
-      this.HANDLE_ASSET_FILTER_BOX();
+      this.ASSET_TYPE_FILTER_BOX();
     },
     clearForm() {
       console.log("Clear Form");
     },
-    getAssets: async function(payload) {
-      await filterService
-        .filterAssets(payload)
+    getAssetType: async function(payload) {
+      await AssetTypeService.filterAssetType(payload)
         .then(response => {
-          this.SET_ASSETS(response.data);
-          this.HANDLE_ASSET_FILTER_BOX();
+          this.SET_ASSET_TYPES(response.data);
+          this.ASSET_TYPE_FILTER_BOX();
           this.loading = false;
         })
         .catch(e => {
@@ -78,23 +75,20 @@ export default {
           this.loading = false;
         });
     },
-    filterAssets() {
+    filterAssetType() {
       this.loading = true;
-      const { asset_name, email } = this.form;
-      const assetNameParams = asset_name
-        ? filterParams("LIKE", "asset_name", `%${asset_name}%`)
+      const { asset_type } = this.form;
+      const assetTypeParams = asset_type
+        ? filterParams("LIKE", "asset_type", `%${asset_type}%`)
         : null;
-      const emailParams = email
-        ? filterParams("LIKE", "email", `%${email}%`)
-        : null;
-      const mappedData = [{ ...assetNameParams }, { ...emailParams }];
+      const mappedData = [{ ...assetTypeParams }];
       let filterMap = [];
       mappedData.forEach(function(element) {
         if (Object.keys(element).length != 0) {
           filterMap.push(element);
         }
       });
-      this.getAssets({
+      this.getAssetType({
         ...sortingParams("id", "asc"),
         ...paginationParams(1, 10),
         ...filter(filterMap, "AND")

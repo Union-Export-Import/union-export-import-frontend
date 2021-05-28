@@ -3,13 +3,14 @@ const state = {
 };
 
 const mutations = {
-  handleCustomerFilterBox: (state) => {
+  handleFilterBox: (state) => {
+    console.log("*********")
     state.open = !state.open;
   },
 };
 
 const getters = {
-  filterCustomerOpen: (state) => state.open,
+  customerFilterOpen: (state) => state.open,
 };
 
 export default {

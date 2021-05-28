@@ -1,25 +1,20 @@
 import axios from "@/axios";
-
-const resource = "/api/assets";
-const asset_type_resource = "/api/asset_types";
+const resource = "/api/asset_types";
 const headers = {
   Authorization: `Bearer ${localStorage.getItem("token")}`
 };
 
 export default {
-  filterAssets(payload) {
+  filterAssetType(payload) {
     return axios.post(`${resource}/query`, payload, headers);
   },
-  filterAssetTypes(payload) {
-    return axios.post(`${asset_type_resource}/query`, payload, headers);
-  },
-  createAsset(payload) {
+  createAssetType(payload) {
     return axios.post(`${resource}`, payload, headers);
   },
   updateAsset(payload, id) {
     return axios.put(`${resource}/${id}`, payload, headers);
   },
-  getAsset(id) {
+  getAssetType(id) {
     return axios.get(`${resource}/${id}`, headers);
   }
 };

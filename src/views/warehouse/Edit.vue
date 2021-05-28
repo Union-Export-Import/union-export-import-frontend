@@ -14,7 +14,7 @@
     :model="formLabelAlign"
     class="form-body"
   >
-    <h1 :span="3" class="user-title">Create New Asset</h1>
+    <h1 :span="3" class="user-title">Edit Asset</h1>
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
@@ -32,6 +32,7 @@
             <el-option
               v-for="item in assetType.asset_types.data"
               :key="item.id"
+              :selected="item.id == form.asset_type_id"
               :label="item.asset_type"
               :value="item.id"
             ></el-option>
@@ -47,7 +48,7 @@
       </el-col>
       <el-col :span="2">
         <el-button class="submit_button" @click="onSubmit" v-loading="loading"
-          >SUMMIT</el-button
+          >Update</el-button
         >
       </el-col>
     </el-row>
@@ -59,8 +60,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    // ...mapState(["warehouse"]),
-    ...mapState(["assetType"])
+    ...mapState(["warehouse", "assetType"])
   },
   data() {
     return {
@@ -73,17 +73,24 @@ export default {
     };
   },
   beforeMount() {
+    this.getAsset(this.$route.params.id);
     this.getAssetTypes();
   },
+  mounted() {
+    this.form = this.warehouse.asset;
+  },
   methods: {
-    ...mapActions("warehouse", ["createAsset"]),
+    ...mapActions("warehouse", ["updateAsset", "getAsset"]),
     ...mapActions("assetType", ["getAssetTypes"]),
     Back() {
       this.$router.push({ name: "warehouse" });
     },
     onSubmit() {
       this.loading = true;
-      this.createAsset(this.form)
+      this.updateAsset({
+        form: this.form,
+        id: this.$route.params.id
+      })
         .then(res => {
           this.loading = false;
           this.$router.push({ name: "warehouse" });

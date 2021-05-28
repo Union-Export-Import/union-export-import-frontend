@@ -130,8 +130,8 @@ export default {
             name: "home"
           });
         })
-        .catch(() => {
-          this.open2("error", "Error");
+.catch(e => { this.loading = false; this.open2(e.message, "error");
+
         });
     },
     resetPassword() {

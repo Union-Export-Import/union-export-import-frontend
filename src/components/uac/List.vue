@@ -48,7 +48,8 @@
       <el-button @click="userDetail()" type="text" size="small"
         >Detail</el-button
       >
-      <el-button type="text" size="small" @click="userEdit">Edit</el-button>
+<el-button type="text" size="small" @click="userEdit()">Edit</el-button>
+
     </el-table-column>
   </el-table>
 </template>
@@ -73,8 +74,8 @@ export default {
     headerClick(column) {
       this.$emit("user-header-click", column.property);
     },
-    userEdit() {
-      this.$router.push({ name: "UserEdit" });
+userEdit(row) { this.$router.push({ name: "UserEdit", params: { id: row.id } });
+
     }
   }
 };

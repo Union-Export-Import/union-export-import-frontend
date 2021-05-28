@@ -7,8 +7,7 @@
   >
     <el-table-column type="index" label="#"> </el-table-column>
     <el-table-column prop="created_at" label="Date" sortable> </el-table-column>
-    <el-table-column prop="asset_name" label="Name" sortable> </el-table-column>
-    <el-table-column prop="asset_type" label="Asset Type" sortable> </el-table-column>
+    <el-table-column prop="asset_type" label="Name" sortable> </el-table-column>
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="scope">
         <el-button @click="handleClick(scope.row.id)" type="text" size="small"
@@ -38,10 +37,10 @@ export default {
       this.$emit("asset-header-click", column.property);
     },
     handleClick(id) {
-      this.$router.push({ name: "AssetDetail", params: { id: id } });
+      this.$router.push({ name: "AssetTypeDetail", params: { id: id } });
     },
     editClick(id) {
-      this.$router.push({ name: "AssetEdit", params: { id: id } });
+      this.$router.push({ name: "AssetTypeEdit", params: { id: id } });
     }
   }
 };

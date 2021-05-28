@@ -14,28 +14,11 @@
     :model="formLabelAlign"
     class="form-body"
   >
-    <h1 :span="3" class="user-title">Create New Asset</h1>
+    <h1 :span="3" class="user-title">Edit Asset</h1>
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
-          <el-input v-model="form.asset_name"></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="10" :offset="1">
-        <el-form-item label="Asset Type">
-          <el-select
-            v-model="form.asset_type_id"
-            filterable
-            placeholder="Select"
-            style="width: 397px"
-          >
-            <el-option
-              v-for="item in assetType.asset_types.data"
-              :key="item.id"
-              :label="item.asset_type"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+          <el-input v-model="form.asset_type"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -47,7 +30,7 @@
       </el-col>
       <el-col :span="2">
         <el-button class="submit_button" @click="onSubmit" v-loading="loading"
-          >SUMMIT</el-button
+          >Update</el-button
         >
       </el-col>
     </el-row>
@@ -59,31 +42,40 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    // ...mapState(["warehouse"]),
     ...mapState(["assetType"])
   },
+
   data() {
     return {
       labelPosition: "top",
       form: {
-        asset_name: "",
-        asset_type_id: ""
+        asset_name: ""
       },
       loading: false
     };
   },
+
   beforeMount() {
-    this.getAssetTypes();
+    this.getAssetType(this.$route.params.id);
   },
+
+  mounted() {
+    this.form = this.assetType.asset_type;
+  },
+
   methods: {
-    ...mapActions("warehouse", ["createAsset"]),
-    ...mapActions("assetType", ["getAssetTypes"]),
+    ...mapActions("assetType", ["getAssetType", "updateAsset"]),
+
     Back() {
       this.$router.push({ name: "warehouse" });
     },
+
     onSubmit() {
       this.loading = true;
-      this.createAsset(this.form)
+      this.updateAsset({
+        form: this.form,
+        id: this.$route.params.id
+      })
         .then(res => {
           this.loading = false;
           this.$router.push({ name: "warehouse" });
@@ -94,6 +86,7 @@ export default {
           this.loading = false;
         });
     },
+
     open2(message, type) {
       this.$message({
         showClose: true,
