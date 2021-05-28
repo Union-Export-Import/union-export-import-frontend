@@ -5,7 +5,6 @@
     :data="data"
     style="width: 100%"
     @header-click="headerClick"
-    @row-click="userDetail"
   >
     <el-table-column
       fixed
@@ -44,12 +43,15 @@
       sortable
       width="200"
     ></el-table-column>
-    <el-table-column label="Operations" width="120">
-      <el-button @click="userDetail()" type="text" size="small"
-        >Detail</el-button
-      >
-<el-button type="text" size="small" @click="userEdit()">Edit</el-button>
-
+    <el-table-column prop="operations" label="Operations" width="120">
+      <template v-slot="scope">
+        <el-button @click="userDetail(scope.row)" type="text" size="small"
+          >Detail</el-button
+        >
+        <el-button type="text" size="small" @click="userEdit(scope.row)"
+          >Edit</el-button
+        >
+      </template>
     </el-table-column>
   </el-table>
 </template>
@@ -72,10 +74,12 @@ export default {
       this.$router.push({ name: "UserDetail", params: { id: row.id } });
     },
     headerClick(column) {
-      this.$emit("user-header-click", column.property);
+      if (column.property != "operations") {
+        this.$emit("user-header-click", column.property);
+      }
     },
-userEdit(row) { this.$router.push({ name: "UserEdit", params: { id: row.id } });
-
+    userEdit(row) {
+      this.$router.push({ name: "UserEdit", params: { id: row.id } });
     }
   }
 };

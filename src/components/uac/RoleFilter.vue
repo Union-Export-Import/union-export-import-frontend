@@ -14,12 +14,6 @@
       <el-form-item label="Name">
         <el-input v-model="form.title"></el-input>
       </el-form-item>
-      <el-form-item label="Email">
-        <el-input v-model="form.email"></el-input>
-      </el-form-item>
-      <div class="clear">
-        <p @click="clearForm">Clear</p>
-      </div>
       <el-button @click="filterRoles" class="filter-button" v-loading="loading"
         >Filter</el-button
       >
@@ -43,7 +37,6 @@ export default {
       direction: "rtl",
       form: {
         title: "",
-        email: ""
       },
       loading: false
     };
@@ -65,7 +58,6 @@ export default {
     getRoles: async function(payload) {
       await RoleRepository.filterRoles(payload)
         .then(response => {
-          console.log("Response", response.data);
           this.$store.commit("uac/ADD_ROLE_DATA", response.data);
           this.$store.commit("HANDLE_ROLE_FILTER_BOX");
           this.loading = false;
@@ -76,14 +68,11 @@ export default {
     },
     filterRoles() {
       this.loading = true;
-      const { title, email } = this.form;
+      const { title } = this.form;
       const nameParams = title
         ? filterParams("LIKE", "title", `%${title}%`)
         : null;
-      const emailParams = email
-        ? filterParams("LIKE", "email", `%${email}%`)
-        : null;
-      const mappedData = [{ ...nameParams }, { ...emailParams }];
+      const mappedData = [{ ...nameParams }];
       let filterMap = [];
       mappedData.forEach(function(element) {
         if (Object.keys(element).length != 0) {
