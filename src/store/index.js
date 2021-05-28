@@ -9,6 +9,7 @@ import handleCustomerFilterBox from "./modules/customer/handle_filter";
 import handleRoleFilterBox from "./modules/uac/role_filter";
 import handleAssetFilterBox from "./modules/warehouse/asset_filter";
 import * as warehouse from "@/store/modules/warehouse/assets";
+import * as assetType from "@/store/modules/asset_type/asset_type";
 
 export default createStore({
   state: {},
@@ -24,6 +25,7 @@ export default createStore({
     uac,
     customer,
     warehouse,
-    handleAssetFilterBox
-  },
+    handleAssetFilterBox,
+    assetType
+  }
 });

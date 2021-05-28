@@ -5,6 +5,11 @@ const Login = () => import("@/views/auth/Login.vue");
 const UAC = () => import("@/views/uac/UserAndPermissionList.vue");
 const Warehouse = () => import("@/views/warehouse/Index.vue");
 const AssetCreate = () => import("@/views/warehouse/Create.vue");
+const AssetEdit = () => import("@/views/warehouse/Edit.vue");
+const AssetDetail = () => import("@/views/warehouse/Detail.vue");
+const AssetTypeCreate = () => import("@/views/asset_types/Create.vue");
+const AssetTypeEdit = () => import("@/views/asset_types/Edit.vue");
+const AssetTypeDetail = () => import("@/views/asset_types/Detail.vue");
 const Sale = () => import("@/views/sale/Index.vue");
 const Product = () => import("@/views/product/Index.vue");
 const UserCreate = () => import("@/views/uac/UserCreate.vue");
@@ -30,16 +35,16 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({
-          name: "login",
+          name: "login"
         });
       } else if (store.getters["auth/authenticated"].account_status == "Init") {
         return next({
-          name: "change-password",
+          name: "change-password"
         });
       }
 
       next();
-    },
+    }
   },
   {
     path: "/login",
@@ -48,16 +53,17 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (store.getters["auth/authenticated"]) {
         return next({
-          name: "home",
+          name: "home"
         });
       }
+
       next();
-    },
+    }
   },
   {
     path: "/change-password",
     name: "change-password",
-    component: ChangePassword,
+    component: ChangePassword
   },
   {
     path: "/user-access-control",
@@ -66,11 +72,11 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({
-          name: "login",
+          name: "login"
         });
       }
       next();
-    },
+    }
   },
   {
     path: "/user-access-control/create",
@@ -79,24 +85,11 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({
-          name: "login",
+          name: "login"
         });
       }
       next();
-    },
-  },
-  {
-    path: "/warehouse/create",
-    name: "AssetCreate",
-    component: AssetCreate,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login",
-        });
-      }
-      next();
-    },
+    }
   },
   {
     path: "/user-access-control/edit/:id",
@@ -105,16 +98,16 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({
-          name: "login",
+          name: "login"
         });
       }
       next();
-    },
+    }
   },
   {
     path: "/user-access-control/detail/:id",
     name: "UserDetail",
-    component: UserDetail,
+    component: UserDetail
     // beforeEnter: (to, from, next) => {
     //     if (!store.getters["auth/authenticated"]) {
     //         return next({
@@ -127,57 +120,148 @@ const routes = [
   {
     path: "/product",
     name: "product",
-    component: Product,
+    component: Product
   },
   {
     path: "/warehouse",
     name: "warehouse",
     component: Warehouse,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login"
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/warehouse/create",
+    name: "AssetCreate",
+    component: AssetCreate,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login"
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/warehouse/:id",
+    name: "AssetDetail",
+    props: true,
+    component: AssetDetail,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login"
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/warehouse/edit/:id",
+    name: "AssetEdit",
+    props: true,
+    component: AssetEdit,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login"
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/asset-type/edit/:id",
+    name: "AssetTypeEdit",
+    props: true,
+    component: AssetTypeEdit,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login"
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/asset-type/create",
+    name: "AssetTypeCreate",
+    props: true,
+    component: AssetTypeCreate,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login"
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/asset-type/:id",
+    name: "AssetTypeDetail",
+    props: true,
+    component: AssetTypeDetail,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "login"
+        });
+      }
+      next();
+    }
   },
   {
     path: "/sale",
     name: "sale",
-    component: Sale,
+    component: Sale
   },
   {
     path: "/customer",
     name: "Customer",
-    component: Customer,
-  },
-  {
-    path: "/customer/detail/:id",
-    name: "CustomerDetail",
-    component: CustomerDetail,
+    component: Customer
   },
   {
     path: "/customer/create",
     name: "CustomerCreate",
-    component: CustomerCreate,
+    component: CustomerCreate
   },
   {
     path: "/customer/edit",
     name: "CustomerEdit",
-    component: CustomerEdit,
+    component: CustomerEdit
+  },
+  {
+    path: "/customer/detail/:id",
+    name: "CustomerDetail",
+    component: CustomerDetail
   },
   {
     path: "/supplier",
     name: "Suplier",
-    component: Suplier,
+    component: Suplier
   },
   {
     path: "/supplier/create",
     name: "SuplierCreate",
-    component: SuplierCreate,
+    component: SuplierCreate
   },
   {
     path: "/supplier/edit",
     name: "SuplierEdit",
-    component: SuplierEdit,
+    component: SuplierEdit
   },
   {
     path: "/supplier/show/:id",
     name: "SuplierDetail",
-    component: SuplierDetail,
+    component: SuplierDetail
   },
   {
     path: "/roles/create",
@@ -186,11 +270,11 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/authenticated"]) {
         return next({
-          name: "login",
+          name: "login"
         });
       }
       next();
-    },
+    }
   },
   {
     path: "/about",
@@ -199,13 +283,13 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
+      import(/* webpackChunkName: "about" */ "../views/About.vue")
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
+  routes
 });
 
 export default router;
