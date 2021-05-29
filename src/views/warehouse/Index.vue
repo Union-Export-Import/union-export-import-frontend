@@ -6,13 +6,15 @@
     <el-breadcrumb-item>Warehouse Management</el-breadcrumb-item>
   </el-breadcrumb>
 
-  <el-tabs type="card" @tab-click="handleClick">
+  <el-tabs type="card">
     <el-tab-pane label="Assets">
       <el-row>
         <el-col :span="14">
-          <p class="pagi-info" v-if="warehouse.assets">
-            Total {{ warehouse.assets.meta.total }} items, current page
-            {{ warehouse.assets.meta.current_page }}
+          <p class="pagi-info">
+            Total
+            {{ warehouse.assets ? warehouse.assets.meta.total : 0 }}
+            items, current page
+            {{ warehouse.assets ? warehouse.assets.meta.current_page : 0 }}
           </p>
         </el-col>
         <el-col :span="10">
@@ -37,8 +39,8 @@
       </el-row>
 
       <asset-list
-        :data="warehouse.assets.data"
-        v-if="warehouse.assets"
+        :data="warehouse.assets ? warehouse.assets.data : warehouse.data"
+        v-if="warehouse"
         :loading="warehouse.loading"
         @asset-header-click="assetSort"
       />
@@ -46,8 +48,8 @@
         class="center-align mt-3"
         background
         layout="prev, pager, next"
-        v-if="warehouse.assets"
-        :total="warehouse.assets.meta.total"
+        v-if="warehouse"
+        :total="warehouse.assets ? warehouse.assets.meta.total : 1"
         @prev-click="AssetPagiClick"
         @next-click="AssetPagiClick"
         @current-change="AssetPagiClick"
@@ -56,9 +58,9 @@
     <el-tab-pane label="Asset Types">
       <el-row>
         <el-col :span="14">
-          <p class="pagi-info" v-if="warehouse.asset_types">
-            Total {{ warehouse.asset_types.meta.total }} items, current page
-            {{ warehouse.asset_types.meta.current_page }}
+          <p class="pagi-info" v-if="assetType.asset_types">
+            Total {{ assetType.asset_types.meta.total }} items, current page
+            {{ assetType.asset_types.meta.current_page }}
           </p>
         </el-col>
         <el-col :span="10">
@@ -110,7 +112,7 @@ import AssetTypeList from "@/components/asset_types/List.vue";
 import FilterAsset from "@/components/warehouse/Filter.vue";
 import FilterAssetType from "@/components/asset_types/Filter.vue";
 import Createbtn from "@/components/resuable/CreateBtn";
-import Nprogress from "nprogress";
+// import Nprogress from "nprogress";
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
@@ -125,29 +127,21 @@ export default {
     "asset-type-list": AssetTypeList
   },
   beforeMount() {
-    Nprogress.set(0.4);
+    // Nprogress.set(0.4);
     this.LOADING();
+
     this.getAssetTypes();
-    // .then(response => {
-    //   this.$store.commit("warehouse/SET_ASSET_TYPES", response.data);
-    //   this.$store.commit("warehouse/STOP_LOADING");
-    //   Nprogress.done();
-    // })
-    // .catch(error => {
-    //   this.open2(error.message, "error");
-    //   this.$store.commit("warehouse/STOP_LOADING");
-    //   Nprogress.done();
-    // });
+
     this.getAssets()
       .then(response => {
         this.SET_ASSETS(response.data);
         this.STOP_LOADING();
-        Nprogress.done();
+        // Nprogress.done();
       })
       .catch(error => {
         this.open2(error.message, "error");
         this.STOP_LOADING();
-        Nprogress.done();
+        // Nprogress.done();
       });
   },
 

@@ -4,6 +4,16 @@ export const namespaced = true;
 export const state = {
   assets: null,
   asset: null,
+  data: [
+    {
+      id: 1,
+      asset_name: "Shop1",
+      asset_type_id: 1,
+      created_at: "2021-05-25T10:10:27.000000Z",
+      updated_at: "2021-05-25T10:10:27.000000Z",
+      asset_type: "Miss Kyla Welch"
+    }
+  ],
   asset_types: null,
   sortBy: {
     key: "id",
