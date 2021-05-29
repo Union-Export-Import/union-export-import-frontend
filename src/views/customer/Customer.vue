@@ -1,21 +1,27 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+      >Home Page</el-breadcrumb-item
+    >
     <el-breadcrumb-item>Customer</el-breadcrumb-item>
   </el-breadcrumb>
 
-  <el-tabs type="card" @tab-click="handleClick">
+  <el-tabs type="card">
     <el-tab-pane>
       <template #label>
         <span>Customers</span>
       </template>
 
-      <template v-if="customers">
+      <template v-if="customer">
         <el-row>
           <el-col :span="17">
             <p class="pagi-info">
-              Total {{ customers.meta.total }} items, current page
-              {{ customers.meta.current_page }}
+              Total
+              {{ customer.customers ? customer.customers.meta.total : 0 }}
+              items, current page
+              {{
+                customer.customers ? customer.customers.meta.current_page : 0
+              }}
             </p>
           </el-col>
           <el-col :span="7">
@@ -39,7 +45,7 @@
           </el-col>
         </el-row>
         <customer-list
-          :data="customers.data"
+          :data="customer.customers ? customer.customers.data : customer.data"
           :loading="loading"
           @customer-header-click="sortCustomers"
         />
@@ -47,7 +53,7 @@
           class="center-align mt-3"
           background
           layout="prev, pager, next"
-          :total="customers.meta.total"
+          :total="customer.customers ? customer.customers.meta.total : 1"
           @prev-click="pagiClick"
           @next-click="pagiClick"
           @current-change="pagiClick"
@@ -55,7 +61,6 @@
       </template>
     </el-tab-pane>
   </el-tabs>
-
 
   <filter-customer />
 </template>
@@ -66,7 +71,7 @@ import FilterCustomer from "@/components/customer/Filter.vue";
 import Createbtn from "@/components/resuable/CreateBtn";
 import { paginationParams, sortingParams, filter } from "@/Helper";
 import CustomerRepository from "@/repository/CustomerRepository";
-import { mapGetters } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import NProgress from "nprogress";
 export default {
   beforeRouteEnter(routeTo, routeFrom, next) {
@@ -76,7 +81,7 @@ export default {
   components: {
     "customer-list": CustomerList,
     "filter-customer": FilterCustomer,
-    "create-btn": Createbtn,
+    "create-btn": Createbtn
   },
 
   data() {
@@ -84,9 +89,9 @@ export default {
       drawer: false,
       sortBy: {
         key: "id",
-        type: "desc",
+        type: "desc"
       },
-      loading: false,
+      loading: false
     };
   },
 
@@ -94,30 +99,29 @@ export default {
     this.getCustomers({
       ...sortingParams(this.sortBy.key, this.sortBy.type),
       ...paginationParams(1, 10),
-      ...filter([], "AND"),
+      ...filter([], "AND")
     });
   },
 
   computed: {
-    ...mapGetters({
-      customers: "customer/getCustomers"
-    }),
+    ...mapState(["customer"])
   },
 
   methods: {
+    ...mapMutations("customer", ["ADD_CUSTOMER_DATA"]),
     filterBox() {
       this.$store.commit("handleFilterBox");
     },
 
-    getCustomers: async function (payload) {
+    getCustomers: async function(payload) {
       this.loading = true;
       await CustomerRepository.filterCustomers(payload)
-        .then((res) => {
-          this.$store.commit("customer/ADD_CUSTOMER_DATA", res.data);
+        .then(res => {
+          this.ADD_CUSTOMER_DATA(res.data);
           NProgress.done();
           this.loading = false;
         })
-        .catch((err) => {
+        .catch(err => {
           this.open2(err);
           NProgress.done();
           this.loading = false;
@@ -127,7 +131,7 @@ export default {
       this.getCustomers({
         ...sortingParams(this.sortBy.key, this.sortBy.type),
         ...paginationParams(pageNo, 10),
-        ...filter([], "AND"),
+        ...filter([], "AND")
       });
     },
     sortCustomers(column) {
@@ -137,13 +141,13 @@ export default {
           this.getCustomers({
             ...sortingParams(this.sortBy.key, this.sortBy.type),
             ...paginationParams(1, 10),
-            ...filter([], "AND"),
+            ...filter([], "AND")
           });
         } else {
           this.getCustomers({
             ...sortingParams(this.sortBy.key, this.sortBy.type),
             ...paginationParams(1, 10),
-            ...filter([], "AND"),
+            ...filter([], "AND")
           });
         }
       } else {
@@ -151,7 +155,7 @@ export default {
         this.getCustomers({
           ...sortingParams(this.sortBy.key, this.sortBy.type),
           ...paginationParams(1, 10),
-          ...filter([], "AND"),
+          ...filter([], "AND")
         });
       }
     },
@@ -160,9 +164,9 @@ export default {
       this.$message({
         showClose: true,
         message: error.message,
-        type: "error",
+        type: "error"
       });
-    },
-  },
+    }
+  }
 };
 </script>

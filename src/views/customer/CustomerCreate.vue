@@ -14,27 +14,27 @@
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
-          <el-input v-model="newCustomer.name"></el-input>
+          <el-input v-model="newCustomer.name" type="text"></el-input>
         </el-form-item>
         <el-form-item label="Email">
-          <el-input v-model="newCustomer.email"></el-input>
+          <el-input v-model="newCustomer.email" type="eamil"></el-input>
         </el-form-item>
         <el-form-item label="Address">
-          <el-input v-model="newCustomer.address"></el-input>
+          <el-input v-model="newCustomer.address" type="text"></el-input>
         </el-form-item>
         <el-form-item label="Remark">
-          <el-input v-model="newCustomer.remark"></el-input>
+          <el-input v-model="newCustomer.remark" type="text"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="10" :offset="1">
         <el-form-item label="Company Name">
-          <el-input v-model="newCustomer.company_name"></el-input>
+          <el-input v-model="newCustomer.company_name" type="text"></el-input>
         </el-form-item>
         <el-form-item label="Phone Number">
-          <el-input v-model="newCustomer.phone_number"></el-input>
+          <el-input v-model="newCustomer.phone_number" type="number"></el-input>
         </el-form-item>
         <el-form-item label="Bank Account">
-          <el-input v-model="newCustomer.bank_acc"></el-input>
+          <el-input v-model="newCustomer.bank_acc" type="number"></el-input>
         </el-form-item>
       </el-col>
     </el-row>

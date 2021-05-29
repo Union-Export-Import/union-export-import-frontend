@@ -11,12 +11,13 @@
       <template #label>
         <span>Users</span>
       </template>
-      <template v-if="users">
+      <template v-if="uac">
         <el-row>
           <el-col :span="14">
             <p class="pagi-info">
-              Total {{ users.meta.total }} items, current page
-              {{ users.meta.current_page }}
+              Total {{ uac.users ? uac.users.meta.total : 0 }} items, current
+              page
+              {{ uac.users ? uac.users.meta.current_page : 0 }}
             </p>
           </el-col>
           <el-col :span="10">
@@ -40,8 +41,8 @@
           </el-col>
         </el-row>
         <user-list
-          v-if="users"
-          :data="users.data"
+          v-if="uac"
+          :data="uac.users ? uac.users.data : uac.data"
           :loading="loading"
           @user-header-click="sortUsers"
         />
@@ -49,7 +50,7 @@
           class="center-align mt-3"
           background
           layout="prev, pager, next"
-          :total="users.meta.total"
+          :total="uac.users ? uac.users.meta.total : 1"
           @prev-click="pagiClick"
           @next-click="pagiClick"
           @current-change="pagiClick"
@@ -60,12 +61,12 @@
       <template #label>
         <span>Roles & Permission</span>
       </template>
-      <template v-if="roles">
+      <template v-if="uac.roles">
         <el-row>
           <el-col :span="14">
             <p class="pagi-info">
-              Total {{ roles.meta.total }} items, current page
-              {{ roles.meta.current_page }}
+              Total {{ uac.roles.meta.total }} items, current page
+              {{ uac.roles.meta.current_page }}
             </p>
           </el-col>
           <el-col :span="10">
@@ -91,8 +92,8 @@
       </template>
 
       <permission-list
-        v-if="roles"
-        :data="roles.data"
+        v-if="uac.roles"
+        :data="uac.roles.data"
         :loading="loading"
         @roleHeaderClick="sortRoles"
       />
@@ -100,8 +101,8 @@
         class="center-align mt-3"
         background
         layout="prev, pager, next"
-        v-if="roles"
-        :total="roles.meta.total"
+        v-if="uac.roles"
+        :total="uac.roles.meta.total"
         @prev-click="RolePagiClick"
         @next-click="RolePagiClick"
         @current-change="RolePagiClick"
@@ -121,7 +122,7 @@ import Createbtn from "@/components/resuable/CreateBtn";
 import { paginationParams, sortingParams, filter } from "@/Helper";
 import UserRepository from "@/repository/UserRepository";
 import RoleRepository from "@/repository/RoleRepository";
-import { mapGetters } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import NProgress from "nprogress";
 export default {
   beforeRouteEnter(routeTo, routeFrom, next) {
@@ -161,13 +162,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      users: "uac/getUsers",
-      roles: "uac/getRoles"
-    })
+    ...mapState(["uac"])
   },
 
   methods: {
+    ...mapMutations("uac", ["ADD_UAC_DATA", "ADD_ROLE_DATA"]),
     filterBox() {
       this.$store.commit("handleFilterBox");
     },
@@ -178,7 +177,7 @@ export default {
       this.loading = true;
       await UserRepository.filterUsers(payload)
         .then(res => {
-          this.$store.commit("uac/ADD_UAC_DATA", res.data);
+          this.ADD_UAC_DATA(res.data);
           NProgress.done();
           this.loading = false;
         })
@@ -192,7 +191,7 @@ export default {
       this.loading = true;
       await RoleRepository.filterRoles(payload)
         .then(res => {
-          this.$store.commit("uac/ADD_ROLE_DATA", res.data);
+          this.ADD_ROLE_DATA(res.data);
           NProgress.done();
           this.loading = false;
         })

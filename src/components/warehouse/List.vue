@@ -6,9 +6,9 @@
     @header-click="assetHeaderClick"
   >
     <el-table-column type="index" label="#"> </el-table-column>
-    <el-table-column prop="created_at" label="Date" sortable> </el-table-column>
-    <el-table-column prop="asset_name" label="Name" sortable> </el-table-column>
-    <el-table-column prop="asset_type" label="Asset Type" sortable> </el-table-column>
+    <el-table-column prop="created_at" label="Date"> </el-table-column>
+    <el-table-column prop="asset_name" label="Name"> </el-table-column>
+    <el-table-column prop="asset_type" label="Asset Type"> </el-table-column>
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="scope">
         <el-button @click="handleClick(scope.row.id)" type="text" size="small"
