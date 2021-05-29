@@ -21,10 +21,11 @@ const CustomerCreate = () => import("@/views/customer/Create.vue");
 const CustomerEdit = () => import("@/views/customer/Edit.vue");
 const CustomerDetail = () => import("@/views/customer/Detail.vue");
 
-const Suplier = () => import("@/views/suplier/Suplier.vue");
-const SuplierCreate = () => import("@/views/suplier/SuplierCreate.vue");
-const SuplierEdit = () => import("@/views/suplier/SuplierEdit.vue");
-const SuplierDetail = () => import("@/views/suplier/SuplierDetail.vue");
+const Supplier = () => import("@/views/supplier/Index.vue");
+const SupplierCreate = () => import("@/views/supplier/Create.vue");
+const SupplierEdit = () => import("@/views/supplier/Edit.vue");
+const SupplierDetail = () => import("@/views/supplier/Detail.vue");
+
 const ChangePassword = () => import("@/views/auth/ChangePassword");
 const RoleCreate = () => import("@/views/role/Create.vue");
 const routes = [
@@ -245,23 +246,23 @@ const routes = [
   },
   {
     path: "/supplier",
-    name: "Suplier",
-    component: Suplier
+    name: "Supplier",
+    component: Supplier
   },
   {
     path: "/supplier/create",
-    name: "SuplierCreate",
-    component: SuplierCreate
+    name: "SupplierCreate",
+    component: SupplierCreate
   },
   {
     path: "/supplier/edit",
-    name: "SuplierEdit",
-    component: SuplierEdit
+    name: "SupplierEdit",
+    component: SupplierEdit
   },
   {
     path: "/supplier/show/:id",
-    name: "SuplierDetail",
-    component: SuplierDetail
+    name: "SupplierDetail",
+    component: SupplierDetail
   },
   {
     path: "/roles/create",
