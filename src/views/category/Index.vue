@@ -3,28 +3,28 @@
     <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
       >Home Page</el-breadcrumb-item
     >
-    <el-breadcrumb-item>Supplier Management</el-breadcrumb-item>
+    <el-breadcrumb-item>Category Management</el-breadcrumb-item>
   </el-breadcrumb>
 
   <el-tabs type="card" @tab-click="handleClick">
-    <el-tab-pane label="Suppliers">
+    <el-tab-pane label="Categories">
       <el-row>
         <el-col :span="14">
           <p class="pagi-info">
             Total
-            {{ supplier.suppliers ? supplier.suppliers.meta.total : 0 }}
+            {{ category.categories ? category.categories.meta.total : 0 }}
             items, current page
-            {{ supplier.suppliers ? supplier.suppliers.meta.current_page : 0 }}
+            {{ category.categories ? category.categories.meta.current_page : 0 }}
           </p>
         </el-col>
         <el-col :span="10">
           <ul class="create-filter">
             <li>
-              <create-btn name="New Supplier" routeName="SupplierCreate" />
+              <create-btn name="New Category" routeName="category-create" />
             </li>
             <li>
-              <p class="sort-by" v-if="supplier.sortBy">
-                sorted by {{ supplier.sortBy.key }}
+              <p class="sort-by" v-if="category.sortBy">
+                sorted by {{ category.sortBy.key }}
                 <strong class="sorted"></strong>
               </p>
             </li>
@@ -38,48 +38,49 @@
         </el-col>
       </el-row>
 
-      <supplier-list
-        :data="supplier.suppliers ? supplier.suppliers.data : supplier.data"
-        v-if="supplier"
-        :loading="supplier.loading"
-        @supplier-header-click="supplierSort"
+      <category-list
+        :data="category.categories ? category.categories.data : category.data"
+        v-if="category"
+        :loading="category.loading"
+        @category-header-click="categorySort"
       />
       <el-pagination
         class="center-align mt-3"
         background
         layout="prev, pager, next"
-        v-if="supplier"
-        :total="supplier.suppliers ? supplier.suppliers.meta.total : 1"
-        @prev-click="SupplierPagiClick"
-        @next-click="SupplierPagiClick"
-        @current-change="SupplierPagiClick"
+        v-if="category"
+        :total="category.categories ? category.categories.meta.total : 1"
+        @prev-click="CategoryPagiClick"
+        @next-click="CategoryPagiClick"
+        @current-change="CategoryPagiClick"
       ></el-pagination>
     </el-tab-pane>
   </el-tabs>
-  <supplier-filter />
+  <category-filter />
+  <category-type-filter />
 </template>
 
 <script>
-import List from "@/components/supplier/List.vue";
-import FilterSupplier from "@/components/supplier/Filter.vue";
+import List from "@/components/category/List.vue";
+import FilterCategory from "@/components/category/Filter.vue";
 import Createbtn from "@/components/resuable/CreateBtn";
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["supplier"])
+    ...mapState(["category"])
   },
   components: {
-    "supplier-list": List,
+    "category-list": List,
     "create-btn": Createbtn,
-    "supplier-filter": FilterSupplier,
+    "category-filter": FilterCategory,
   },
   beforeMount() {
     this.LOADING();
-    // this.getSuppliers();
-    this.getSuppliers()
+    // this.getCategories();
+    this.getCategories()
       .then(response => {
-        this.SET_SUPPLIERS(response.data);
+        this.SET_CATEGORIES(response.data);
         this.STOP_LOADING();
       })
       .catch(error => {
@@ -89,20 +90,20 @@ export default {
   },
 
   methods: {
-    ...mapActions("supplier", ["getSuppliers", "supplierPagiClick"]),
-    ...mapMutations("supplier", [
-      "SET_SUPPLIERS",
+    ...mapActions("category", ["getCategories", "categoryPagiClick"]),
+    ...mapMutations("category", [
+      "SET_CATEGORIES",
       "STOP_LOADING",
       "LOADING",
-      "HANDLE_SUPPLIER_FILTER_BOX"
+      "HANDLE_CATEGORY_FILTER_BOX"
     ]),
 
-    SupplierPagiClick(pageNo) {
-      this.supplierPagiClick(pageNo);
+    CategoryPagiClick(pageNo) {
+      this.categoryPagiClick(pageNo);
     },
 
-    supplierSort(column) {
-      this.supplierSort(column);
+    categorySort(column) {
+      this.categorySort(column);
     },
 
     open2(message, type) {
@@ -114,10 +115,10 @@ export default {
     },
 
     filterBox() {
-      this.HANDLE_SUPPLIER_FILTER_BOX();
+      this.HANDLE_CATEGORY_FILTER_BOX();
     },
-    supplierFilter() {
-      this.SUPPLIER_FILTER_BOX();
+    categoryFilter() {
+      this.CATEGORY_FILTER_BOX();
     }
   }
 };

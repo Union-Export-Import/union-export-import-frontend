@@ -10,9 +10,11 @@
     <el-tab-pane label="Customers">
       <el-row>
         <el-col :span="14">
-          <p class="pagi-info" v-if="customer.customers">
-            Total {{ customer.customers.meta.total }} items, current page
-            {{ customer.customers.meta.current_page }}
+          <p class="pagi-info">
+            Total
+            {{ customer.customers ? customer.customers.meta.total : 0 }}
+            items, current page
+            {{ customer.customers ? customer.customers.meta.current_page : 0 }}
           </p>
         </el-col>
         <el-col :span="10">
@@ -37,8 +39,8 @@
       </el-row>
 
       <customer-list
-        :data="customer.customers.data"
-        v-if="customer.customers"
+        :data="customer.customers ? customer.customers.data : customer.data"
+        v-if="customer"
         :loading="customer.loading"
         @customer-header-click="customerSort"
       />
@@ -46,8 +48,8 @@
         class="center-align mt-3"
         background
         layout="prev, pager, next"
-        v-if="customer.customers"
-        :total="customer.customers.meta.total"
+        v-if="customer"
+        :total="customer.customers ? customer.customers.meta.total : 1"
         @prev-click="CustomerPagiClick"
         @next-click="CustomerPagiClick"
         @current-change="CustomerPagiClick"

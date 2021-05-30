@@ -21,6 +21,11 @@ const CustomerCreate = () => import("@/views/customer/Create.vue");
 const CustomerEdit = () => import("@/views/customer/Edit.vue");
 const CustomerDetail = () => import("@/views/customer/Detail.vue");
 
+const Category = () => import("@/views/category/Index.vue");
+const CategoryCreate = () => import("@/views/category/Create.vue");
+const CategoryEdit = () => import("@/views/category/Edit.vue");
+const CategoryDetail = () => import("@/views/category/Detail.vue");
+
 const Supplier = () => import("@/views/supplier/Index.vue");
 const SupplierCreate = () => import("@/views/supplier/Create.vue");
 const SupplierEdit = () => import("@/views/supplier/Edit.vue");
@@ -263,6 +268,26 @@ const routes = [
     path: "/supplier/show/:id",
     name: "SupplierDetail",
     component: SupplierDetail
+  },
+  {
+    path: "/category",
+    name: "category",
+    component: Category
+  },
+  {
+    path: "/category/create",
+    name: "category-create",
+    component: CategoryCreate
+  },
+  {
+    path: "/category/edit/:id",
+    name: "category-edit",
+    component: CategoryEdit
+  },
+  {
+    path: "/category/detail/:id",
+    name: "category-detail",
+    component: CategoryDetail
   },
   {
     path: "/roles/create",

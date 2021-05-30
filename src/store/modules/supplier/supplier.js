@@ -4,13 +4,54 @@ export const namespaced = true;
 export const state = {
   suppliers: null,
   supplier: null,
+  data: [
+    {
+      id: 3,
+      name: "i",
+      company_name: "i",
+      address: "i",
+      email: "i",
+      phone_number: "ii",
+      supplied_product: "i",
+      bank_account: "ii",
+      remark: "ii",
+      created_at: "2021-05-29 16:36:51",
+      updated_at: "2021-05-29 16:36:51"
+    },
+    {
+      id: 2,
+      name: "Mg Supp",
+      company_name: "Supp Com",
+      address: "Com",
+      email: "com@aa.com",
+      phone_number: "5423974982",
+      supplied_product: "iPod, iPad, MacBook",
+      bank_account: "2437987942afew",
+      remark: "jfiweooe",
+      created_at: "2021-05-25 07:42:59",
+      updated_at: "2021-05-29 16:35:39"
+    },
+    {
+      id: 1,
+      name: "Mg Supp",
+      company_name: "Supp Com",
+      address: "Com",
+      email: "com@aa.com",
+      phone_number: "5423974982",
+      supplied_product: "iPod, iPad",
+      bank_account: "2437987942afew",
+      remark: "jfiweooe",
+      created_at: "2021-05-25 06:05:43",
+      updated_at: "2021-05-25 06:05:43"
+    }
+  ],
   sortBy: {
     key: "id",
-    type: "desc",
+    type: "desc"
   },
   loading: false,
   payload: null,
-  open: false,
+  open: false
 };
 export const mutations = {
   SET_SUPPLIERS(state, suppliers) {
@@ -33,14 +74,14 @@ export const mutations = {
   },
   HANDLE_SUPPLIER_FILTER_BOX(state) {
     state.open = !state.open;
-  },
+  }
 };
 export const actions = {
   getSuppliers({ state }) {
     return SupplierService.filterSuppliers({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(1, 10),
-      ...filter([], "AND"),
+      ...filter([], "AND")
     });
   },
   createSupplier({ commit }, supplierData) {
@@ -56,9 +97,9 @@ export const actions = {
     SupplierService.filterSuppliers({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(pageNo, 10),
-      ...filter([], "AND"),
+      ...filter([], "AND")
     })
-      .then((response) => {
+      .then(response => {
         commit("STOP_LOADING");
         commit("SET_SUPPLIERS", response.data);
       })
@@ -84,17 +125,25 @@ export const actions = {
       commit("STOP_LOADING");
     }
   },
-  getSupplier({ commit }, id) {
-    SupplierService.getSupplier(id)
-      .then((res) => {
-        commit("SET_SUPPLIER", res.data.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  },
+  getSupplier({ commit, getters }, id) {
+    const supplier = getters.getSupplierById(id);
+    if (supplier) {
+      commit("SET_SUPPLIER", supplier);
+    } else {
+      SupplierService.getSupplier(id)
+        .then(res => {
+          commit("SET_SUPPLIER", res.data.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }
 };
 export const getters = {
-  supplierFilterOpen: (state) => state.open,
-  getSupplier: (state) => state.supplier,
+  supplierFilterOpen: state => state.open,
+  getSupplier: state => state.supplier,
+  getSupplierById: state => id => {
+    return state.suppliers.data.find(supplier => supplier.id == id);
+  }
 };

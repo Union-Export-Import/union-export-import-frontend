@@ -1,28 +1,28 @@
 import axios from "@/axios";
 
-const resource = "/api/customers";
+const resource = "/api/categories";
 const headers = {
   Authorization: `Bearer ${localStorage.getItem("token")}`
 };
 
 export default {
-  filterCustomers(payload) {
+  filterCategories(payload) {
     return axios.post(`${resource}/query`, payload, headers);
   },
 
-  createCustomer(payload) {
+  createCategory(payload) {
     return axios.post(`${resource}`, payload, headers);
   },
 
-  getCustomer(id) {
+  getCategory(id) {
     return axios.get(`${resource}/${id}`, headers);
   },
 
-  updateCustomer(payload, id) {
+  updateCategory(payload, id) {
     return axios.put(`${resource}/${id}`, payload, headers);
   },
 
-  deleteCustomer(id) {
+  deleteCategory(id) {
     return axios.delete(`${resource}/${id}`, headers);
   }
 };

@@ -14,38 +14,38 @@
 
     <el-row v-loading="loading">
       <el-col :span="16">
-        <profile-detail v-if="supplier.suppliers.data">
+        <profile-detail v-if="supplier.supplier">
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.name }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers.data.company_name }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.company_name }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers.data.address }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.address }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers.data.email }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.email }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers.data.phone_number }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.phone_number }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers.data.bank_acc }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.bank_acc }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers.data.remark }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.remark }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.suppliers.data.supplied_product }}</p>
+            <p class="mt-1 font-weight-900">{{ supplier.supplier.supplied_product }}</p>
           </div>
         </profile-detail>
         <div class="manage-btns mt-2">
