@@ -16,15 +16,21 @@ const UserCreate = () => import("@/views/uac/UserCreate.vue");
 const UserEdit = () => import("@/views/uac/UserEdit.vue");
 const UserDetail = () => import("@/views/uac/UserDetail.vue");
 
-const Customer = () => import("@/views/customer/Customer.vue");
-const CustomerCreate = () => import("@/views/customer/CustomerCreate.vue");
-const CustomerEdit = () => import("@/views/customer/CustomerEdit.vue");
-const CustomerDetail = () => import("@/views/customer/CustomerDetail.vue");
+const Customer = () => import("@/views/customer/Index.vue");
+const CustomerCreate = () => import("@/views/customer/Create.vue");
+const CustomerEdit = () => import("@/views/customer/Edit.vue");
+const CustomerDetail = () => import("@/views/customer/Detail.vue");
 
-const Suplier = () => import("@/views/suplier/Suplier.vue");
-const SuplierCreate = () => import("@/views/suplier/SuplierCreate.vue");
-const SuplierEdit = () => import("@/views/suplier/SuplierEdit.vue");
-const SuplierDetail = () => import("@/views/suplier/SuplierDetail.vue");
+const Category = () => import("@/views/category/Index.vue");
+const CategoryCreate = () => import("@/views/category/Create.vue");
+const CategoryEdit = () => import("@/views/category/Edit.vue");
+const CategoryDetail = () => import("@/views/category/Detail.vue");
+
+const Supplier = () => import("@/views/supplier/Index.vue");
+const SupplierCreate = () => import("@/views/supplier/Create.vue");
+const SupplierEdit = () => import("@/views/supplier/Edit.vue");
+const SupplierDetail = () => import("@/views/supplier/Detail.vue");
+
 const ChangePassword = () => import("@/views/auth/ChangePassword");
 const RoleCreate = () => import("@/views/role/Create.vue");
 const routes = [
@@ -234,7 +240,7 @@ const routes = [
     component: CustomerCreate
   },
   {
-    path: "/customer/edit",
+    path: "/customer/edit/:id",
     name: "CustomerEdit",
     component: CustomerEdit
   },
@@ -245,23 +251,43 @@ const routes = [
   },
   {
     path: "/supplier",
-    name: "Suplier",
-    component: Suplier
+    name: "Supplier",
+    component: Supplier
   },
   {
     path: "/supplier/create",
-    name: "SuplierCreate",
-    component: SuplierCreate
+    name: "SupplierCreate",
+    component: SupplierCreate
   },
   {
     path: "/supplier/edit",
-    name: "SuplierEdit",
-    component: SuplierEdit
+    name: "SupplierEdit",
+    component: SupplierEdit
   },
   {
     path: "/supplier/show/:id",
-    name: "SuplierDetail",
-    component: SuplierDetail
+    name: "SupplierDetail",
+    component: SupplierDetail
+  },
+  {
+    path: "/category",
+    name: "category",
+    component: Category
+  },
+  {
+    path: "/category/create",
+    name: "category-create",
+    component: CategoryCreate
+  },
+  {
+    path: "/category/edit/:id",
+    name: "category-edit",
+    component: CategoryEdit
+  },
+  {
+    path: "/category/detail/:id",
+    name: "category-detail",
+    component: CategoryDetail
   },
   {
     path: "/roles/create",

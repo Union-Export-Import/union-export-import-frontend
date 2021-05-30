@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    :model-value="customerFilterOpen"
+    :model-value="supplierFilterOpen"
     :direction="direction"
     :before-close="filterBoxClose"
     @closeFilterSlider="filterBoxClose"
@@ -10,7 +10,7 @@
       label-width="100px"
       class="form-filter custom-form-input"
     >
-      <h1 class="form-header">Customer Filter</h1>
+      <h1 class="form-header">Supplier Filter</h1>
       <el-form-item label="Name">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
@@ -36,7 +36,7 @@
         <p @click="clearForm">Clear</p>
       </div>
       <el-button
-        @click="filterCustomers"
+        @click="filterSuppliers"
         class="filter-button"
         v-loading="loading"
         >Filter</el-button
@@ -53,7 +53,7 @@ import {
   filter
 } from "@/Helper";
 // import axios from "@/axios";
-import filterService from "@/services/customer/CustomerService";
+import filterService from "@/services/supplier/SupplierService";
 import { mapState, mapMutations } from "vuex";
 export default {
   data() {
@@ -61,7 +61,7 @@ export default {
       labelPosition: "top",
       direction: "rtl",
       form: {
-        customer_name: "",
+        supplier_name: "",
         email: ""
       },
       loading: false
@@ -69,29 +69,29 @@ export default {
   },
 
   computed: {
-    ...mapState(["customer"]),
-    customerFilterOpen() {
-      return this.customer.open;
+    ...mapState(["supplier"]),
+    supplierFilterOpen() {
+      return this.supplier.open;
     }
   },
 
   methods: {
-    ...mapMutations("customer", [
-      "SET_CUSTOMERS",
-      "HANDLE_CUSTOMER_FILTER_BOX"
+    ...mapMutations("supplier", [
+      "SET_SUPPLIERS",
+      "HANDLE_SUPPLIER_FILTER_BOX"
     ]),
     filterBoxClose() {
-      this.HANDLE_CUSTOMER_FILTER_BOX();
+      this.HANDLE_SUPPLIER_FILTER_BOX();
     },
     clearForm() {
       console.log("Clear Form");
     },
-    getCustomers: async function(payload) {
+    getSuppliers: async function(payload) {
       await filterService
-        .filterCustomers(payload)
+        .filterSuppliers(payload)
         .then(response => {
-          this.SET_CUSTOMERS(response.data);
-          this.HANDLE_CUSTOMER_FILTER_BOX();
+          this.SET_SUPPLIERS(response.data);
+          this.HANDLE_SUPPLIER_FILTER_BOX();
           this.loading = false;
         })
         .catch(e => {
@@ -99,7 +99,7 @@ export default {
           this.loading = false;
         });
     },
-    filterCustomers() {
+    filterSuppliers() {
       this.loading = true;
       const {
         name,
@@ -110,7 +110,7 @@ export default {
         bank_acc,
         remark
       } = this.form;
-      const customerNameParams = name
+      const supplierNameParams = name
         ? filterParams("LIKE", "name", `%${name}%`)
         : null;
       const companyNameParams = company_name
@@ -132,7 +132,7 @@ export default {
         ? filterParams("LIKE", "remark", `%${remark}%`)
         : null;
       const mappedData = [
-        { ...customerNameParams },
+        { ...supplierNameParams },
         { ...companyNameParams },
         { ...addressParams },
         { ...emailParams },
@@ -146,7 +146,7 @@ export default {
           filterMap.push(element);
         }
       });
-      this.getCustomers({
+      this.getSuppliers({
         ...sortingParams("id", "asc"),
         ...paginationParams(1, 10),
         ...filter(filterMap, "AND")
