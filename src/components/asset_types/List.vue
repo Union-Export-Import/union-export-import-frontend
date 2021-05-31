@@ -3,7 +3,7 @@
     :data="data"
     style="width: 100%"
     v-loading="loading"
-    @header-click="assetHeaderClick"
+    @header-click="assetTypeHeaderClick"
   >
     <el-table-column type="index" label="#"> </el-table-column>
     <el-table-column prop="created_at" label="Date" sortable> </el-table-column>
@@ -33,8 +33,8 @@ export default {
     }
   },
   methods: {
-    assetHeaderClick(column) {
-      this.$emit("asset-header-click", column.property);
+    assetTypeHeaderClick(column) {
+      this.$emit("asset-type-header-click", column.property);
     },
     handleClick(id) {
       this.$router.push({ name: "AssetTypeDetail", params: { id: id } });

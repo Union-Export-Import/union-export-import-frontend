@@ -125,10 +125,6 @@ import RoleRepository from "@/repository/RoleRepository";
 import { mapState, mapMutations } from "vuex";
 import NProgress from "nprogress";
 export default {
-  beforeRouteEnter(routeTo, routeFrom, next) {
-    NProgress.start(); // Start the progress bar
-    next();
-  },
   components: {
     "user-list": UserList,
     "permission-list": PermissionList,
@@ -148,17 +144,19 @@ export default {
     };
   },
 
-  beforeMount() {
-    this.getUsers({
-      ...sortingParams(this.sortBy.key, this.sortBy.type),
-      ...paginationParams(1, 10),
-      ...filter([], "AND")
-    });
-    this.getRoles({
-      ...sortingParams(this.sortBy.key, this.sortBy.type),
-      ...paginationParams(1, 10),
-      ...filter([], "AND")
-    });
+  created() {
+    if (!this.uac.users) {
+      this.getUsers({
+        ...sortingParams(this.sortBy.key, this.sortBy.type),
+        ...paginationParams(1, 10),
+        ...filter([], "AND")
+      });
+      this.getRoles({
+        ...sortingParams(this.sortBy.key, this.sortBy.type),
+        ...paginationParams(1, 10),
+        ...filter([], "AND")
+      });
+    }
   },
 
   computed: {

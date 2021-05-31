@@ -3,7 +3,6 @@
     :model-value="customerFilterOpen"
     :direction="direction"
     :before-close="filterBoxClose"
-    @closeFilterSlider="filterBoxClose"
   >
     <el-form
       :label-position="labelPosition"

@@ -12,7 +12,7 @@
 
     <!-- <profile-header v-if="user" :name="user.name" :join_status="join_status" /> -->
 
-    <el-row v-loading="loading">
+    <el-row v-loading="warehouse.loading">
       <el-col :span="16">
         <profile-detail v-if="warehouse.asset">
           <div class="profile-detail-info pb-5">
@@ -40,15 +40,11 @@
 
 <script>
 import ProfileDetail from "@/components/resuable/ProfileDetail.vue";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   props: ["id"],
   components: {
-    // "name-card": NameCard,
-    // "delete-button": DeleteButton,
-    // "submit-button": SubmitButton,
-    // "profile-header": ProfileHeader,
     "profile-detail": ProfileDetail
   },
   data() {
@@ -58,14 +54,16 @@ export default {
       loading: false
     };
   },
-  beforeMount() {
+  created() {
+    this.LOADING();
     this.getAsset(this.$route.params.id);
   },
   computed: {
     ...mapState(["warehouse"])
   },
   methods: {
-    ...mapActions("warehouse", ["getAsset"])
+    ...mapActions("warehouse", ["getAsset"]),
+    ...mapMutations("warehouse", ["LOADING"])
   }
 };
 </script>
