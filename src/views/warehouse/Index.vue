@@ -37,12 +37,12 @@
           </ul>
         </el-col>
       </el-row>
-
+      <!-- This is asset list component -->
       <asset-list
         :data="warehouse.assets ? warehouse.assets.data : warehouse.data"
         v-if="warehouse"
         :loading="warehouse.loading"
-        @asset-header-click="assetSort"
+        @asset-header-click="assetSorting"
       />
       <el-pagination
         class="center-align mt-3"
@@ -69,8 +69,8 @@
               <create-btn name="New Asset Type" routeName="AssetTypeCreate" />
             </li>
             <li>
-              <p class="sort-by" v-if="warehouse.sortBy">
-                sorted by {{ warehouse.sortBy.key }}
+              <p class="sort-by" v-if="assetType.sortBy">
+                sorted by {{ assetType.sortBy.key }}
                 <strong class="sorted"></strong>
               </p>
             </li>
@@ -88,7 +88,7 @@
         :data="assetType.asset_types.data"
         v-if="assetType.asset_types"
         :loading="assetType.loading"
-        @asset-header-click="assetSort"
+        @asset-type-header-click="assetTypeSort"
       />
       <el-pagination
         class="center-align mt-3"
@@ -119,6 +119,7 @@ export default {
   computed: {
     ...mapState(["warehouse", "assetType"])
   },
+
   components: {
     "asset-list": List,
     "create-btn": Createbtn,
@@ -126,28 +127,33 @@ export default {
     "asset-type-filter": FilterAssetType,
     "asset-type-list": AssetTypeList
   },
+
   beforeMount() {
     // Nprogress.set(0.4);
-    this.LOADING();
-
-    this.getAssetTypes();
-
-    this.getAssets()
-      .then(response => {
-        this.SET_ASSETS(response.data);
-        this.STOP_LOADING();
-        // Nprogress.done();
-      })
-      .catch(error => {
-        this.open2(error.message, "error");
-        this.STOP_LOADING();
-        // Nprogress.done();
-      });
+    //this is  will call asset api when there is no data in assets of state
+    if (!this.warehouse.assets) {
+      this.LOADING();
+      this.getAssetTypes();
+      this.getAssets()
+        .then(response => {
+          this.SET_ASSETS(response.data);
+          this.STOP_LOADING();
+        })
+        .catch(error => {
+          this.open2(error.message, "error");
+          this.STOP_LOADING();
+        });
+    }
   },
 
   methods: {
-    ...mapActions("warehouse", ["getAssets", "assetPagiClick"]),
-    ...mapActions("assetType", ["assetTypePagiClick", "getAssetTypes"]),
+    //this are from vuex modules
+    ...mapActions("warehouse", ["getAssets", "assetPagiClick", "assetSort"]),
+    ...mapActions("assetType", [
+      "assetTypePagiClick",
+      "getAssetTypes",
+      "assetTypeSorting"
+    ]),
     ...mapMutations("assetType", ["ASSET_TYPE_FILTER_BOX"]),
     ...mapMutations("warehouse", [
       "SET_ASSETS",
@@ -155,19 +161,23 @@ export default {
       "LOADING",
       "HANDLE_ASSET_FILTER_BOX"
     ]),
-
+    //this method will handle Asset's pagination
     AssetPagiClick(pageNo) {
       this.assetPagiClick(pageNo);
     },
-
+    //this method will handle Asset Type's pagination
     AssetTypePagiClick(pageNo) {
       this.assetTypePagiClick(pageNo);
     },
-
-    assetSort(column) {
+    //this method will work when click sorting titles
+    assetSorting(column) {
       this.assetSort(column);
     },
 
+    assetTypeSort(column) {
+      this.assetTypeSorting(column);
+    },
+    //this method is for pop up notification of success or error
     open2(message, type) {
       this.$message({
         showClose: true,
@@ -175,10 +185,11 @@ export default {
         type: type
       });
     },
-
+    //this method is to handle Asset Filter form
     filterBox() {
       this.HANDLE_ASSET_FILTER_BOX();
     },
+    //this method is to handle Asset Type Filter form
     assetTypeFilter() {
       this.ASSET_TYPE_FILTER_BOX();
     }

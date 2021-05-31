@@ -43,10 +43,10 @@
       </el-col>
       <el-col :span="10" :offset="1">
         <el-form-item label="Phone Number">
-          <el-input v-model="newUser.phone_number"></el-input>
+          <el-input v-model="newUser.phone_number" type="number"></el-input>
         </el-form-item>
         <el-form-item label="NRC">
-          <el-input v-model="newUser.nrc"></el-input>
+          <el-input v-model="newUser.nrc" type="text"></el-input>
         </el-form-item>
       </el-col>
     </el-row>

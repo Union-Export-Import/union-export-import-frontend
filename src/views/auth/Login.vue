@@ -101,19 +101,19 @@ export default {
         type: type
       });
     },
-    successMessage(title, message) {
-      this.$notify({
-        title: title,
-        message: message,
-        type: "success"
-      });
-    },
-    errorMessage() {
-      this.$notify.error({
-        title: "Error",
-        message: "Something went wrong"
-      });
-    },
+    // successMessage(title, message) {
+    //   this.$notify({
+    //     title: title,
+    //     message: message,
+    //     type: "success"
+    //   });
+    // },
+    // errorMessage() {
+    //   this.$notify.error({
+    //     title: "Error",
+    //     message: "Something went wrong"
+    //   });
+    // },
 
     doLogin() {
       this.loading = true;
@@ -130,8 +130,9 @@ export default {
             name: "home"
           });
         })
-.catch(e => { this.loading = false; this.open2(e.message, "error");
-
+        .catch(e => {
+          this.loading = false;
+          this.open2(e.message, "error");
         });
     },
     resetPassword() {

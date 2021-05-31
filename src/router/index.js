@@ -1,280 +1,148 @@
 import { createRouter, createWebHistory } from "vue-router";
-import store from "@/store";
-const Home = () => import("@/views/Home.vue");
-const Login = () => import("@/views/auth/Login.vue");
-const UAC = () => import("@/views/uac/UserAndPermissionList.vue");
-const Warehouse = () => import("@/views/warehouse/Index.vue");
-const AssetCreate = () => import("@/views/warehouse/Create.vue");
-const AssetEdit = () => import("@/views/warehouse/Edit.vue");
-const AssetDetail = () => import("@/views/warehouse/Detail.vue");
-const AssetTypeCreate = () => import("@/views/asset_types/Create.vue");
-const AssetTypeEdit = () => import("@/views/asset_types/Edit.vue");
-const AssetTypeDetail = () => import("@/views/asset_types/Detail.vue");
-const Sale = () => import("@/views/sale/Index.vue");
-const Product = () => import("@/views/product/Index.vue");
-const UserCreate = () => import("@/views/uac/UserCreate.vue");
-const UserEdit = () => import("@/views/uac/UserEdit.vue");
-const UserDetail = () => import("@/views/uac/UserDetail.vue");
 
-const Customer = () => import("@/views/customer/Customer.vue");
-const CustomerCreate = () => import("@/views/customer/CustomerCreate.vue");
-const CustomerEdit = () => import("@/views/customer/CustomerEdit.vue");
-const CustomerDetail = () => import("@/views/customer/CustomerDetail.vue");
-
-const Suplier = () => import("@/views/suplier/Suplier.vue");
-const SuplierCreate = () => import("@/views/suplier/SuplierCreate.vue");
-const SuplierEdit = () => import("@/views/suplier/SuplierEdit.vue");
-const SuplierDetail = () => import("@/views/suplier/SuplierDetail.vue");
-const ChangePassword = () => import("@/views/auth/ChangePassword");
-const RoleCreate = () => import("@/views/role/Create.vue");
 const routes = [
   {
     path: "/",
     name: "home",
-    component: Home,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      } else if (store.getters["auth/authenticated"].account_status == "Init") {
-        return next({
-          name: "change-password"
-        });
-      }
-
-      next();
-    }
+    component: () => import("@/views/Home.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/login",
     name: "login",
-    component: Login,
-    beforeEnter: (to, from, next) => {
-      if (store.getters["auth/authenticated"]) {
-        return next({
-          name: "home"
-        });
-      }
-
-      next();
-    }
+    component: () => import("@/views/auth/Login.vue")
   },
   {
     path: "/change-password",
     name: "change-password",
-    component: ChangePassword
+    component: () => import("@/views/auth/ChangePassword")
   },
   {
     path: "/user-access-control",
     name: "uac",
-    component: UAC,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/uac/UserAndPermissionList.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/user-access-control/create",
     name: "UserCreate",
-    component: UserCreate,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/uac/UserCreate.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/user-access-control/edit/:id",
     name: "UserEdit",
-    component: UserEdit,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/uac/UserEdit.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/user-access-control/detail/:id",
     name: "UserDetail",
-    component: UserDetail
-    // beforeEnter: (to, from, next) => {
-    //     if (!store.getters["auth/authenticated"]) {
-    //         return next({
-    //             name: "login",
-    //         });
-    //     }
-    //     next();
-    // },
+    component: () => import("@/views/uac/UserDetail.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/product",
     name: "product",
-    component: Product
+    component: () => import("@/views/product/Index.vue")
   },
   {
     path: "/warehouse",
     name: "warehouse",
-    component: Warehouse,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/warehouse/Index.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/warehouse/create",
     name: "AssetCreate",
-    component: AssetCreate,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/warehouse/Create.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/warehouse/:id",
     name: "AssetDetail",
     props: true,
-    component: AssetDetail,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/warehouse/Detail.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/warehouse/edit/:id",
     name: "AssetEdit",
     props: true,
-    component: AssetEdit,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/warehouse/Edit.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/asset-type/edit/:id",
     name: "AssetTypeEdit",
     props: true,
-    component: AssetTypeEdit,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/asset_types/Edit.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/asset-type/create",
     name: "AssetTypeCreate",
     props: true,
-    component: AssetTypeCreate,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/asset_types/Create.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/asset-type/:id",
     name: "AssetTypeDetail",
     props: true,
-    component: AssetTypeDetail,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/asset_types/Detail.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/sale",
     name: "sale",
-    component: Sale
+    component: () => import("@/views/sale/Index.vue")
   },
   {
     path: "/customer",
     name: "Customer",
-    component: Customer
+    component: () => import("@/views/customer/Customer.vue")
   },
   {
     path: "/customer/create",
     name: "CustomerCreate",
-    component: CustomerCreate
+    component: () => import("@/views/customer/CustomerCreate.vue")
   },
   {
     path: "/customer/edit",
     name: "CustomerEdit",
-    component: CustomerEdit
+    component: () => import("@/views/customer/CustomerEdit.vue")
   },
   {
     path: "/customer/detail/:id",
     name: "CustomerDetail",
-    component: CustomerDetail
+    component: () => import("@/views/customer/CustomerDetail.vue")
   },
   {
     path: "/supplier",
     name: "Suplier",
-    component: Suplier
+    component: () => import("@/views/suplier/Suplier.vue")
   },
   {
     path: "/supplier/create",
     name: "SuplierCreate",
-    component: SuplierCreate
+    component: () => import("@/views/suplier/SuplierCreate.vue")
   },
   {
     path: "/supplier/edit",
     name: "SuplierEdit",
-    component: SuplierEdit
+    component: () => import("@/views/suplier/SuplierEdit.vue")
   },
   {
     path: "/supplier/show/:id",
     name: "SuplierDetail",
-    component: SuplierDetail
+    component: () => import("@/views/suplier/SuplierDetail.vue")
   },
   {
     path: "/roles/create",
     name: "RoleCreate",
-    component: RoleCreate,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "login"
-        });
-      }
-      next();
-    }
+    component: () => import("@/views/role/Create.vue"),
+    meta: { requireAuth: true }
   },
   {
     path: "/about",
@@ -292,4 +160,14 @@ const router = createRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem("token");
+  if (to.matched.some(record => record.meta.requireAuth) && !loggedIn) {
+    next({
+      name: "login"
+    });
+  } else {
+    next();
+  }
+});
 export default router;
