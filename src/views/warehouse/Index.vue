@@ -134,6 +134,7 @@ export default {
     if (!this.warehouse.assets) {
       this.LOADING();
       this.getAssetTypes();
+
       this.getAssets()
         .then(response => {
           this.SET_ASSETS(response.data);

@@ -1,9 +1,9 @@
-import CustomerService from "@/services/customer/CustomerService.js";
+import CategoryService from "@/services/category/CategoryService.js";
 import { paginationParams, sortingParams, filter } from "@/Helper";
 export const namespaced = true;
 export const state = {
-  customers: null,
-  customer: null,
+  categories: null,
+  category: null,
   data: [
     {
       id: 1,
@@ -27,11 +27,11 @@ export const state = {
   open: false
 };
 export const mutations = {
-  SET_CUSTOMERS(state, customers) {
-    state.customers = customers;
+  SET_CATEGORIES(state, categories) {
+    state.categories = categories;
   },
-  SET_CUSTOMER(state, customer) {
-    state.customer = customer;
+  SET_CATEGORY(state, category) {
+    state.category = category;
   },
   LOADING(state) {
     state.loading = true;
@@ -45,67 +45,67 @@ export const mutations = {
   SET_FORM_DATA(state, payload) {
     state.payload = payload;
   },
-  HANDLE_CUSTOMER_FILTER_BOX(state) {
+  HANDLE_CATEGORY_FILTER_BOX(state) {
     state.open = !state.open;
   }
 };
 export const actions = {
-  getCustomers({ state }) {
-    return CustomerService.filterCustomers({
+  getCategories({ state }) {
+    return CategoryService.filterCategories({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(1, 10),
       ...filter([], "AND")
     });
   },
-  createCustomer({ commit }, customerData) {
+  createCategory({ commit }, categoryData) {
     commit("STOP_LOADING");
-    return CustomerService.createCustomer(customerData);
+    return CategoryService.createCategory(categoryData);
   },
-  updateCustomer({ commit }, { form, id }) {
+  updateCategory({ commit }, { form, id }) {
     commit("STOP_LOADING");
-    return CustomerService.updateCustomer(form, id);
+    return CategoryService.updateCategory(form, id);
   },
-  customerPagiClick({ commit }, pageNo) {
+  categoryPagiClick({ commit }, pageNo) {
     commit("LOADING");
-    CustomerService.filterCustomers({
+    CategoryService.filterCategories({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(pageNo, 10),
       ...filter([], "AND")
     })
       .then(response => {
         commit("STOP_LOADING");
-        commit("SET_CUSTOMERS", response.data);
+        commit("SET_CATEGORIES", response.data);
       })
       .catch(() => {
         commit("STOP_LOADING");
       });
   },
-  customerSort({ dispatch, commit, state }, column) {
+  categorySort({ dispatch, commit, state }, column) {
     commit("LOADING");
     if (state.sortBy.key == column) {
       if (state.sortBy.type == "asc") {
         commit("SORT_TYPE", "desc");
-        dispatch("getCustomers");
+        dispatch("getCategories");
         commit("STOP_LOADING");
       } else {
         commit("SORT_TYPE", "asc");
-        dispatch("getCustomers");
+        dispatch("getCategories");
         commit("STOP_LOADING");
       }
     } else {
       state.sortBy.key = column;
-      dispatch("getCustomers");
+      dispatch("getCategories");
       commit("STOP_LOADING");
     }
   },
-  getCustomer({ commit, getters }, id) {
-    const customer = getters.getCustomerById(id);
-    if (customer) {
-      commit("SET_CUSTOMER", customer);
+  getCategory({ commit, getters }, id) {
+    const category = getters.getCategoryById(id);
+    if (category) {
+      commit("SET_CATEGORY", category);
     } else {
-      CustomerService.getCustomer(id)
+      CategoryService.getCategory(id)
         .then(res => {
-          commit("SET_CUSTOMER", res.data.data);
+          commit("SET_CATEGORY", res.data.data);
         })
         .catch(e => {
           console.log(e);
@@ -114,9 +114,9 @@ export const actions = {
   }
 };
 export const getters = {
-  customerFilterOpen: state => state.open,
-  getCustomer: state => state.customer,
-  getCustomerById: state => id => {
-    return state.customers.data.find(customer => customer.id == id);
+  categoryFilterOpen: state => state.open,
+  getCategory: state => state.category,
+  getCategoryById: state => id => {
+    return state.categories.data.find(category => category.id == id);
   }
 };

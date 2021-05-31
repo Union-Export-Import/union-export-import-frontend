@@ -132,10 +132,12 @@ export const actions = {
     const asset = getters.getAssetById(id);
     if (asset) {
       commit("SET_ASSET", asset);
+      commit("STOP_LOADING");
     } else {
       AssetService.getAsset(id)
         .then(res => {
           commit("SET_ASSET", res.data.data);
+        commit("STOP_LOADING");
         })
         .catch(e => {
           console.log(e);
@@ -147,6 +149,8 @@ export const getters = {
   assetFilterOpen: state => state.open,
   getAsset: state => state.asset,
   getAssetById: state => id => {
-    return state.assets.data.find(asset => asset.id == id);
+    if (state.assets) {
+      return state.assets.data.find(asset => asset.id == id);
+    }
   }
 };

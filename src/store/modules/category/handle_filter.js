@@ -3,13 +3,13 @@ const state = {
 };
 
 const mutations = {
-  HANDLE_CUSTOMER_FILTER_BOX(state) {
+  HANDLE_CATEGORY_FILTER_BOX(state) {
     state.open = !state.open;
   }
 };
 
 const getters = {
-  customerFilterOpen: state => state.open
+  categoryFilterOpen: state => state.open
 };
 
 export default {

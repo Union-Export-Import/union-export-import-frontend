@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-
 const routes = [
   {
     path: "/",
@@ -55,6 +54,7 @@ const routes = [
   {
     path: "/warehouse/create",
     name: "AssetCreate",
+    props: true,
     component: () => import("@/views/warehouse/Create.vue"),
     meta: { requireAuth: true }
   },
@@ -101,42 +101,62 @@ const routes = [
   {
     path: "/customer",
     name: "Customer",
-    component: () => import("@/views/customer/Customer.vue")
+    component: () => import("@/views/customer/Index.vue")
   },
   {
     path: "/customer/create",
     name: "CustomerCreate",
-    component: () => import("@/views/customer/CustomerCreate.vue")
+    component: () => import("@/views/customer/Create.vue")
   },
   {
-    path: "/customer/edit",
+    path: "/customer/edit/:id",
     name: "CustomerEdit",
-    component: () => import("@/views/customer/CustomerEdit.vue")
+    component: () => import("@/views/customer/Edit.vue")
   },
   {
     path: "/customer/detail/:id",
     name: "CustomerDetail",
-    component: () => import("@/views/customer/CustomerDetail.vue")
+    component: () => import("@/views/customer/Detail.vue")
   },
   {
     path: "/supplier",
-    name: "Suplier",
-    component: () => import("@/views/suplier/Suplier.vue")
+    name: "Supplier",
+    component: () => import("@/views/supplier/Index.vue")
   },
   {
     path: "/supplier/create",
-    name: "SuplierCreate",
-    component: () => import("@/views/suplier/SuplierCreate.vue")
+    name: "SupplierCreate",
+    component: () => import("@/views/supplier/Create.vue")
   },
   {
     path: "/supplier/edit",
-    name: "SuplierEdit",
-    component: () => import("@/views/suplier/SuplierEdit.vue")
+    name: "SupplierEdit",
+    component: () => import("@/views/supplier/Edit.vue")
   },
   {
     path: "/supplier/show/:id",
-    name: "SuplierDetail",
-    component: () => import("@/views/suplier/SuplierDetail.vue")
+    name: "SupplierDetail",
+    component: () => import("@/views/supplier/Detail.vue")
+  },
+  {
+    path: "/category",
+    name: "category",
+    component: () => import("@/views/category/Index.vue")
+  },
+  {
+    path: "/category/create",
+    name: "category-create",
+    component: () => import("@/views/category/Create.vue")
+  },
+  {
+    path: "/category/edit/:id",
+    name: "category-edit",
+    component: () => import("@/views/category/Edit.vue")
+  },
+  {
+    path: "/category/detail/:id",
+    name: "category-detail",
+    component: () => import("@/views/category/Detail.vue")
   },
   {
     path: "/roles/create",
