@@ -24,7 +24,6 @@ export const state = {
   open: false
 };
 export const mutations = {
-
   SET_ASSETS(state, assets) {
     state.assets = assets;
   },
@@ -72,7 +71,6 @@ export const actions = {
     })
       .then(response => {
         commit("SET_ASSETS", response.data);
-        console.log("Come here", response.data);
         commit("STOP_LOADING");
       })
       .catch(error => {
@@ -137,10 +135,11 @@ export const actions = {
       AssetService.getAsset(id)
         .then(res => {
           commit("SET_ASSET", res.data.data);
-        commit("STOP_LOADING");
+          commit("STOP_LOADING");
         })
         .catch(e => {
           console.log(e);
+          commit("STOP_LOADING");
         });
     }
   }

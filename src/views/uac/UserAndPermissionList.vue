@@ -11,13 +11,12 @@
       <template #label>
         <span>Users</span>
       </template>
-      <template v-if="uac">
+      <template v-if="users">
         <el-row>
           <el-col :span="14">
             <p class="pagi-info">
-              Total {{ uac.users ? uac.users.meta.total : 0 }} items, current
-              page
-              {{ uac.users ? uac.users.meta.current_page : 0 }}
+              Total {{ users.meta.total }} items, current page
+              {{ users.meta.current_page }}
             </p>
           </el-col>
           <el-col :span="10">
@@ -41,8 +40,8 @@
           </el-col>
         </el-row>
         <user-list
-          v-if="uac"
-          :data="uac.users ? uac.users.data : uac.data"
+          v-if="users"
+          :data="users.data"
           :loading="loading"
           @user-header-click="sortUsers"
         />
@@ -50,7 +49,7 @@
           class="center-align mt-3"
           background
           layout="prev, pager, next"
-          :total="uac.users ? uac.users.meta.total : 1"
+          :total="users.meta.total"
           @prev-click="pagiClick"
           @next-click="pagiClick"
           @current-change="pagiClick"
@@ -61,12 +60,12 @@
       <template #label>
         <span>Roles & Permission</span>
       </template>
-      <template v-if="uac.roles">
+      <template v-if="roles">
         <el-row>
           <el-col :span="14">
             <p class="pagi-info">
-              Total {{ uac.roles.meta.total }} items, current page
-              {{ uac.roles.meta.current_page }}
+              Total {{ roles.meta.total }} items, current page
+              {{ roles.meta.current_page }}
             </p>
           </el-col>
           <el-col :span="10">
@@ -92,8 +91,8 @@
       </template>
 
       <permission-list
-        v-if="uac.roles"
-        :data="uac.roles.data"
+        v-if="roles"
+        :data="roles.data"
         :loading="loading"
         @roleHeaderClick="sortRoles"
       />
@@ -101,8 +100,8 @@
         class="center-align mt-3"
         background
         layout="prev, pager, next"
-        v-if="uac.roles"
-        :total="uac.roles.meta.total"
+        v-if="roles"
+        :total="roles.meta.total"
         @prev-click="RolePagiClick"
         @next-click="RolePagiClick"
         @current-change="RolePagiClick"
@@ -122,9 +121,13 @@ import Createbtn from "@/components/resuable/CreateBtn";
 import { paginationParams, sortingParams, filter } from "@/Helper";
 import UserRepository from "@/repository/UserRepository";
 import RoleRepository from "@/repository/RoleRepository";
-import { mapState, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 import NProgress from "nprogress";
 export default {
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start(); // Start the progress bar
+    next();
+  },
   components: {
     "user-list": UserList,
     "permission-list": PermissionList,
@@ -144,27 +147,27 @@ export default {
     };
   },
 
-  created() {
-    if (!this.uac.users) {
-      this.getUsers({
-        ...sortingParams(this.sortBy.key, this.sortBy.type),
-        ...paginationParams(1, 10),
-        ...filter([], "AND")
-      });
-      this.getRoles({
-        ...sortingParams(this.sortBy.key, this.sortBy.type),
-        ...paginationParams(1, 10),
-        ...filter([], "AND")
-      });
-    }
+  beforeMount() {
+    this.getUsers({
+      ...sortingParams(this.sortBy.key, this.sortBy.type),
+      ...paginationParams(1, 10),
+      ...filter([], "AND")
+    });
+    this.getRoles({
+      ...sortingParams(this.sortBy.key, this.sortBy.type),
+      ...paginationParams(1, 10),
+      ...filter([], "AND")
+    });
   },
 
   computed: {
-    ...mapState(["uac"])
+    ...mapGetters({
+      users: "uac/getUsers",
+      roles: "uac/getRoles"
+    })
   },
 
   methods: {
-    ...mapMutations("uac", ["ADD_UAC_DATA", "ADD_ROLE_DATA"]),
     filterBox() {
       this.$store.commit("handleFilterBox");
     },
@@ -175,7 +178,7 @@ export default {
       this.loading = true;
       await UserRepository.filterUsers(payload)
         .then(res => {
-          this.ADD_UAC_DATA(res.data);
+          this.$store.commit("uac/ADD_UAC_DATA", res.data);
           NProgress.done();
           this.loading = false;
         })
@@ -189,7 +192,7 @@ export default {
       this.loading = true;
       await RoleRepository.filterRoles(payload)
         .then(res => {
-          this.ADD_ROLE_DATA(res.data);
+          this.$store.commit("uac/ADD_ROLE_DATA", res.data);
           NProgress.done();
           this.loading = false;
         })

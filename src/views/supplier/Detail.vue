@@ -12,7 +12,7 @@
 
     <!-- <profile-header v-if="user" :name="user.name" :join_status="join_status" /> -->
 
-    <el-row v-loading="loading">
+    <el-row v-loading="supplier.loading">
       <el-col :span="16">
         <profile-detail v-if="supplier.supplier">
           <div class="profile-detail-info pb-5">
@@ -21,7 +21,9 @@
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.supplier.company_name }}</p>
+            <p class="mt-1 font-weight-900">
+              {{ supplier.supplier.company_name }}
+            </p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
@@ -33,7 +35,9 @@
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.supplier.phone_number }}</p>
+            <p class="mt-1 font-weight-900">
+              {{ supplier.supplier.phone_number }}
+            </p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
@@ -45,7 +49,9 @@
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ supplier.supplier.supplied_product }}</p>
+            <p class="mt-1 font-weight-900">
+              {{ supplier.supplier.supplied_product }}
+            </p>
           </div>
         </profile-detail>
         <div class="manage-btns mt-2">
@@ -63,6 +69,7 @@
 </template>
 
 <script>
+import ProfileDetailVue from "@/components/resuable/ProfileDetail.vue";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -71,7 +78,7 @@ export default {
     // "name-card": NameCard,
     // "delete-button": DeleteButton,
     // "submit-button": SubmitButton,
-    // "profile-header": ProfileHeader,
+    "profile-detail": ProfileDetailVue
   },
   data() {
     return {

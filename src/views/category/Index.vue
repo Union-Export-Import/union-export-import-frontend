@@ -6,7 +6,7 @@
     <el-breadcrumb-item>Category Management</el-breadcrumb-item>
   </el-breadcrumb>
 
-  <el-tabs type="card" @tab-click="handleClick">
+  <el-tabs type="card">
     <el-tab-pane label="Categories">
       <el-row>
         <el-col :span="14">
@@ -14,7 +14,9 @@
             Total
             {{ category.categories ? category.categories.meta.total : 0 }}
             items, current page
-            {{ category.categories ? category.categories.meta.current_page : 0 }}
+            {{
+              category.categories ? category.categories.meta.current_page : 0
+            }}
           </p>
         </el-col>
         <el-col :span="10">
@@ -42,7 +44,7 @@
         :data="category.categories ? category.categories.data : category.data"
         v-if="category"
         :loading="category.loading"
-        @category-header-click="categorySort"
+        @category-header-click="categorySorting"
       />
       <el-pagination
         class="center-align mt-3"
@@ -73,24 +75,22 @@ export default {
   components: {
     "category-list": List,
     "create-btn": Createbtn,
-    "category-filter": FilterCategory,
+    "category-filter": FilterCategory
   },
-  beforeMount() {
-    this.LOADING();
-    // this.getCategories();
-    this.getCategories()
-      .then(response => {
-        this.SET_CATEGORIES(response.data);
-        this.STOP_LOADING();
-      })
-      .catch(error => {
-        this.open2(error.message, "error");
-        this.STOP_LOADING();
-      });
+  created() {
+    if (!this.category.categories) {
+      this.LOADING();
+
+      this.getCategories();
+    }
   },
 
   methods: {
-    ...mapActions("category", ["getCategories", "categoryPagiClick"]),
+    ...mapActions("category", [
+      "getCategories",
+      "categoryPagiClick",
+      "categorySort"
+    ]),
     ...mapMutations("category", [
       "SET_CATEGORIES",
       "STOP_LOADING",
@@ -102,7 +102,7 @@ export default {
       this.categoryPagiClick(pageNo);
     },
 
-    categorySort(column) {
+    categorySorting(column) {
       this.categorySort(column);
     },
 

@@ -94,26 +94,14 @@ export default {
     ...mapActions({
       login: "auth/login"
     }),
-    open2(message, type) {
-      this.$message({
-        showClose: true,
+
+    notification(message, type) {
+      this.$notify({
+        title: type,
         message: message,
         type: type
       });
     },
-    // successMessage(title, message) {
-    //   this.$notify({
-    //     title: title,
-    //     message: message,
-    //     type: "success"
-    //   });
-    // },
-    // errorMessage() {
-    //   this.$notify.error({
-    //     title: "Error",
-    //     message: "Something went wrong"
-    //   });
-    // },
 
     doLogin() {
       this.loading = true;
@@ -125,7 +113,7 @@ export default {
       this.login(credentials)
         .then(() => {
           this.loading = false;
-          this.open2("success", "success");
+          this.notification("Successfully Login", "success");
           this.$router.push({
             name: "home"
           });

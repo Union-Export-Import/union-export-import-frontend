@@ -50,21 +50,37 @@ export const mutations = {
   }
 };
 export const actions = {
-  getCustomers({ state }) {
-    return CustomerService.filterCustomers({
+
+  //get all customers lists
+  getCustomers({ state, commit }) {
+    CustomerService.filterCustomers({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(1, 10),
       ...filter([], "AND")
-    });
+    })
+      .then(response => {
+        commit("SET_CUSTOMERS", response.data);
+        commit("STOP_LOADING");
+      })
+      .catch(error => {
+        console.log("error", error.message);
+        commit("STOP_LOADING");
+      });
   },
+
+  // create customer
   createCustomer({ commit }, customerData) {
     commit("STOP_LOADING");
     return CustomerService.createCustomer(customerData);
   },
+
+  //update customer
   updateCustomer({ commit }, { form, id }) {
     commit("STOP_LOADING");
     return CustomerService.updateCustomer(form, id);
   },
+
+  //get customer list when pagination click
   customerPagiClick({ commit }, pageNo) {
     commit("LOADING");
     CustomerService.filterCustomers({
@@ -80,6 +96,8 @@ export const actions = {
         commit("STOP_LOADING");
       });
   },
+
+  // sorting customer list
   customerSort({ dispatch, commit, state }, column) {
     commit("LOADING");
     if (state.sortBy.key == column) {
@@ -98,14 +116,19 @@ export const actions = {
       commit("STOP_LOADING");
     }
   },
+
+  //get customer detail
   getCustomer({ commit, getters }, id) {
+    commit("LOADING");
     const customer = getters.getCustomerById(id);
     if (customer) {
       commit("SET_CUSTOMER", customer);
+      commit("STOP_LOADING");
     } else {
       CustomerService.getCustomer(id)
         .then(res => {
           commit("SET_CUSTOMER", res.data.data);
+          commit("STOP_LOADING");
         })
         .catch(e => {
           console.log(e);
@@ -113,10 +136,13 @@ export const actions = {
     }
   }
 };
+
 export const getters = {
   customerFilterOpen: state => state.open,
   getCustomer: state => state.customer,
   getCustomerById: state => id => {
-    return state.customers.data.find(customer => customer.id == id);
+    if (state.customers) {
+      return state.customers.data.find(customer => customer.id == id);
+    }
   }
 };

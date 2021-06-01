@@ -35,7 +35,7 @@
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="handleSignout">Sign out</el-dropdown-item>
+                <el-dropdown-item @click="logout">Sign out</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -47,28 +47,22 @@
 
 <script>
 import { mapGetters } from "vuex";
-import AuthRepository from "../repository/AuthRepository";
+// import AuthRepository from "../repository/AuthRepository";
 export default {
   computed: {
     ...mapGetters({
       authenticated: "auth/authenticated",
-      user: "auth/user",
-    }),
+      user: "auth/user"
+    })
   },
   methods: {
     handleColapse() {
       this.$store.commit("handleCollapse");
     },
-    async handleSignout() {
-      await AuthRepository.logout()
-        .then(() => {
-          localStorage.removeItem("token");
-          location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
+    logout() {
+      localStorage.removeItem("token");
+      location.reload();
+    }
+  }
 };
 </script>

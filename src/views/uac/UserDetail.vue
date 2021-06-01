@@ -1,8 +1,12 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
-      <el-breadcrumb-item separator-class="el-icon-arrow-right">User Access Control</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+        >Home Page</el-breadcrumb-item
+      >
+      <el-breadcrumb-item separator-class="el-icon-arrow-right"
+        >User Access Control</el-breadcrumb-item
+      >
       <el-breadcrumb-item>User Detail</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -40,13 +44,18 @@
                 :key="role.id"
                 type="info"
                 effect="dark"
-              >{{ role.title }}</el-tag>
+                >{{ role.title }}</el-tag
+              >
             </p>
           </div>
         </profile-detail>
         <div class="manage-btns mt-2">
-          <el-button plain @click="this.$router.push({ name: 'uac' })">BACK</el-button>
-          <el-button @click="this.userEdit()" class="edit-button">EDIT</el-button>
+          <el-button plain @click="this.$router.push({ name: 'uac' })"
+            >BACK</el-button
+          >
+          <el-button @click="this.userEdit()" class="edit-button"
+            >EDIT</el-button
+          >
         </div>
       </el-col>
       <el-col :span="8">
@@ -74,13 +83,13 @@ export default {
     // "delete-button": DeleteButton,
     // "submit-button": SubmitButton,
     "profile-header": ProfileHeader,
-    "profile-detail": ProfileDetail,
+    "profile-detail": ProfileDetail
   },
   data() {
     return {
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      loading: false,
+      loading: false
     };
   },
   beforeMount() {
@@ -88,26 +97,25 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: "uac/getUser",
+      user: "uac/getUser"
     }),
     join_status() {
       return moment(this.user.created_at).format("LLL");
-    },
+    }
   },
   methods: {
-    getUserDetail: async function (path) {
+    getUserDetail: async function(path) {
       this.loading = true;
       await axios
         .get(
           `/api/users/${lastItemFromUrl(path)}`,
           tokenHeader(localStorage.getItem("token"))
         )
-        .then((res) => {
-          // console.log(res.data.data);
+        .then(res => {
           this.$store.commit("uac/ADD_USER", res.data.data);
           this.loading = false;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.loading = false;
         });
@@ -115,24 +123,24 @@ export default {
     // moment: function () {
     //   return moment();
     // },
-    userDelete: async function () {
+    userDelete: async function() {
       await UserRepository.deleteUser(lastItemFromUrl(this.$route.path))
         .then(() => {
           this.$router.replace({
-            name: "uac",
+            name: "uac"
           });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
-    userEdit: function () {
+    userEdit: function() {
       this.$router.push({
         name: "UserEdit",
-        params: { id: this.user.id },
+        params: { id: this.user.id }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

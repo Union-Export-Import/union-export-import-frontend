@@ -1,7 +1,11 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
-    <el-breadcrumb-item separator-class="el-icon-arrow-right">Category Create</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+      >Home Page</el-breadcrumb-item
+    >
+    <el-breadcrumb-item separator-class="el-icon-arrow-right"
+      >Category Create</el-breadcrumb-item
+    >
     <el-breadcrumb-item>Category Create</el-breadcrumb-item>
   </el-breadcrumb>
   <el-form
@@ -14,16 +18,20 @@
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.name" type="text"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="2" :offset="17">
-        <el-button type="text" class="cancel_button" @click="Back">Cancel</el-button>
+        <el-button type="text" class="cancel_button" @click="Back"
+          >Cancel</el-button
+        >
       </el-col>
       <el-col :span="2">
-        <el-button class="submit_button" @click="onSubmit" v-loading="loading">SUMMIT</el-button>
+        <el-button class="submit_button" @click="onSubmit" v-loading="loading"
+          >SUMMIT</el-button
+        >
       </el-col>
     </el-row>
   </el-form>
@@ -34,7 +42,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["category"]),
+    ...mapState(["category"])
   },
   data() {
     return {
@@ -42,7 +50,7 @@ export default {
       form: {
         name: ""
       },
-      loading: false,
+      loading: false
     };
   },
   methods: {
@@ -53,25 +61,24 @@ export default {
     onSubmit() {
       this.loading = true;
       this.createCategory(this.form)
-        .then((res) => {
-          console.log("************");
+        .then(res => {
           this.loading = false;
-          this.$router.push({ name: "Category" });
-          this.open2(res.data.message, "success");
+          this.$router.push({ name: "category" });
+          this.notification(res.data.message, "success");
+          // location.reload();
         })
-        .catch((error) => {
-          this.open2(error.message, "error");
+        .catch(error => {
+          this.notification(error.message, "error");
           this.loading = false;
         });
     },
-    open2(message, type) {
-      this.$message({
-        showClose: true,
+    notification(message, type) {
+      this.$notify({
+        title: type,
         message: message,
-        type: type,
+        type: type
       });
-    },
-  },
+    }
+  }
 };
 </script>
-

@@ -50,12 +50,24 @@ export const mutations = {
   }
 };
 export const actions = {
-  getCategories({ state }) {
-    return CategoryService.filterCategories({
+  getCategories({ state, commit }) {
+    CategoryService.filterCategories({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(1, 10),
       ...filter([], "AND")
-    });
+    })
+      .then(response => {
+        commit("SET_CATEGORIES", response.data);
+        commit("STOP_LOADING");
+        // this.SET_CATEGORIES(response.data);
+        // this.STOP_LOADING();
+      })
+      .catch(error => {
+        console.log("error", error.message);
+        commit("STOP_LOADING");
+        // this.open2(error.message, "error");
+        // this.STOP_LOADING();
+      });
   },
   createCategory({ commit }, categoryData) {
     commit("STOP_LOADING");
@@ -86,29 +98,33 @@ export const actions = {
       if (state.sortBy.type == "asc") {
         commit("SORT_TYPE", "desc");
         dispatch("getCategories");
-        commit("STOP_LOADING");
+        // commit("STOP_LOADING");
       } else {
         commit("SORT_TYPE", "asc");
         dispatch("getCategories");
-        commit("STOP_LOADING");
+        // commit("STOP_LOADING");
       }
     } else {
       state.sortBy.key = column;
       dispatch("getCategories");
-      commit("STOP_LOADING");
+      // commit("STOP_LOADING");
     }
   },
   getCategory({ commit, getters }, id) {
+    commit("LOADING");
     const category = getters.getCategoryById(id);
     if (category) {
       commit("SET_CATEGORY", category);
+      commit("STOP_LOADING");
     } else {
       CategoryService.getCategory(id)
         .then(res => {
           commit("SET_CATEGORY", res.data.data);
+          commit("STOP_LOADING");
         })
         .catch(e => {
           console.log(e);
+          commit("STOP_LOADING");
         });
     }
   }
@@ -117,6 +133,8 @@ export const getters = {
   categoryFilterOpen: state => state.open,
   getCategory: state => state.category,
   getCategoryById: state => id => {
-    return state.categories.data.find(category => category.id == id);
+    if (state.categories) {
+      return state.categories.data.find(category => category.id == id);
+    }
   }
 };

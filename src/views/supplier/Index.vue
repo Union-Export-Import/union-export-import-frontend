@@ -42,7 +42,7 @@
         :data="supplier.suppliers ? supplier.suppliers.data : supplier.data"
         v-if="supplier"
         :loading="supplier.loading"
-        @supplier-header-click="supplierSort"
+        @supplier-header-click="supplierSorting"
       />
       <el-pagination
         class="center-align mt-3"
@@ -72,24 +72,21 @@ export default {
   components: {
     "supplier-list": List,
     "create-btn": Createbtn,
-    "supplier-filter": FilterSupplier,
+    "supplier-filter": FilterSupplier
   },
-  beforeMount() {
-    this.LOADING();
-    // this.getSuppliers();
-    this.getSuppliers()
-      .then(response => {
-        this.SET_SUPPLIERS(response.data);
-        this.STOP_LOADING();
-      })
-      .catch(error => {
-        this.open2(error.message, "error");
-        this.STOP_LOADING();
-      });
+  created() {
+    if (!this.supplier.supplier) {
+      this.LOADING();
+      this.getSuppliers();
+    }
   },
 
   methods: {
-    ...mapActions("supplier", ["getSuppliers", "supplierPagiClick"]),
+    ...mapActions("supplier", [
+      "getSuppliers",
+      "supplierPagiClick",
+      "supplierSort"
+    ]),
     ...mapMutations("supplier", [
       "SET_SUPPLIERS",
       "STOP_LOADING",
@@ -101,13 +98,14 @@ export default {
       this.supplierPagiClick(pageNo);
     },
 
-    supplierSort(column) {
+    supplierSorting(column) {
+      this.LOADING();
       this.supplierSort(column);
     },
 
     open2(message, type) {
-      this.$message({
-        showClose: true,
+      this.$notify({
+        title: type,
         message: message,
         type: type
       });

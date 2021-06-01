@@ -6,7 +6,7 @@
     <el-breadcrumb-item>Customer Management</el-breadcrumb-item>
   </el-breadcrumb>
 
-  <el-tabs type="card" @tab-click="handleClick">
+  <el-tabs type="card">
     <el-tab-pane label="Customers">
       <el-row>
         <el-col :span="14">
@@ -42,7 +42,7 @@
         :data="customer.customers ? customer.customers.data : customer.data"
         v-if="customer"
         :loading="customer.loading"
-        @customer-header-click="customerSort"
+        @customer-header-click="customerSorting"
       />
       <el-pagination
         class="center-align mt-3"
@@ -73,24 +73,21 @@ export default {
   components: {
     "customer-list": List,
     "create-btn": Createbtn,
-    "customer-filter": FilterCustomer,
+    "customer-filter": FilterCustomer
   },
-  beforeMount() {
-    this.LOADING();
-    // this.getCustomers();
-    this.getCustomers()
-      .then(response => {
-        this.SET_CUSTOMERS(response.data);
-        this.STOP_LOADING();
-      })
-      .catch(error => {
-        this.open2(error.message, "error");
-        this.STOP_LOADING();
-      });
+  created() {
+    if (!this.customer.customers) {
+      this.LOADING();
+      this.getCustomers();
+    }
   },
 
   methods: {
-    ...mapActions("customer", ["getCustomers", "customerPagiClick"]),
+    ...mapActions("customer", [
+      "getCustomers",
+      "customerPagiClick",
+      "customerSort"
+    ]),
     ...mapMutations("customer", [
       "SET_CUSTOMERS",
       "STOP_LOADING",
@@ -102,13 +99,13 @@ export default {
       this.customerPagiClick(pageNo);
     },
 
-    customerSort(column) {
+    customerSorting(column) {
       this.customerSort(column);
     },
 
     open2(message, type) {
-      this.$message({
-        showClose: true,
+      this.$notify({
+        title: type,
         message: message,
         type: type
       });

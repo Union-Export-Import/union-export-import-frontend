@@ -77,12 +77,24 @@ export const mutations = {
   }
 };
 export const actions = {
-  getSuppliers({ state }) {
-    return SupplierService.filterSuppliers({
+  getSuppliers({ state, commit }) {
+    SupplierService.filterSuppliers({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(1, 10),
       ...filter([], "AND")
-    });
+    })
+      .then(response => {
+        commit("SET_SUPPLIERS", response.data);
+        commit("STOP_LOADING");
+        // this.SET_SUPPLIERS(response.data);
+        // this.STOP_LOADING();
+      })
+      .catch(error => {
+        console.log("error", error.message);
+        commit("STOP_LOADING");
+        // this.open2(error.message, "error");
+        // this.STOP_LOADING();
+      });
   },
   createSupplier({ commit }, supplierData) {
     commit("STOP_LOADING");
@@ -113,26 +125,29 @@ export const actions = {
       if (state.sortBy.type == "asc") {
         commit("SORT_TYPE", "desc");
         dispatch("getSuppliers");
-        commit("STOP_LOADING");
+        // commit("STOP_LOADING");
       } else {
         commit("SORT_TYPE", "asc");
         dispatch("getSuppliers");
-        commit("STOP_LOADING");
+        // commit("STOP_LOADING");
       }
     } else {
       state.sortBy.key = column;
       dispatch("getSuppliers");
-      commit("STOP_LOADING");
+      // commit("STOP_LOADING");
     }
   },
   getSupplier({ commit, getters }, id) {
+    commit("LOADING");
     const supplier = getters.getSupplierById(id);
     if (supplier) {
       commit("SET_SUPPLIER", supplier);
+      commit("STOP_LOADING");
     } else {
       SupplierService.getSupplier(id)
         .then(res => {
           commit("SET_SUPPLIER", res.data.data);
+          commit("STOP_LOADING");
         })
         .catch(e => {
           console.log(e);
@@ -144,6 +159,8 @@ export const getters = {
   supplierFilterOpen: state => state.open,
   getSupplier: state => state.supplier,
   getSupplierById: state => id => {
-    return state.suppliers.data.find(supplier => supplier.id == id);
+    if (state.suppliers) {
+      return state.suppliers.data.find(supplier => supplier.id == id);
+    }
   }
 };

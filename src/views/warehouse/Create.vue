@@ -18,7 +18,7 @@
     <el-row :span="16">
       <el-col :span="10" :offset="1">
         <el-form-item label="Name">
-          <el-input v-model="form.asset_name"></el-input>
+          <el-input v-model="form.asset_name" type="text"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="10" :offset="1">
@@ -87,16 +87,16 @@ export default {
         .then(res => {
           this.loading = false;
           this.$router.push({ name: "warehouse" });
-          this.open2(res.data.message, "success");
+          this.notification(res.data.message, "success");
         })
         .catch(error => {
-          this.open2(error.message, "error");
+          this.notification(error.message, "error");
           this.loading = false;
         });
     },
-    open2(message, type) {
-      this.$message({
-        showClose: true,
+    notification(message, type) {
+      this.$notify({
+        title: type,
         message: message,
         type: type
       });

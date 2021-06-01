@@ -100,7 +100,7 @@ const routes = [
   },
   {
     path: "/customer",
-    name: "Customer",
+    name: "customer",
     component: () => import("@/views/customer/Index.vue")
   },
   {

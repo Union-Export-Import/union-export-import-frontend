@@ -23,7 +23,7 @@
     <el-menu-item
       index="2"
       :class="checkRoute == 'Customer' ? 'is-active' : ''"
-      @click="changeRoute('Customer')"
+      @click="changeRoute('customer')"
     >
       <img
         v-if="checkRoute == 'Customer'"

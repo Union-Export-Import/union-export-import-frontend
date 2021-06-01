@@ -4,7 +4,6 @@
     :direction="direction"
     :before-close="filterBoxClose"
     label-width="33%"
-    @closeFilterSlider="filterBoxClose"
   >
     <el-form
       :label-position="labelPosition"

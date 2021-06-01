@@ -33,7 +33,9 @@
         </el-col>
       </el-row>
     </el-form-item>
-    <el-button @click="filterUser" class="filter-button" v-loading="loading">Filter</el-button>
+    <el-button @click="filterUser" class="filter-button" v-loading="loading"
+      >Filter</el-button
+    >
   </main-filter>
 </template>
 
