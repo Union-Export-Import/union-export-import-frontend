@@ -9,7 +9,6 @@
     <el-breadcrumb-item>Role Create</el-breadcrumb-item>
   </el-breadcrumb>
   <el-form
-    ref="newUser"
     :label-position="labelPosition"
     label-width="100px"
     :model="formLabelAlign"
@@ -29,10 +28,11 @@
             filterable
             multiple
             placeholder="Select"
+            v-if="permission.permissions"
             style="width: 397px"
           >
             <el-option
-              v-for="item in permissions"
+              v-for="item in permission.permissions.data"
               :key="item.id"
               :label="item.permission_name"
               :value="item.id"
@@ -61,20 +61,21 @@
 
 <script>
 import SubmitButton from "@/components/SubmitButton.vue";
-import { mapGetters } from "vuex";
+import { mapState, mapActions } from "vuex";
 import RoleService from "@/services/roles/RoleService";
-import PermissionRepository from "@/repository/PermissionRepository";
-import { paginationParams, sortingParams, filter } from "@/Helper";
 export default {
   components: {
     "submit-button": SubmitButton
   },
+
   computed: {
-    ...mapGetters({
-      authenticated: "auth/authenticated",
-      user: "auth/user"
-    })
+    ...mapState(["permission"])
   },
+
+  created() {
+    this.getPermissions();
+  },
+
   data() {
     return {
       labelPosition: "top",
@@ -82,24 +83,25 @@ export default {
         title: "",
         permissions: []
       },
-      permissions: [],
       loading: false
     };
   },
+
   methods: {
-    async onSubmit() {
+    ...mapActions("permission", ["getPermissions"]),
+
+    onSubmit() {
       this.loading = true;
-      await RoleService.createRole(this.newRole)
+      RoleService.createRole(this.newRole)
         .then(response => {
-          console.log(response);
           this.loading = false;
-          this.open2(response.data.message, "success"),
+          this.notification(response.data.message, "success"),
             this.$router.replace({
               name: "uac"
             });
         })
         .catch(err => {
-          this.open2(err, "error");
+          this.notification(err, "error");
           console.log(err);
         });
     },
@@ -108,30 +110,13 @@ export default {
         name: "uac"
       });
     },
-    open2(message, type) {
-      this.$message({
-        showClose: true,
+    notification(message, type) {
+      this.$notify({
+        title: type,
         message: message,
         type: type
       });
-    },
-    getPermissions: async function(payload) {
-      await PermissionRepository.filterPermissions(payload)
-        .then(res => {
-          this.permissions = res.data.data;
-        })
-        .catch(err => {
-          this.open2(err.message, "error");
-          console.log(err);
-        });
     }
-  },
-  beforeMount() {
-    this.getPermissions({
-      ...sortingParams("id", "asc"),
-      ...paginationParams(1, 1000),
-      ...{ ...filter([], "AND") }
-    });
   }
 };
 </script>

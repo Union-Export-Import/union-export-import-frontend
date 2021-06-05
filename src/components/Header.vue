@@ -28,7 +28,7 @@
         <li>
           <el-dropdown trigger="click">
             <div class="demonstration">
-              AO
+              {{ user.name }}
               <span class="el-dropdown-link">
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>

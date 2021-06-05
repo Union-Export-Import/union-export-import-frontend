@@ -3,7 +3,6 @@
     :model-value="roleFilterOpen"
     :direction="direction"
     :before-close="filterBoxClose"
-    @closeFilterSlider="filterBoxClose"
   >
     <el-form
       :label-position="labelPosition"
@@ -28,44 +27,54 @@ import {
   filterParams,
   filter
 } from "@/Helper";
-// import axios from "@/axios";
-import RoleRepository from "@/repository/RoleRepository";
+import { mapState, mapMutations } from "vuex";
+import roleService from "@/services/roles/RoleService";
 export default {
   data() {
     return {
       labelPosition: "top",
       direction: "rtl",
       form: {
-        title: "",
+        title: ""
       },
       loading: false
     };
   },
 
   computed: {
+    ...mapState(["role"]),
+
     roleFilterOpen() {
-      return this.$store.getters.filterRoleOpen;
+      return this.role.open;
     }
   },
 
   methods: {
+    ...mapMutations("role", ["ROLE_FILTER", "SET_ROLES"]),
+
+    // ...mapActions("role"),
+
     filterBoxClose() {
-      this.$store.commit("HANDLE_ROLE_FILTER_BOX");
+      this.ROLE_FILTER();
     },
+
     clearForm() {
       console.log("Clear Form");
     },
-    getRoles: async function(payload) {
-      await RoleRepository.filterRoles(payload)
+
+    getRoles(payload) {
+      roleService
+        .filterRoles(payload)
         .then(response => {
-          this.$store.commit("uac/ADD_ROLE_DATA", response.data);
-          this.$store.commit("HANDLE_ROLE_FILTER_BOX");
+          this.SET_ROLES(response.data);
+          this.ROLE_FILTER();
           this.loading = false;
         })
         .catch(e => {
           console.log(e);
         });
     },
+
     filterRoles() {
       this.loading = true;
       const { title } = this.form;

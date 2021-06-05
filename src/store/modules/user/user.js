@@ -1,20 +1,34 @@
-import AssetService from "@/services/assets/AssetService.js";
+import UserService from "@/services/users/UserService.js";
 import { paginationParams, sortingParams, filter } from "@/Helper";
 export const namespaced = true;
 export const state = {
-  assets: null,
-  asset: null,
+  users: null,
+  user: null,
   data: [
     {
       id: 1,
-      asset_name: "Shop1",
-      asset_type_id: 1,
-      created_at: "2021-05-25T10:10:27.000000Z",
-      updated_at: "2021-05-25T10:10:27.000000Z",
-      asset_type: "Miss India Welch"
+      name: "Admin",
+      email: "admin@admin.com",
+      email_verified_at: null,
+      account_status: "Active",
+      created_at: "2021-05-31T16:43:44.000000Z",
+      updated_at: "2021-05-31T16:43:44.000000Z",
+      nrc: null,
+      phone_number: null,
+      roles: [
+        {
+          id: 1,
+          title: "Admin",
+          created_at: null,
+          updated_at: null,
+          pivot: {
+            user_id: 1,
+            role_id: 1
+          }
+        }
+      ]
     }
   ],
-  asset_types: null,
   sortBy: {
     key: "id",
     type: "desc"
@@ -24,12 +38,12 @@ export const state = {
   open: false
 };
 export const mutations = {
-  SET_ASSETS(state, assets) {
-    state.assets = assets;
+  SET_USERS(state, userData) {
+    state.users = userData;
   },
 
-  SET_ASSET(state, asset) {
-    state.asset = asset;
+  SET_USER(state, user) {
+    state.user = user;
   },
 
   LOADING(state) {
@@ -48,20 +62,21 @@ export const mutations = {
     state.payload = payload;
   },
 
-  HANDLE_ASSET_FILTER_BOX(state) {
+  USER_FILTER(state) {
     state.open = !state.open;
   }
 };
 export const actions = {
   //get assets lists
-  getAssets({ state, commit }) {
-    AssetService.filterAssets({
+  getUsers({ state, commit }) {
+    commit("LOADING");
+    UserService.filterUsers({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(1, 10),
       ...filter([], "AND")
     })
       .then(response => {
-        commit("SET_ASSETS", response.data);
+        commit("SET_USERS", response.data);
         commit("STOP_LOADING");
       })
       .catch(error => {
@@ -70,29 +85,46 @@ export const actions = {
       });
   },
 
+  //sorting asset list
+  // getSortingAssets({ state, commit }) {
+  //   AssetService.filterAssets({
+  //     ...sortingParams(state.sortBy.key, state.sortBy.type),
+  //     ...paginationParams(1, 10),
+  //     ...filter([], "AND")
+  //   })
+  //     .then(response => {
+  //       commit("SET_ASSETS", response.data);
+  //       commit("STOP_LOADING");
+  //     })
+  //     .catch(error => {
+  //       console.log("error", error.message);
+  //       commit("STOP_LOADING");
+  //     });
+  // },
+
   //create asset
   createAsset({ commit }, assetData) {
     commit("STOP_LOADING");
-    return AssetService.createAsset(assetData);
+    return UserService.createAsset(assetData);
   },
 
   //update asset
   updateAsset({ commit }, { form, id }) {
     commit("STOP_LOADING");
-    return AssetService.updateAsset(form, id);
+    return UserService.updateAsset(form, id);
   },
 
   //asset list when click pagination
-  assetPagiClick({ commit }, pageNo) {
+  userPagiClick({ commit }, pageNo) {
     commit("LOADING");
-    AssetService.filterAssets({
+    UserService.filterUsers({
       ...sortingParams(state.sortBy.key, state.sortBy.type),
       ...paginationParams(pageNo, 10),
       ...filter([], "AND")
     })
       .then(response => {
         commit("STOP_LOADING");
-        commit("SET_ASSETS", response.data);
+        commit("SET_USERS", response.data);
       })
       .catch(() => {
         commit("STOP_LOADING");
@@ -100,32 +132,32 @@ export const actions = {
   },
 
   //sorting asset lists
-  assetSort({ dispatch, commit, state }, column) {
+  userSort({ dispatch, commit, state }, column) {
     commit("LOADING");
     if (state.sortBy.key == column) {
       if (state.sortBy.type == "asc") {
         commit("SORT_TYPE", "desc");
-        return dispatch("getAssets");
+        return dispatch("getUsers");
       } else {
         commit("SORT_TYPE", "asc");
-        return dispatch("getAssets");
+        return dispatch("getUsers");
       }
     } else {
       state.sortBy.key = column;
-      return dispatch("getAssets");
+      return dispatch("getUsers");
     }
   },
 
   // asset detail
-  getAsset({ commit, getters }, id) {
-    const asset = getters.getAssetById(id);
-    if (asset) {
-      commit("SET_ASSET", asset);
+  getUser({ commit, getters }, id) {
+    const user = getters.getUserById(id);
+    if (user) {
+      commit("SET_USER", user);
       commit("STOP_LOADING");
     } else {
-      AssetService.getAsset(id)
+      UserService.getUser(id)
         .then(res => {
-          commit("SET_ASSET", res.data.data);
+          commit("SET_USER", res.data.data);
           commit("STOP_LOADING");
         })
         .catch(e => {
@@ -138,9 +170,9 @@ export const actions = {
 export const getters = {
   assetFilterOpen: state => state.open,
   getAsset: state => state.asset,
-  getAssetById: state => id => {
-    if (state.assets) {
-      return state.assets.data.find(asset => asset.id == id);
+  getUserById: state => id => {
+    if (state.users) {
+      return state.users.data.find(user => user.id == id);
     }
   }
 };

@@ -64,8 +64,8 @@ export default {
     clearForm() {
       console.log("Clear Form");
     },
-    getAssets: async function(payload) {
-      await filterService
+    getAssets(payload) {
+      filterService
         .filterAssets(payload)
         .then(response => {
           this.SET_ASSETS(response.data);

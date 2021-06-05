@@ -128,22 +128,14 @@ export default {
     "asset-type-list": AssetTypeList
   },
 
-  beforeMount() {
+  created() {
     // Nprogress.set(0.4);
     //this is  will call asset api when there is no data in assets of state
     if (!this.warehouse.assets) {
       this.LOADING();
       this.getAssetTypes();
 
-      this.getAssets()
-        .then(response => {
-          this.SET_ASSETS(response.data);
-          this.STOP_LOADING();
-        })
-        .catch(error => {
-          this.open2(error.message, "error");
-          this.STOP_LOADING();
-        });
+      this.getAssets();
     }
   },
 
@@ -162,14 +154,17 @@ export default {
       "LOADING",
       "HANDLE_ASSET_FILTER_BOX"
     ]),
+
     //this method will handle Asset's pagination
     AssetPagiClick(pageNo) {
       this.assetPagiClick(pageNo);
     },
+
     //this method will handle Asset Type's pagination
     AssetTypePagiClick(pageNo) {
       this.assetTypePagiClick(pageNo);
     },
+
     //this method will work when click sorting titles
     assetSorting(column) {
       this.assetSort(column);
@@ -178,18 +173,21 @@ export default {
     assetTypeSort(column) {
       this.assetTypeSorting(column);
     },
+
     //this method is for pop up notification of success or error
-    open2(message, type) {
-      this.$message({
-        showClose: true,
+    notification(message, type) {
+      this.$notify({
+        title: type,
         message: message,
         type: type
       });
     },
+
     //this method is to handle Asset Filter form
     filterBox() {
       this.HANDLE_ASSET_FILTER_BOX();
     },
+
     //this method is to handle Asset Type Filter form
     assetTypeFilter() {
       this.ASSET_TYPE_FILTER_BOX();

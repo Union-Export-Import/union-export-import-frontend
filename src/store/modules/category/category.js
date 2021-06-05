@@ -59,14 +59,10 @@ export const actions = {
       .then(response => {
         commit("SET_CATEGORIES", response.data);
         commit("STOP_LOADING");
-        // this.SET_CATEGORIES(response.data);
-        // this.STOP_LOADING();
       })
       .catch(error => {
         console.log("error", error.message);
         commit("STOP_LOADING");
-        // this.open2(error.message, "error");
-        // this.STOP_LOADING();
       });
   },
   createCategory({ commit }, categoryData) {
@@ -98,16 +94,13 @@ export const actions = {
       if (state.sortBy.type == "asc") {
         commit("SORT_TYPE", "desc");
         dispatch("getCategories");
-        // commit("STOP_LOADING");
       } else {
         commit("SORT_TYPE", "asc");
         dispatch("getCategories");
-        // commit("STOP_LOADING");
       }
     } else {
       state.sortBy.key = column;
       dispatch("getCategories");
-      // commit("STOP_LOADING");
     }
   },
   getCategory({ commit, getters }, id) {

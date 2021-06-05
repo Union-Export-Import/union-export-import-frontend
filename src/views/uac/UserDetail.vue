@@ -10,30 +10,34 @@
       <el-breadcrumb-item>User Detail</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <profile-header v-if="user" :name="user.name" :join_status="join_status" />
+    <profile-header
+      v-if="user"
+      :name="user.user.name"
+      :join_status="join_status"
+    />
 
     <el-row v-loading="loading">
       <el-col :span="16">
-        <profile-detail v-if="user">
+        <profile-detail v-if="user.user">
           <div class="profile-detail-info pb-5">
             <label for="Name">Name</label>
-            <p class="mt-1 font-weight-900">{{ user.name }}</p>
+            <p class="mt-1 font-weight-900">{{ user.user.name }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Company Name">Phone Number</label>
-            <p class="mt-1 font-weight-900">{{ user.phone_number }}</p>
+            <p class="mt-1 font-weight-900">{{ user.user.phone_number }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Email">Email</label>
-            <p class="mt-1 font-weight-900">{{ user.email }}</p>
+            <p class="mt-1 font-weight-900">{{ user.user.email }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Email">Account Status</label>
-            <p class="mt-1 font-weight-900">{{ user.account_status }}</p>
+            <p class="mt-1 font-weight-900">{{ user.user.account_status }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="NRC">NRC</label>
-            <p class="mt-1 font-weight-900">{{ user.nrc }}</p>
+            <p class="mt-1 font-weight-900">{{ user.user.nrc }}</p>
           </div>
           <div class="profile-detail-info pb-5">
             <label for="Role">Role</label>
@@ -66,16 +70,16 @@
 </template>
 
 <script>
-import axios from "@/axios";
+// import axios from "@/axios";
 // import NameCard from "@/components/NameCard.vue";
-import { tokenHeader, lastItemFromUrl } from "../../Helper";
+// import { tokenHeader, lastItemFromUrl } from "../../Helper";
 import moment from "moment";
 // import DeleteButton from "@/components/DeleteButton.vue";
 // import SubmitButton from "@/components/SubmitButton.vue";
-import UserRepository from "../../repository/UserRepository";
+// import UserRepository from "../../repository/UserRepository";
 import ProfileHeader from "@/components/resuable/ProfileHeader";
 import ProfileDetail from "@/components/resuable/ProfileDetail.vue";
-import { mapGetters } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
@@ -92,54 +96,21 @@ export default {
       loading: false
     };
   },
-  beforeMount() {
-    this.getUserDetail(this.$route.path);
+  created() {
+    this.getUser(this.$route.params.id);
   },
   computed: {
-    ...mapGetters({
-      user: "uac/getUser"
-    }),
+    ...mapState(["user"]),
+
     join_status() {
-      return moment(this.user.created_at).format("LLL");
+      if (this.user.user) {
+        return moment(this.user.user.created_at).format("LLL");
+      }
+      return null;
     }
   },
   methods: {
-    getUserDetail: async function(path) {
-      this.loading = true;
-      await axios
-        .get(
-          `/api/users/${lastItemFromUrl(path)}`,
-          tokenHeader(localStorage.getItem("token"))
-        )
-        .then(res => {
-          this.$store.commit("uac/ADD_USER", res.data.data);
-          this.loading = false;
-        })
-        .catch(err => {
-          console.log(err);
-          this.loading = false;
-        });
-    },
-    // moment: function () {
-    //   return moment();
-    // },
-    userDelete: async function() {
-      await UserRepository.deleteUser(lastItemFromUrl(this.$route.path))
-        .then(() => {
-          this.$router.replace({
-            name: "uac"
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    userEdit: function() {
-      this.$router.push({
-        name: "UserEdit",
-        params: { id: this.user.id }
-      });
-    }
+    ...mapActions("user", ["getUser"])
   }
 };
 </script>

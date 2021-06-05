@@ -1,17 +1,19 @@
 const state = {
-    isCollapse: false
-}
+  isCollapse: false
+};
 
 const mutations = {
-    handleCollapse: state => {
-        state.isCollapse = !state.isCollapse
-    }
-}
+  handleCollapse: state => {
+    state.isCollapse = !state.isCollapse;
+  }
+};
 
 const getters = {
-    getCollapse: state => state.isCollapse
-}
+  getCollapse: state => state.isCollapse
+};
 
 export default {
-    state, mutations, getters
-}
+  state,
+  mutations,
+  getters
+};

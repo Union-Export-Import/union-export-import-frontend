@@ -27,13 +27,14 @@
         <el-form-item label="Role">
           <el-select
             v-model="newUser.roles"
+            v-if="role.roles"
             filterable
             multiple
             placeholder="Select"
             style="width: 397px"
           >
             <el-option
-              v-for="item in roles"
+              v-for="item in role.roles.data"
               :key="item.id"
               :label="item.title"
               :value="item.id"
@@ -70,20 +71,22 @@
 
 <script>
 import SubmitButton from "@/components/SubmitButton.vue";
-import { mapGetters } from "vuex";
-import RoleRepository from "@/repository/RoleRepository";
-import UserRepository from "@/repository/UserRepository";
-import { paginationParams, sortingParams, filter } from "@/Helper";
+import { mapState, mapActions } from "vuex";
+import UserService from "@/services/users/UserService";
+
 export default {
   components: {
     "submit-button": SubmitButton
   },
+
   computed: {
-    ...mapGetters({
-      authenticated: "auth/authenticated",
-      user: "auth/user"
-    })
+    ...mapState(["user", "role"])
   },
+
+  created() {
+    this.getRoles();
+  },
+
   data() {
     return {
       labelPosition: "top",
@@ -98,19 +101,22 @@ export default {
       loading: false
     };
   },
+
   methods: {
-    async onSubmit() {
+    ...mapActions("role", ["getRoles"]),
+
+    onSubmit() {
       this.loading = true;
-      await UserRepository.createUsers(this.newUser)
+      UserService.createUser(this.newUser)
         .then(response => {
-          this.open2(response.data.message, "success");
+          this.notification(response.data.message, "success");
           this.loading = false;
           this.$router.replace({
             name: "uac"
           });
         })
         .catch(err => {
-          this.open2(err.message, "error");
+          this.notification(err.message, "error");
           this.loading = false;
           console.log(err);
         });
@@ -120,30 +126,13 @@ export default {
         name: "uac"
       });
     },
-    open2(message, type) {
-      this.$message({
-        showClose: true,
+    notification(message, type) {
+      this.$notify({
+        title: type,
         message: message,
         type: type
       });
-    },
-    getRoles: async function(payload) {
-      await RoleRepository.filterRoles(payload)
-        .then(res => {
-          this.roles = res.data.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
-  },
-  beforeMount() {
-    console.log("hello");
-    this.getRoles({
-      ...sortingParams("id", "asc"),
-      ...paginationParams(1, 10000),
-      ...{ ...filter([], "AND") }
-    });
   }
 };
 </script>

@@ -50,7 +50,6 @@ export const mutations = {
   }
 };
 export const actions = {
-
   //get all customers lists
   getCustomers({ state, commit }) {
     CustomerService.filterCustomers({
