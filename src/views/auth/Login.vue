@@ -120,7 +120,7 @@ export default {
         })
         .catch(e => {
           this.loading = false;
-          this.open2(e.message, "error");
+          this.notification(e.message, "error");
         });
     },
     resetPassword() {

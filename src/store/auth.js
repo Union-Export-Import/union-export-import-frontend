@@ -31,23 +31,23 @@ export default {
       return dispatch("attempt", resp.data.data.token);
     },
 
-    async attempt({ commit, state }, token) {
+    async attempt({ commit }, token) {
       if (token) {
         commit("SET_TOKEN", token);
       }
 
-      if (!state.token) {
-        return;
-      }
+      // if (!state.token) {
+      //   return;
+      // }
 
-      try {
-        let response = await axios.get("api/me");
-        commit("SET_USER", response.data);
-      } catch (e) {
-        console.log(e);
-        commit("SET_TOKEN", null);
-        commit("SET_USER", null);
-      }
+      // try {
+      //   let response = await axios.get("api/me");
+      //   commit("SET_USER", response.data);
+      // } catch (e) {
+      //   console.log(e);
+      //   commit("SET_TOKEN", null);
+      //   commit("SET_USER", null);
+      // }
     }
   }
 };
