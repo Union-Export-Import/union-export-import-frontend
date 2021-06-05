@@ -6,13 +6,17 @@
     @header-click="customerHeaderClick"
   >
     <el-table-column type="index" label="#"> </el-table-column>
-    <el-table-column prop="created_at" label="Created At" sortable> </el-table-column>
+    <el-table-column prop="created_at" label="Created At" sortable>
+    </el-table-column>
     <el-table-column prop="name" label="Name" sortable> </el-table-column>
-    <el-table-column prop="company_name" label="Company Name" sortable> </el-table-column>
+    <el-table-column prop="company_name" label="Company Name" sortable>
+    </el-table-column>
     <el-table-column prop="address" label="Address" sortable> </el-table-column>
     <el-table-column prop="email" label="Email" sortable> </el-table-column>
-    <el-table-column prop="phone_number" label="Phone Number" sortable> </el-table-column>
-    <el-table-column prop="bank_acc" label="Bank Account" sortable> </el-table-column>
+    <el-table-column prop="phone_number" label="Phone Number" sortable>
+    </el-table-column>
+    <el-table-column prop="bank_acc" label="Bank Account" sortable>
+    </el-table-column>
     <el-table-column prop="remark" label="Remark" sortable> </el-table-column>
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="scope">

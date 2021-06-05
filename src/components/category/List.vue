@@ -6,7 +6,8 @@
     @header-click="categoryHeaderClick"
   >
     <el-table-column type="index" label="#"> </el-table-column>
-    <el-table-column prop="created_at" label="Created At" sortable> </el-table-column>
+    <el-table-column prop="created_at" label="Created At" sortable>
+    </el-table-column>
     <el-table-column prop="name" label="Name" sortable> </el-table-column>
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="scope">

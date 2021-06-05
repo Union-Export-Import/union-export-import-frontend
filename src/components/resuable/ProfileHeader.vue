@@ -13,18 +13,18 @@ export default {
   props: {
     name: {
       type: String,
-      required: true,
+      required: true
     },
     join_status: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   computed: {
     firstLetter() {
       return this.name.charAt(0).toLocaleUpperCase();
-    },
-  },
+    }
+  }
 };
 </script>

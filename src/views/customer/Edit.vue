@@ -1,7 +1,11 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb">Home Page</el-breadcrumb-item>
-    <el-breadcrumb-item separator-class="el-icon-arrow-right">Customer Edit</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/' }" class="active-breadcrumb"
+      >Home Page</el-breadcrumb-item
+    >
+    <el-breadcrumb-item separator-class="el-icon-arrow-right"
+      >Customer Edit</el-breadcrumb-item
+    >
     <el-breadcrumb-item>Customer Edit</el-breadcrumb-item>
   </el-breadcrumb>
   <el-form
@@ -40,10 +44,14 @@
     </el-row>
     <el-row>
       <el-col :span="2" :offset="17">
-        <el-button type="text" class="cancel_button" @click="Back">Cancel</el-button>
+        <el-button type="text" class="cancel_button" @click="Back"
+          >Cancel</el-button
+        >
       </el-col>
       <el-col :span="2">
-        <el-button class="submit_button" @click="onSubmit" v-loading="loading">Update</el-button>
+        <el-button class="submit_button" @click="onSubmit" v-loading="loading"
+          >Update</el-button
+        >
       </el-col>
     </el-row>
   </el-form>
@@ -54,7 +62,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["customer"]),
+    ...mapState(["customer"])
   },
   data() {
     return {
@@ -66,9 +74,9 @@ export default {
         email: "",
         phone_number: "",
         bank_acc: "",
-        remark: "",
+        remark: ""
       },
-      loading: false,
+      loading: false
     };
   },
   beforeMount() {
@@ -86,14 +94,14 @@ export default {
       this.loading = true;
       this.updateCustomer({
         form: this.form,
-        id: this.$route.params.id,
+        id: this.$route.params.id
       })
-        .then((res) => {
+        .then(res => {
           this.loading = false;
           this.$router.push({ name: "Customer" });
           this.open2(res.data.message, "success");
         })
-        .catch((error) => {
+        .catch(error => {
           this.open2(error.message, "error");
           this.loading = false;
         });
@@ -102,10 +110,10 @@ export default {
       this.$message({
         showClose: true,
         message: message,
-        type: type,
+        type: type
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

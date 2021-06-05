@@ -1,12 +1,12 @@
 import axios from "@/axios";
 
-const resource = "/api/roles";
+const resource = "/api/permissions";
 const headers = {
   Authorization: `Bearer ${localStorage.getItem("token")}`
 };
 
 export default {
-  filterRoles(payload) {
+  filterPermissions(payload) {
     return axios.post(`${resource}/query`, payload, headers);
   },
   createRole(payload) {

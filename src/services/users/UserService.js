@@ -1,21 +1,28 @@
 import axios from "@/axios";
 
-const resource = "/api/roles";
+const resource = "/api/users";
 const headers = {
   Authorization: `Bearer ${localStorage.getItem("token")}`
 };
 
 export default {
-  filterRoles(payload) {
+  filterUsers(payload) {
     return axios.post(`${resource}/query`, payload, headers);
   },
-  createRole(payload) {
+
+  createUser(payload) {
     return axios.post(`${resource}`, payload, headers);
   },
-  updateRole(payload, id) {
+
+  getUser(id) {
+    return axios.get(`${resource}/${id}`, headers);
+  },
+
+  updateUser(payload, id) {
     return axios.put(`${resource}/${id}`, payload, headers);
   },
-  getRole(id) {
-    return axios.get(`${resource}/${id}`, headers);
+
+  deleteUser(id) {
+    return axios.delete(`${resource}/${id}`, headers);
   }
 };

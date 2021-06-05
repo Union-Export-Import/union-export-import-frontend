@@ -76,14 +76,14 @@ export default {
     },
     checkRoute() {
       return this.$route.name;
-    },
+    }
   },
   methods: {
     handleOpen() {},
     handleClose() {},
     changeRoute(name) {
       this.$router.push({ name: name });
-    },
-  },
+    }
+  }
 };
 </script>
